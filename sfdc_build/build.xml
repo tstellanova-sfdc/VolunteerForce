@@ -1,0 +1,88 @@
+<project name="VolunteerForce" default="all">
+    <import file="../shared/build.xml"/>
+
+    <property id="target.name" name="target.name" value="${ant.project.name}"/>
+    <property name="project.dir" value=".."/>
+    <property name="artifacts.dir" location="artifacts"/>
+    
+    <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
+    <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
+
+    <property id="sdk.iphoneos" name="sdk.iphoneos" value="${platform.iphoneos}"/>
+    <property id="sdk.iphonesimulator" name="sdk.iphonesimulator" value="${platform.iphonesimulator}"/>
+
+    <property id="configuration.debug" name="configuration.debug" value="Debug"/>
+    <property id="configuration.release" name="configuration.release" value="Release"/>
+
+    <!-- main -->
+    <target name="pre" depends="initArtifacts"/>
+
+    <target name="initArtifacts">
+        <mkdir dir="${artifacts.dir}"/>
+    </target>
+
+
+		
+    <target name="all" depends="pre, build, generateIPA" description="do it all"/>
+
+    <target name="build" >  
+        <antcall target="compileRelease"/>
+    </target>
+
+    <target name="compileDebug" >
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/Simulator"/>
+            <param name="configuration" value="${configuration.debug}"/>
+            <param name="sdk" refid="platform.iphonesimulator"/>
+            <param name="target" value="${target.name}"/>
+            <param name="action" value="install"/>
+        </antcall>
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/Device"/>
+            <param name="configuration" value="${configuration.debug}"/>
+            <param name="sdk" refid="platform.iphoneos"/>
+            <param name="target" value="${target.name}"/>
+            <param name="action" value="install"/>
+        </antcall>
+
+    </target>
+
+    <target name="compileRelease"  >
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/Simulator"/>
+            <param name="configuration" value="${configuration.release}"/>
+            <param name="sdk" refid="platform.iphonesimulator"/>
+            <param name="target" value="${target.name}"/>
+            <param name="action" value="install"/>
+        </antcall>
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/Device"/>
+            <param name="configuration" value="${configuration.release}"/>
+            <param name="sdk" refid="platform.iphoneos"/>
+            <param name="target" value="${target.name}"/>
+            <param name="action" value="install"/>
+        </antcall>
+    </target>
+
+	<target name="generateIPA" description="Generate the IPA file after building" >
+		<property name="embedProfile" value="E3A36E9D-191E-45E0-A8E0-67425F871AD7.mobileprovision" />
+		<echo>embedProfile = '${embedProfile}'</echo>
+		<!-- copy file="${user.home}/Library/MobileDevice/Provisioning\\ Profiles/${embedProfile}"   todir="${basedir}" -->
+			
+		<exec executable="xcrun" failOnError="true">
+            <arg line="-sdk iphoneos PackageApplication " />
+			<arg line="-v &quot;${artifacts.dir}/Device/Applications/${target.name}.app&quot; "/>
+			<arg line="-o &quot;${artifacts.dir}/${target.name}-Internal.ipa&quot; "  />
+			<arg line="--sign &quot;iPhone Distribution&quot;" />
+			<arg line="--embed &quot;${basedir}/${embedProfile}&quot; " />
+        </exec>
+	</target>
+
+    <target name="clean" >
+        <delete dir="${artifacts.dir}" failOnError="false"/>
+    </target>
+
+    <target name="clean.full"
+        depends="clean" />
+
+</project>

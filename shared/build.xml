@@ -1,0 +1,278 @@
+<project name="iOSShared">
+    <dirname property="iOSShared.basedir" file="${ant.file.iOSShared}"/>
+    <dirname property="iOSCommon.basedir" file="${ant.file.iOSShared}/../common/build/tools" />
+    <property name="iOSShared.distdir" location="${iOSShared.basedir}/../dist"/>
+    
+    <!--[target] compress: 
+     Compress the given contents in a way that plays nice with Apple's iTunesConnect.
+     
+     @param basedir  Base directory to compress
+     @param destfile Destination file to save the zip file to
+     -->
+    <target name="compress">
+        <exec executable="ditto">
+            <arg value="-k"/> <!-- PKZip format -->
+            <arg value="-c"/> <!-- compress -->
+            <arg value="--keepParent"/>
+            <arg value="--norsrc"/>
+            <arg value="${basedir}"/>
+            <arg file="${destfile}"/>
+        </exec>
+    </target>
+    
+    <!-- [target] covreport:
+	Generate a coverage report from gcda files
+    -->
+	<target name="covreport">
+		<property name="inputPath" value="." />
+		<property name="outputPath" value="." />
+		<property name="rootPath" value="." />
+		<property name="excludePattern" value="*Tests.m" />
+		<property name="gcovr_path" value="${iOSCommon.basedir}/tools/gcovr" />
+		<exec executable="${gcovr_path}">
+			<arg value="--verbose" />
+			<arg value="-x" />
+			<arg value="-k" />
+			<arg value="-p" />
+			<arg value="--exclude=${excludePattern}" />
+			<arg value="--root=${rootPath}" />
+			<arg value="--object-directory=${inputPath}" />
+			<arg value="--output=${outputPath}/coverage.xml" />
+		</exec>	
+	</target>	 
+	<target name="covreport_text">
+		<property name="inputPath" value="." />
+		<property name="outputPath" value="." />
+		<property name="rootPath" value="." />
+		<property name="excludePattern" value="*Tests.m" />
+		<property name="gcovr_path" value="${iOSCommon.basedir}/tools/gcovr" />
+		<exec executable="${gcovr_path}">
+			<arg value="--verbose" />
+			<arg value="-k" />
+			<arg value="-p" />
+			<arg value="--exclude=${excludePattern}" />
+			<arg value="--root=${rootPath}" />
+			<arg value="--object-directory=${inputPath}" />
+			<arg value="--output=${outputPath}/coverage.txt" />
+		</exec>
+	</target>
+
+    <!--[target] appledocDocumentation: 
+     Generate Apple-like documentation using the "appledoc" command found here: http://www.gentlebytes.com/home/appledocapp/
+     
+     @param globalSettings      Path to the global settings for your project: defaults to "AppledocSettings.plist"
+     @param additionalOptions   Additional command-line options to pass to appledoc
+     @param source              Path to the source documentation
+     @param output              Where to save the resulting documentation
+     -->
+    <target name="appledocDocumentation">
+        <property name="globalSettings" value="${basedir}/AppledocSettings.plist"/>
+        <property name="appledoc_path" value="${iOSCommon.basedir}/tools/appledoc/bin/appledoc" />
+        <echo>appledoc_path is '${appledoc_path}' </echo>
+        <exec executable="echo">
+            <arg line="appledoc_path --templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
+            <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
+        </exec>
+        <exec executable="${appledoc_path}">
+            <arg line="--templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
+            <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
+        </exec>
+        <delete file="${output}/docset-installed.txt"/>
+    </target>
+    
+    <!--[target] lipo 
+     
+     -->
+    <target name="lipo">
+        <property name="device" value="${artifacts.dir}/${target.name}/${libname}"/>
+        <property name="simulator" value="${artifacts.dir}/Simulator/${libname}"/>
+        <tempfile property="lipo.output" deleteonexit="false" prefix="lipo" suffix=".a"/>
+        <exec executable="lipo" failonerror="true" logError="true">
+            <arg line="-create -output ${lipo.output} ${device} ${simulator}"/>
+        </exec>
+        <move file="${lipo.output}" toFile="${device}"/>
+    </target>
+    
+    
+    <target name="lipo_full">
+        <property name="destinationDir" value="${artifacts.dir}/${configuration}" />
+        <property name="configuration" value="${configuration.debug}"/>
+        <property name="simulatorLibDir" value="${artifacts.dir}/${configuration}-Simulator/Libraries" />
+        <property name="deviceLibDir" value="${artifacts.dir}/${configuration}/Libraries" />
+
+        <tempfile property="lipo.output" deleteonexit="false" prefix="lipo" suffix=".a"/>
+        <exec executable="lipo" failonerror="true" logError="true">
+            <arg line="-create -output ${lipo.output} ${deviceLibDir}/${libname} ${simulatorLibDir}/${libname}"/>
+        </exec>
+        <move file="${lipo.output}" toFile="${destinationDir}/${libname}"/>
+    </target>
+    
+
+    
+    <!-- compile -->
+    <target name="iOSShared.compile">
+        <property name="action" value="build"/>
+        <echo>${action}ing ${target.name} for SDK ${sdk}</echo>
+
+        <exec executable="xcodebuild" failonerror="true" logError="true">
+            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target ${target} -configuration ${configuration} -sdk ${sdk} INSTALL_ROOT=${install_path} ${action}"/>
+        </exec>
+    </target>
+
+    <target name="iOSShared.compile_no_install">
+        <echo>xcodebuild ${target}(${configuration}) from ${target.name}.xcodeproj using SDK '${sdk}'</echo>
+
+        <exec executable="xcodebuild" failonerror="true" logError="true">
+            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target ${target} -configuration ${configuration} -sdk ${sdk} "/>
+        </exec>
+    </target>
+
+    <!-- dependency: SalesforceSDK -->
+    <property name="subproject.sdk.dir" value="${iOSShared.basedir}/../native/SalesforceSDK"/>
+
+    <target name="dependency.sdk.check">
+        <condition property="dependency.sdk.present">
+            <available file="${dependency.dir}/SalesforceSDK" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="dependency.sdk" depends="dependency.sdk.check" unless="dependency.sdk.present">
+       <property name="dependency.sdk.zip" 
+			value="${iOSShared.distdir}/SalesforceSDK/SalesforceSDK-Debug.zip" />
+
+        <available file="${dependency.sdk.zip}" property="dependency.sdk.zip.present"/>
+        <antcall target="dependency.sdk.compile"/>
+
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.sdk.zip}"/>
+        </exec>
+    </target>
+
+    <target name="dependency.sdk.compile" unless="dependency.sdk.zip.present">
+        <ant dir="${subproject.sdk.dir}/sfdc_build" target="build" inheritAll="false"/>
+    </target>
+
+    <target name="dependency.sdk.clean">
+        <ant dir="${subproject.sdk.dir}/sfdc_build" target="clean" inheritAll="false"/>
+        <delete dir="${dependency.dir}/SalesforceSDK"/>
+    </target>
+
+    <!-- dependency: SalesforceOAuth -->
+    <property name="subproject.oauth.dir" value="${iOSShared.basedir}/../native/SalesforceOAuth"/>
+
+    <target name="dependency.oauth.check">
+        <condition property="dependency.oauth.present">
+            <available file="${dependency.dir}/SalesforceOAuth" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="dependency.oauth" depends="dependency.oauth.check" unless="dependency.oauth.present">
+        <property name="dependency.oauth.zip" 
+			value="${iOSShared.distdir}/SalesforceOAuth/SalesforceOAuth-Debug.zip" />
+			
+        <available file="${dependency.oauth.zip}" property="dependency.oauth.zip.present"/>
+        <antcall target="dependency.oauth.compile"/>
+
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.oauth.zip}"/>
+        </exec>
+    </target>
+
+    <target name="dependency.oauth.compile" unless="dependency.oauth.zip.present">
+        <ant dir="${subproject.oauth.dir}/sfdc_build" target="build" inheritAll="false"/>
+    </target>
+
+    <target name="dependency.oauth.clean">
+        <ant dir="${subproject.oauth.dir}/sfdc_build" target="clean" inheritAll="false"/>
+        <delete dir="${dependency.dir}/SalesforceOAuth"/>
+    </target>
+
+    <!-- dependency: RestKit -->
+    <property name="subproject.restkit.dir" value="${iOSShared.basedir}/../external/RestKit"/>
+
+    <target name="dependency.restkit.check">
+        <condition property="dependency.restkit.present">
+            <available file="${dependency.dir}/RestKit" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="dependency.restkit" depends="dependency.restkit.check" unless="dependency.restkit.present">
+        <property name="dependency.restkit.zip" 
+			value="${iOSShared.distdir}/RestKit/RestKit-Release.zip"/>
+
+        <available file="${dependency.restkit.zip}" property="dependency.restkit.zip.present"/>
+        <antcall target="dependency.restkit.compile"/>
+
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.restkit.zip}"/>
+        </exec>
+    </target>
+
+    <target name="dependency.restkit.compile" unless="dependency.restkit.zip.present">
+        <ant dir="${subproject.restkit.dir}/sfdc_build" inheritAll="false"/>
+    </target>
+
+    <target name="dependency.restkit.clean">
+        <ant dir="${subproject.restkit.dir}/sfdc_build" target="clean" inheritAll="false"/>
+        <delete dir="${dependency.dir}/RestKit"/>
+    </target>
+    
+    <!-- dependency: callback-ios -->
+    <property name="subproject.callback-ios.dir" value="${iOSShared.basedir}/../external/callback-ios"/>
+    <target name="dependency.callback-ios.check">
+        <condition property="dependency.callback-ios.present">
+            <available file="${dependency.dir}/PhoneGap.framework" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="dependency.callback-ios" depends="dependency.callback-ios.check" unless="dependency.callback-ios.present">
+        <property name="dependency.callback-ios.zip" 
+			value="${iOSShared.distdir}/callback-ios/callback-ios-Release.zip"/>
+
+        <available file="${dependency.callback-ios.zip}" property="dependency.callback-ios.zip.present"/>
+        <antcall target="dependency.callback-ios.compile"/>
+
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.callback-ios.zip}"/>
+        </exec>
+    </target>
+
+    <target name="dependency.callback-ios.compile" unless="dependency.callback-ios.zip.present">
+        <ant dir="${subproject.callback-ios.dir}/sfdc_build" inheritAll="false"/>
+    </target>
+
+    <target name="dependency.callback-ios.clean">
+        <ant dir="${subproject.callback-ios.dir}/sfdc_build" target="clean" inheritAll="false"/>
+		<delete dir="${dependency.dir}/PhoneGap.framework" />
+    </target>
+
+    <!-- dependency: SalesforceHybridSDK -->
+    <property name="subproject.hybrid_sdk.dir" value="${iOSShared.basedir}/../hybrid/SalesforceHybridSDK"/>
+
+    <target name="dependency.hybrid_sdk.check">
+        <condition property="dependency.hybrid_sdk.present">
+            <available file="${dependency.dir}/SalesforceHybridSDK" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="dependency.hybrid_sdk" depends="dependency.hybrid_sdk.check" unless="dependency.hybrid_sdk.present">
+       <property name="dependency.hybrid_sdk.zip" 
+			value="${iOSShared.distdir}/SalesforceHybridSDK/SalesforceHybridSDK-Debug.zip" />
+
+        <available file="${dependency.hybrid_sdk.zip}" property="dependency.hybrid_sdk.zip.present"/>
+        <antcall target="dependency.hybrid_sdk.compile"/>
+
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.hybrid_sdk.zip}"/>
+        </exec>
+    </target>
+
+    <target name="dependency.hybrid_sdk.compile" unless="dependency.hybrid_sdk.zip.present">
+        <ant dir="${subproject.hybrid_sdk.dir}/sfdc_build" target="buildDist" inheritAll="false"/>
+    </target>
+
+    <target name="dependency.hybrid_sdk.clean">
+        <ant dir="${subproject.hybrid_sdk.dir}/sfdc_build" target="clean" inheritAll="false"/>
+        <delete dir="${dependency.dir}/SalesforceHybridSDK"/>
+    </target>
+</project>
