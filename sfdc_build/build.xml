@@ -67,7 +67,7 @@
 	<target name="generateIPA" description="Generate the IPA file after building" >
 		<property name="embedProfile" value="4PZ44KB26X.com.salesforce.mobilesdk.internal_Internal.mobileprovision" />
 		<echo>embedProfile = '${embedProfile}'</echo>
-		<!-- <copy file="${user.home}/Library/MobileDevice/Provisioning\\ Profiles/${embedProfile}"   todir="${basedir}" /> -->
+		<copy file="${user.home}/Library/MobileDevice/Provisioning\\ Profiles/${embedProfile}"   todir="${basedir}" />
 			
 		<exec executable="xcrun" failOnError="true">
             <arg line="-sdk iphoneos PackageApplication " />
