@@ -1,3 +1,7 @@
 .DS_Store
 vol1.xcodeproj/project.xcworkspace/
 vol1.xcodeproj/xcuserdata/
+sfdc_build/artifacts/
+build/
+VolunteerForce.xcodeproj/project.xcworkspace/
+VolunteerForce.xcodeproj/xcuserdata/

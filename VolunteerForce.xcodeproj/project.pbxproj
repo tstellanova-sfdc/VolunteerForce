@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D014791151D2C0700BAA2A6 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D014790151D2C0700BAA2A6 /* libsqlite3.0.dylib */; };
 		7D2D1B60151B9BF100F88452 /* ModalNetworkActionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2D1B5E151B9BF100F88452 /* ModalNetworkActionVC.m */; };
 		7D2D1B61151B9BF100F88452 /* ModalNetworkActionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D2D1B5F151B9BF100F88452 /* ModalNetworkActionVC.xib */; };
 		7D2D1B76151BCE3A00F88452 /* Chatterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2D1B75151BCE3A00F88452 /* Chatterator.m */; };
@@ -48,7 +49,6 @@
 		7DBCE2EF151A443900456AA2 /* SFAuthorizingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2EE151A443900456AA2 /* SFAuthorizingViewController.xib */; };
 		7DBCE2F2151A443900456AA2 /* SFNativeRestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBCE2F1151A443900456AA2 /* SFNativeRestAppDelegate.m */; };
 		7DBCE2F4151A443900456AA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE2F3151A443900456AA2 /* libxml2.dylib */; };
-		7DBCE2F6151A443900456AA2 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE2F5151A443900456AA2 /* libsqlite3.0.dylib */; };
 		7DBCE2F8151A443A00456AA2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2F7151A443A00456AA2 /* Settings.bundle */; };
 		7DBCE303151A4AAE00456AA2 /* SynchronizerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBCE301151A4AAE00456AA2 /* SynchronizerVC.m */; };
 		7DBCE304151A4AAE00456AA2 /* SynchronizerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE302151A4AAE00456AA2 /* SynchronizerVC.xib */; };
@@ -59,6 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7D014790151D2C0700BAA2A6 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		7D2D1B5D151B9BF100F88452 /* ModalNetworkActionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModalNetworkActionVC.h; path = Classes/ModalNetworkActionVC.h; sourceTree = "<group>"; };
 		7D2D1B5E151B9BF100F88452 /* ModalNetworkActionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModalNetworkActionVC.m; path = Classes/ModalNetworkActionVC.m; sourceTree = "<group>"; };
 		7D2D1B5F151B9BF100F88452 /* ModalNetworkActionVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ModalNetworkActionVC.xib; path = Classes/ModalNetworkActionVC.xib; sourceTree = "<group>"; };
@@ -196,7 +197,6 @@
 		7DBCE2F0151A443900456AA2 /* SFNativeRestAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFNativeRestAppDelegate.h; path = NativeRestApp/SFNativeRestAppDelegate.h; sourceTree = "<group>"; };
 		7DBCE2F1151A443900456AA2 /* SFNativeRestAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFNativeRestAppDelegate.m; path = NativeRestApp/SFNativeRestAppDelegate.m; sourceTree = "<group>"; };
 		7DBCE2F3151A443900456AA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		7DBCE2F5151A443900456AA2 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = dependencies/libsqlite3.0.dylib; sourceTree = "<group>"; };
 		7DBCE2F7151A443A00456AA2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DBCE300151A4AAE00456AA2 /* SynchronizerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynchronizerVC.h; path = Classes/SynchronizerVC.h; sourceTree = "<group>"; };
 		7DBCE301151A4AAE00456AA2 /* SynchronizerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SynchronizerVC.m; path = Classes/SynchronizerVC.m; sourceTree = "<group>"; };
@@ -214,6 +214,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D014791151D2C0700BAA2A6 /* libsqlite3.0.dylib in Frameworks */,
 				7D2D1B82151BD99900F88452 /* MessageUI.framework in Frameworks */,
 				7DBCE251151A443800456AA2 /* CoreData.framework in Frameworks */,
 				7DBCE253151A443800456AA2 /* SystemConfiguration.framework in Frameworks */,
@@ -227,7 +228,6 @@
 				7DBCE2C6151A443900456AA2 /* libSalesforceOAuth.a in Frameworks */,
 				7DBCE2CD151A443900456AA2 /* libSalesforceSDK.a in Frameworks */,
 				7DBCE2F4151A443900456AA2 /* libxml2.dylib in Frameworks */,
-				7DBCE2F6151A443900456AA2 /* libsqlite3.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +274,7 @@
 		7DBCE24F151A443800456AA2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7D014790151D2C0700BAA2A6 /* libsqlite3.0.dylib */,
 				7DBCE250151A443800456AA2 /* CoreData.framework */,
 				7DBCE252151A443800456AA2 /* SystemConfiguration.framework */,
 				7DBCE254151A443800456AA2 /* Security.framework */,
@@ -290,7 +291,6 @@
 			isa = PBXGroup;
 			children = (
 				7DBCE2E1151A443900456AA2 /* readme.txt */,
-				7DBCE2F5151A443900456AA2 /* libsqlite3.0.dylib */,
 				7DBCE2F7151A443A00456AA2 /* Settings.bundle */,
 				7DBCE26A151A443800456AA2 /* dependencies */,
 				7DBCE2CE151A443900456AA2 /* Resources */,
@@ -544,9 +544,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7DBCE24B151A443800456AA2 /* vol1 */ = {
+		7DBCE24B151A443800456AA2 /* VolunteerForce */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7DBCE2FB151A443A00456AA2 /* Build configuration list for PBXNativeTarget "vol1" */;
+			buildConfigurationList = 7DBCE2FB151A443A00456AA2 /* Build configuration list for PBXNativeTarget "VolunteerForce" */;
 			buildPhases = (
 				7DBCE247151A443800456AA2 /* Sources */,
 				7DBCE248151A443800456AA2 /* Frameworks */,
@@ -557,7 +557,7 @@
 			);
 			dependencies = (
 			);
-			name = vol1;
+			name = VolunteerForce;
 			productName = vol1;
 			productReference = 7DBCE24C151A443800456AA2 /* Volunteer.app */;
 			productType = "com.apple.product-type.application";
@@ -583,7 +583,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7DBCE24B151A443800456AA2 /* vol1 */,
+				7DBCE24B151A443800456AA2 /* VolunteerForce */,
 			);
 		};
 /* End PBXProject section */
@@ -766,7 +766,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7DBCE2FB151A443A00456AA2 /* Build configuration list for PBXNativeTarget "vol1" */ = {
+		7DBCE2FB151A443A00456AA2 /* Build configuration list for PBXNativeTarget "VolunteerForce" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7DBCE2FC151A443A00456AA2 /* Debug */,
