@@ -67,7 +67,7 @@
 	<target name="generateIPA" description="Generate the IPA file after building" >
 		<property name="embedProfile" value="E3A36E9D-191E-45E0-A8E0-67425F871AD7.mobileprovision" />
 		<echo>embedProfile = '${embedProfile}'</echo>
-		<!-- copy file="${user.home}/Library/MobileDevice/Provisioning\\ Profiles/${embedProfile}"   todir="${basedir}" -->
+		<copy file="${user.home}/Library/MobileDevice/Provisioning\\ Profiles/${embedProfile}"   todir="${basedir}" />
 			
 		<exec executable="xcrun" failOnError="true">
             <arg line="-sdk iphoneos PackageApplication " />
