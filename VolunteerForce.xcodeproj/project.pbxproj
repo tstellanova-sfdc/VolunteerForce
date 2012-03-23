@@ -82,7 +82,7 @@
 		7D5F9B68151AAA8500DC9B97 /* ActivityCheckinVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityCheckinVC.h; path = Classes/ActivityCheckinVC.h; sourceTree = "<group>"; };
 		7D5F9B69151AAA8500DC9B97 /* ActivityCheckinVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityCheckinVC.m; path = Classes/ActivityCheckinVC.m; sourceTree = "<group>"; };
 		7D5F9B6A151AAA8500DC9B97 /* ActivityCheckinVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivityCheckinVC.xib; path = Classes/ActivityCheckinVC.xib; sourceTree = "<group>"; };
-		7DBCE24C151A443800456AA2 /* Volunteer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Volunteer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DBCE24C151A443800456AA2 /* VolunteerForce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VolunteerForce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBCE250151A443800456AA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7DBCE252151A443800456AA2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		7DBCE254151A443800456AA2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -266,7 +266,7 @@
 		7DBCE24D151A443800456AA2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7DBCE24C151A443800456AA2 /* Volunteer.app */,
+				7DBCE24C151A443800456AA2 /* VolunteerForce.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -559,7 +559,7 @@
 			);
 			name = VolunteerForce;
 			productName = vol1;
-			productReference = 7DBCE24C151A443800456AA2 /* Volunteer.app */;
+			productReference = 7DBCE24C151A443800456AA2 /* VolunteerForce.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -730,7 +730,7 @@
 					"\"$(SDKROOT)//usr/lib\"",
 					"\"$(SRCROOT)/vol1/dependencies\"",
 				);
-				PRODUCT_NAME = Volunteer;
+				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -752,7 +752,7 @@
 					"\"$(SDKROOT)//usr/lib\"",
 					"\"$(SRCROOT)/vol1/dependencies\"",
 				);
-				PRODUCT_NAME = Volunteer;
+				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
