@@ -717,6 +717,7 @@
 		7DBCE2FC151A443A00456AA2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "vol1/vol1-Prefix.pch";
 				INFOPLIST_FILE = "vol1/vol1-Info.plist";
@@ -730,6 +731,7 @@
 					"\"$(SRCROOT)/vol1/dependencies\"",
 				);
 				PRODUCT_NAME = Volunteer;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -737,6 +739,7 @@
 		7DBCE2FD151A443A00456AA2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "vol1/vol1-Prefix.pch";
 				INFOPLIST_FILE = "vol1/vol1-Info.plist";
@@ -750,6 +753,7 @@
 					"\"$(SRCROOT)/vol1/dependencies\"",
 				);
 				PRODUCT_NAME = Volunteer;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
