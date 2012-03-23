@@ -571,7 +571,7 @@
 				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = Salesforce.com;
 			};
-			buildConfigurationList = 7DBCE245151A443800456AA2 /* Build configuration list for PBXProject "vol1" */;
+			buildConfigurationList = 7DBCE245151A443800456AA2 /* Build configuration list for PBXProject "VolunteerForce" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -757,7 +757,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7DBCE245151A443800456AA2 /* Build configuration list for PBXProject "vol1" */ = {
+		7DBCE245151A443800456AA2 /* Build configuration list for PBXProject "VolunteerForce" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7DBCE2F9151A443A00456AA2 /* Debug */,
