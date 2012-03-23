@@ -65,7 +65,7 @@
     </target>
 
 	<target name="generateIPA" description="Generate the IPA file after building" >
-		<property name="embedProfile" value="E3A36E9D-191E-45E0-A8E0-67425F871AD7.mobileprovision" />
+		<property name="embedProfile" value="4PZ44KB26X.com.salesforce.mobilesdk.internal_Internal.mobileprovision" />
 		<echo>embedProfile = '${embedProfile}'</echo>
 		<copy file="${user.home}/Library/MobileDevice/Provisioning\\ Profiles/${embedProfile}"   todir="${basedir}" />
 			
