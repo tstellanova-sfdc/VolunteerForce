@@ -12,7 +12,6 @@
 		7D2D1B61151B9BF100F88452 /* ModalNetworkActionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D2D1B5F151B9BF100F88452 /* ModalNetworkActionVC.xib */; };
 		7D2D1B76151BCE3A00F88452 /* Chatterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2D1B75151BCE3A00F88452 /* Chatterator.m */; };
 		7D2D1B7E151BD3A400F88452 /* MailComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2D1B7C151BD3A400F88452 /* MailComposerViewController.m */; };
-		7D2D1B80151BD8C100F88452 /* foundation-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D2D1B7F151BD8C100F88452 /* foundation-logo.png */; };
 		7D2D1B82151BD99900F88452 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2D1B81151BD99900F88452 /* MessageUI.framework */; };
 		7D5F99CF151A5E7400DC9B97 /* AppDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5F99CE151A5E7400DC9B97 /* AppDataModel.m */; };
 		7D5F99D3151A6C3500DC9B97 /* ActivityDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5F99D1151A6C3400DC9B97 /* ActivityDetailVC.m */; };
@@ -70,7 +69,6 @@
 		7D2D1B75151BCE3A00F88452 /* Chatterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Chatterator.m; path = Classes/Chatterator.m; sourceTree = "<group>"; };
 		7D2D1B7C151BD3A400F88452 /* MailComposerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MailComposerViewController.m; path = Classes/MailComposerViewController.m; sourceTree = "<group>"; };
 		7D2D1B7D151BD3A400F88452 /* MailComposerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MailComposerViewController.h; path = Classes/MailComposerViewController.h; sourceTree = "<group>"; };
-		7D2D1B7F151BD8C100F88452 /* foundation-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "foundation-logo.png"; path = "Resources/icons/foundation-logo.png"; sourceTree = "<group>"; };
 		7D2D1B81151BD99900F88452 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		7D5F99CD151A5E7400DC9B97 /* AppDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDataModel.h; path = Classes/AppDataModel.h; sourceTree = "<group>"; };
 		7D5F99CE151A5E7400DC9B97 /* AppDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDataModel.m; path = Classes/AppDataModel.m; sourceTree = "<group>"; };
@@ -485,7 +483,6 @@
 		7DBCE2CF151A443900456AA2 /* icons */ = {
 			isa = PBXGroup;
 			children = (
-				7D2D1B7F151BD8C100F88452 /* foundation-logo.png */,
 				7D5F9B64151AA96200DC9B97 /* tiny-map@2x.png */,
 				7D5F9B65151AA96200DC9B97 /* tiny-map.png */,
 				7DBCE2D0151A443900456AA2 /* icon-72.png */,
@@ -626,7 +623,6 @@
 				7D5F9B67151AA96200DC9B97 /* tiny-map.png in Resources */,
 				7D5F9B6C151AAA8600DC9B97 /* ActivityCheckinVC.xib in Resources */,
 				7D2D1B61151B9BF100F88452 /* ModalNetworkActionVC.xib in Resources */,
-				7D2D1B80151BD8C100F88452 /* foundation-logo.png in Resources */,
 				7DC04EFD151CFC140051E852 /* ActivityCloneInputVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

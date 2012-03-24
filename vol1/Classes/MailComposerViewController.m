@@ -115,9 +115,9 @@
 
     
 	// Attach an image to the email
-	NSString *path = [[NSBundle mainBundle] pathForResource:@"foundation-logo" ofType:@"png"];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"icon" ofType:@"png"];
     NSData *myData = [NSData dataWithContentsOfFile:path];
-	[picker addAttachmentData:myData mimeType:@"image/png" fileName:@"foundation-logo"];
+	[picker addAttachmentData:myData mimeType:@"image/png" fileName:@"volunteerIcon"];
 	
 	// Fill out the email body text
 	[picker setMessageBody:html isHTML:YES];
