@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Salesforce.com. All rights reserved.
 //
 
+#import <MapKit/MapKit.h>
+
 #import "ActivityDetailVC.h"
 
 #import "ActivityCheckinVC.h"
@@ -14,6 +16,7 @@
 #import "AppDelegate.h"
 #import "Chatterator.h"
 #import "MailComposerViewController.h"
+#import "SFMapAnnotator.h"
 #import "SFRestAPI+Blocks.h"
 
 
@@ -34,10 +37,9 @@ enum {
 @synthesize titleView;
 @synthesize descriptionView;
 @synthesize activityId = _activityId;
-@synthesize  addressView;
-@synthesize  summaryView;
+@synthesize addressView;
 @synthesize accountNameView;
-
+@synthesize locationMap = _locationMap;
 
 - (id)initWithActivityId:(NSString*)activityId
 {
@@ -45,6 +47,9 @@ enum {
     if (self) {
         self.title = @"Activity";
         self.activityId = activityId;
+        _locationGeocoder = [[CLGeocoder alloc] init] ;
+        _mapAnnotator = [[SFMapAnnotator alloc] init];
+
         AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
         self.activityModel = [dataModel.fullActivitiesById objectForKey:activityId];
         if (nil == self.activityModel) {
@@ -93,6 +98,12 @@ enum {
     return self;
 }
 
+- (void)dealloc {
+    [_locationGeocoder release]; _locationGeocoder = nil;
+    [_mapAnnotator release]; _mapAnnotator = nil;
+    [super dealloc];
+}
+
 - (NSString *)buildAddressStringFromActivityDict:(NSDictionary*)dict {
     
     NSMutableString *sb = [NSMutableString stringWithString:@""];
@@ -122,7 +133,6 @@ enum {
 
 - (void)updateFromModel {
     [self.titleView setText:[self.activityModel objectForKey:@"Name"]];
-    [self.descriptionView setText:[self.activityModel objectForKey:@"Description__c"]];
     
     
     NSString *activityDateTimeStr = [self.activityModel objectForKey:kVolunteerActivity_DateTimeField];
@@ -144,15 +154,44 @@ enum {
 
     [self.startTimeView setText:displayDateTimeDuration];
 
+    [self.locationMap setHidden:YES];
+    [self.locationMap setDelegate:nil];
+    
     NSString *address = [self buildAddressStringFromActivityDict:self.activityModel];    
     if ([address length] == 0) {
         address = @"Loading...";
+    } else {
+        __block MKMapView *mapView = self.locationMap;
+        [_locationGeocoder geocodeAddressString:address 
+                              completionHandler:
+         ^(NSArray *placemarks, NSError *e) {
+             if (nil == e) {
+                 for (CLPlacemark *place in placemarks) {
+                     if (nil != place.location) {
+                         NSLog(@"found location: %@",place.location);
+                         CLLocationCoordinate2D loc = place.location.coordinate;
+                         [self.locationMap setHidden:NO];
+                         [mapView setCenterCoordinate:loc];
+                         [mapView setRegion:MKCoordinateRegionMake(loc,MKCoordinateSpanMake(0.007,0.007))
+                                   animated:NO];
+                         
+                         [mapView setDelegate:_mapAnnotator];
+                         SFMapAnnotation *annotation = [[SFMapAnnotation alloc] init];
+                         [annotation setCoordinate:loc];
+                         [mapView addAnnotation:annotation];
+                         [annotation release];
+                         break;
+                     }
+                 }
+             } else {
+                 NSLog(@"Error geocoding: %@",e);
+             }
+         }
+         ];
     }
     [self.addressView setText:address];
     
-    NSString *summary = [self.activityModel objectForKey:@"Event_Summary__c"];
-    if (![[NSNull null] isEqual:summary])
-        [self.summaryView setText:summary];
+
     
     NSDictionary *acct = [self.activityModel objectForKey:@"Account__r"];
     if (![[NSNull null] isEqual:acct]) {
@@ -160,6 +199,21 @@ enum {
         if (![[NSNull null] isEqual:accountTitle])
             [self.accountNameView setText:accountTitle];
     }
+    
+    NSMutableString *fullDesc = [[NSMutableString alloc] init ];
+    NSString *summary = [self.activityModel objectForKey:@"Event_Summary__c"];
+    if ((nil != summary) && ![[NSNull null] isEqual:summary]) {
+        [fullDesc appendFormat:@"Summary:\n\n %@",summary];
+    }
+    
+    NSString *desc = [self.activityModel objectForKey:@"Description__c"];
+    if ((nil != desc) && ![[NSNull null] isEqual:desc]) {
+        [fullDesc appendFormat:@"\n\nDescription:\n\n %@",desc];
+    }
+    [self.descriptionView setText:fullDesc];
+    [fullDesc release];
+    
+    
 }
 
 
@@ -206,6 +260,7 @@ enum {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - Private
 
 - (void)doCheckin
 {

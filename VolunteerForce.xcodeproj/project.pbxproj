@@ -21,6 +21,9 @@
 		7D5F9B67151AA96200DC9B97 /* tiny-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D5F9B65151AA96200DC9B97 /* tiny-map.png */; };
 		7D5F9B6B151AAA8600DC9B97 /* ActivityCheckinVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5F9B69151AAA8500DC9B97 /* ActivityCheckinVC.m */; };
 		7D5F9B6C151AAA8600DC9B97 /* ActivityCheckinVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D5F9B6A151AAA8500DC9B97 /* ActivityCheckinVC.xib */; };
+		7D8AB90C151D474500F31B2D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8AB90B151D474500F31B2D /* MapKit.framework */; };
+		7D8AB90E151D4AC400F31B2D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8AB90D151D4AC400F31B2D /* CoreLocation.framework */; };
+		7D8AB919151D520600F31B2D /* SFMapAnnotator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8AB918151D520500F31B2D /* SFMapAnnotator.m */; };
 		7DBCE251151A443800456AA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE250151A443800456AA2 /* CoreData.framework */; };
 		7DBCE253151A443800456AA2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE252151A443800456AA2 /* SystemConfiguration.framework */; };
 		7DBCE255151A443800456AA2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE254151A443800456AA2 /* Security.framework */; };
@@ -82,6 +85,10 @@
 		7D5F9B68151AAA8500DC9B97 /* ActivityCheckinVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityCheckinVC.h; path = Classes/ActivityCheckinVC.h; sourceTree = "<group>"; };
 		7D5F9B69151AAA8500DC9B97 /* ActivityCheckinVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityCheckinVC.m; path = Classes/ActivityCheckinVC.m; sourceTree = "<group>"; };
 		7D5F9B6A151AAA8500DC9B97 /* ActivityCheckinVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivityCheckinVC.xib; path = Classes/ActivityCheckinVC.xib; sourceTree = "<group>"; };
+		7D8AB90B151D474500F31B2D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		7D8AB90D151D4AC400F31B2D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7D8AB917151D520500F31B2D /* SFMapAnnotator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMapAnnotator.h; path = Classes/SFMapAnnotator.h; sourceTree = "<group>"; };
+		7D8AB918151D520500F31B2D /* SFMapAnnotator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFMapAnnotator.m; path = Classes/SFMapAnnotator.m; sourceTree = "<group>"; };
 		7DBCE24C151A443800456AA2 /* VolunteerForce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VolunteerForce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBCE250151A443800456AA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7DBCE252151A443800456AA2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -214,6 +221,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D8AB90E151D4AC400F31B2D /* CoreLocation.framework in Frameworks */,
+				7D8AB90C151D474500F31B2D /* MapKit.framework in Frameworks */,
 				7D014791151D2C0700BAA2A6 /* libsqlite3.0.dylib in Frameworks */,
 				7D2D1B82151BD99900F88452 /* MessageUI.framework in Frameworks */,
 				7DBCE251151A443800456AA2 /* CoreData.framework in Frameworks */,
@@ -256,7 +265,6 @@
 		7DBCE240151A443800456AA2 = {
 			isa = PBXGroup;
 			children = (
-				7D2D1B81151BD99900F88452 /* MessageUI.framework */,
 				7DBCE260151A443800456AA2 /* vol1 */,
 				7DBCE24F151A443800456AA2 /* Frameworks */,
 				7DBCE24D151A443800456AA2 /* Products */,
@@ -274,6 +282,9 @@
 		7DBCE24F151A443800456AA2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7D8AB90D151D4AC400F31B2D /* CoreLocation.framework */,
+				7D8AB90B151D474500F31B2D /* MapKit.framework */,
+				7D2D1B81151BD99900F88452 /* MessageUI.framework */,
 				7D014790151D2C0700BAA2A6 /* libsqlite3.0.dylib */,
 				7DBCE250151A443800456AA2 /* CoreData.framework */,
 				7DBCE252151A443800456AA2 /* SystemConfiguration.framework */,
@@ -525,6 +536,8 @@
 				7DC04EF9151CFC140051E852 /* ActivityCloneInputVC.h */,
 				7DC04EFA151CFC140051E852 /* ActivityCloneInputVC.m */,
 				7DC04EFB151CFC140051E852 /* ActivityCloneInputVC.xib */,
+				7D8AB917151D520500F31B2D /* SFMapAnnotator.h */,
+				7D8AB918151D520500F31B2D /* SFMapAnnotator.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -638,6 +651,7 @@
 				7D2D1B76151BCE3A00F88452 /* Chatterator.m in Sources */,
 				7D2D1B7E151BD3A400F88452 /* MailComposerViewController.m in Sources */,
 				7DC04EFC151CFC140051E852 /* ActivityCloneInputVC.m in Sources */,
+				7D8AB919151D520600F31B2D /* SFMapAnnotator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

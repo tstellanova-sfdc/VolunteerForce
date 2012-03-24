@@ -8,9 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class MKMapView;
+@class CLGeocoder;
+@class SFMapAnnotator;
+
 @interface ActivityDetailVC : UIViewController <UIActionSheetDelegate>{
     NSDictionary *_activityModel;
     NSString *_activityId;
+    MKMapView *_locationMap;
+    CLGeocoder *_locationGeocoder;
+    SFMapAnnotator *_mapAnnotator;
 }
 
 
@@ -23,8 +30,8 @@
 @property (nonatomic, strong) IBOutlet UITextView *addressView;
 
 @property (nonatomic, strong) IBOutlet UILabel *accountNameView;
-@property (nonatomic, strong) IBOutlet UITextView *summaryView;
 
+@property (nonatomic, strong, readonly) IBOutlet MKMapView *locationMap;
 
 @property (nonatomic, strong) NSDictionary *activityModel;
 
