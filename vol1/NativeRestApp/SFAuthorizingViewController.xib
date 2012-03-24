@@ -41,11 +41,10 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUILabel" id="313833063">
 						<reference key="NSNextResponder" ref="512177841"/>
-						<int key="NSvFlags">303</int>
-						<string key="NSFrame">{{173, 49}, {476, 88}}</string>
+						<int key="NSvFlags">290</int>
+						<string key="NSFrame">{{0, 49}, {768, 88}}</string>
 						<reference key="NSSuperview" ref="512177841"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
