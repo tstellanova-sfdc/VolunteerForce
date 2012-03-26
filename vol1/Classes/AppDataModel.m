@@ -19,6 +19,7 @@ NSString * const kVolunteerActivity_DurationField = @"Duration_hours__c";
 
 @synthesize Volunteer_Activity__c = _Volunteer_Activity__c;
 @synthesize recentVolunteerActivities = _recentVolunteerActivities;
+@synthesize myVolunteerActivities = _myVolunteerActivities;
 @synthesize fullActivitiesById = _fullActivitiesById;
 @synthesize shallowActivitiesById = _shallowActivitiesById;
 
@@ -45,26 +46,44 @@ NSString * const kVolunteerActivity_DurationField = @"Duration_hours__c";
 
 - (void)addFullVolunteerActivity:(NSDictionary*)activity
 {
-    [_fullActivitiesById setObject:activity forKey:[activity objectForKey:@"Id"]];
-    NSArray *acts = [NSArray arrayWithObject:activity];
-    [self addRecentVolunteerActivities:acts];
-
+    NSString *activityId = [activity objectForKey:@"Id"];
+    [_fullActivitiesById setObject:activity forKey:activityId];
+    [_shallowActivitiesById setObject:activity forKey:activityId];
+    [_recentVolunteerActivities addObject:activity];
 }
 
-- (void)addRecentVolunteerActivities:(NSArray*)recentActivities 
-{
-    [self updateShallowActivities:recentActivities];
-    [_recentVolunteerActivities release];
-    _recentVolunteerActivities = [[self.shallowActivitiesById allValues] retain];
-}
 
-- (void)updateShallowActivities:(NSArray*)shallowActivities
+- (void)updateRecentVolunteerActivities:(NSArray*)recentActivities 
 {
-    for (NSDictionary *activity in shallowActivities) {
+    for (NSDictionary *activity in recentActivities) {
         NSString *activityId = [activity objectForKey:@"Id"];
         [self.shallowActivitiesById setObject:activity forKey:activityId];
     }
+    
+    [_recentVolunteerActivities release];
+    _recentVolunteerActivities = [[NSMutableArray alloc] initWithArray:recentActivities];
 }
+
+- (void)addMyParticpantRecords:(NSArray*)particpants 
+{
+    [_myVolunteerActivities release]; _myVolunteerActivities = nil;
+    
+    NSMutableArray *myActivities = [[NSMutableArray alloc] initWithCapacity:[particpants count] ];
+    
+    for (NSDictionary *record in particpants) {
+        NSDictionary *activity = [record objectForKey:@"Volunteer_Activity__r"];
+        NSString *activityId = [activity objectForKey:@"Id"];
+        [self.shallowActivitiesById setObject:activity forKey:activityId];
+        [myActivities addObject:activity];
+    }
+
+    _myVolunteerActivities = [[NSMutableArray alloc] initWithArray:myActivities];
+    [myActivities release];
+    
+}
+
+
+
 
 - (NSDate*)dateFromDateTimeString:(NSString*)dateTimeStr
 {

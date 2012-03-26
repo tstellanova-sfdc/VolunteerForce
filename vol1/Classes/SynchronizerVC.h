@@ -16,6 +16,7 @@
 @interface SynchronizerVC : UIViewController <SFRestDelegate> {
     SFRestRequest *_recentActivitiesReq;
     SFRestRequest *_describeActivityReq;
+    SFRestRequest *_myParticipationReq;
     UIProgressView *_progressView;
     UILabel *_statusView;
 }

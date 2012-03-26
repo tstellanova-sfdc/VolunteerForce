@@ -54,11 +54,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma  mark - Public
 
-- (void)closeSelf 
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 @end

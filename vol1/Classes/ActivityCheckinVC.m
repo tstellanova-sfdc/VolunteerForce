@@ -15,14 +15,7 @@
 #import "SFOAuthCredentials.h"
 #import "SFRestAPI+Blocks.h"
 
-typedef enum {
-    TimeColumn_Hour_Digit = 0,
-    TimeColumn_Hour_Label = 1,
-    TimeColumn_Minute_Digit = 2,
-    TimeColumn_Minute_Label = 3,
-    TimeColumn_Count
-    
-} ETimeColumns;
+
 
 @implementation ActivityCheckinVC
 
@@ -47,7 +40,7 @@ typedef enum {
         
         self.participantDuration = [NSNumber numberWithFloat:1.0];
         NSNumber *duration = [self.activityModel valueForKey:kVolunteerActivity_DurationField];
-        if (![[NSNull null] isEqual:duration]) {
+        if ((nil != duration) && ![[NSNull null] isEqual:duration]) {
             self.participantDuration = duration;
         }
     }
@@ -68,6 +61,7 @@ typedef enum {
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
     [self updateFromModel];
 
 }
@@ -90,63 +84,10 @@ typedef enum {
 - (void)updateFromModel {
     [self setTitle:@"Duration"];
     
-    NSInteger totalMinutes = [self.participantDuration doubleValue] * 60;
-    NSInteger hours = totalMinutes / 60;
-    NSInteger minutes = totalMinutes % 60;
-
-    [_durationPicker  selectRow:hours inComponent:TimeColumn_Hour_Digit animated:NO];
-    NSInteger minutesIdx = minutes / (60 / [_minutesArray count]);
-    [_durationPicker  selectRow:minutesIdx inComponent:TimeColumn_Minute_Digit animated:NO];
+    NSTimeInterval totalSeconds = [self.participantDuration doubleValue] * 3600.0;
+    [_durationPicker setCountDownDuration:totalSeconds];
 }
 
-
-#pragma mark - UIPickerViewDataSource
- // returns the number of 'columns' to display.
- - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView 
- {
-     return TimeColumn_Count;
- }
- 
- // returns the # of rows in each component..
- - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    switch (component) {
-        case TimeColumn_Hour_Digit:
-            return 12;
-        case TimeColumn_Hour_Label:
-            return 1;
-        case TimeColumn_Minute_Digit:
-            return [_minutesArray count];
-        case TimeColumn_Minute_Label:
-            return 1;
-    }
-
-    return 0;
-}
- 
-#pragma mark - UIPickerViewDelegate
-
-
- 
- // these methods return either a plain UIString, or a view (e.g UILabel) to display the row for the component.
- // for the view versions, we cache any hidden and thus unused views and pass them back for reuse. 
- // If you return back a different object, the old one will be released. the view will be centered in the row rect  
- - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    
-    switch (component) {
-        case TimeColumn_Hour_Digit:
-            return [NSString stringWithFormat:@"%d",row];
-        case TimeColumn_Hour_Label:
-            return @"hour";
-        case TimeColumn_Minute_Digit:
-            return [_minutesArray objectAtIndex:row];
-        case TimeColumn_Minute_Label:
-            return @"mins";
-    }
-    
-    return @"Bogus";
-}
 
 
 #pragma mark - Private
@@ -193,30 +134,27 @@ typedef enum {
     return chatterReq;
 }
 
-- (IBAction)doneButtonClicked:(id)sender {
-    
-    //TODO pull the duration from the input
-    NSInteger hours = [_durationPicker selectedRowInComponent:TimeColumn_Hour_Digit];
-    NSInteger minuteIndex = [_durationPicker selectedRowInComponent:TimeColumn_Minute_Digit];
-    NSString *minuteValStr = [_minutesArray objectAtIndex:minuteIndex];
-    NSInteger minutes = [minuteValStr integerValue];
-    NSNumber *totalHours = [NSNumber numberWithDouble:hours + (minutes / 60.0)];
-    
-    __block ModalNetworkActionVC *progressVC = [[ModalNetworkActionVC alloc] initWithNibName:@"ModalNetworkActionVC" bundle:nil];
-        
-    //pop ourselves
-    [self.navigationController popViewControllerAnimated:NO];
-    [self.navigationController pushViewController:progressVC animated:YES];
-    
-    //TODO this doesn't work because these views don't exist yet
-    [progressVC setTitleText:@"Checking In"];
-    [progressVC setSubtitleText:@"Please wait..."];
-    
+- (void)closeNetworkProgress:(NSNumber*)popSelf {
+    [self dismissModalViewControllerAnimated:YES];
+    [_networkProgressVC release]; _networkProgressVC = nil;
+
+    if ([popSelf boolValue]) {
+        //pop ourselves
+        [self.navigationController popViewControllerAnimated:NO];  
+    }
+}
+
+
+- (void)doCheckin {
+
+    // pull the duration from the input
+    NSTimeInterval durationSeconds = [_durationPicker countDownDuration];
+    NSNumber *totalHours = [NSNumber numberWithDouble:(durationSeconds / 3600.0)];
     
     //post a chatter update -- ignore success/fail
     SFRestRequest *chatterReq = [Chatterator buildChatterPostForActivityCheckin:self.activityModel];
     [[SFRestAPI sharedInstance] send:chatterReq delegate:nil];
-        
+    
     
     //kickoff the transaction
     NSString *activityId = [self.activityModel objectForKey:@"Id"];
@@ -228,6 +166,7 @@ typedef enum {
                                 totalHours, kVolunteerActivity_DurationField,
                                 nil];
     
+    ModalNetworkActionVC *progressVC = _networkProgressVC;
     [[SFRestAPI sharedInstance]
      performCreateWithObjectType:@"Volunteer_Activity_Participant__c" 
      fields:particpant 
@@ -236,13 +175,26 @@ typedef enum {
          [progressVC setTitleText:@"Couldn't Check In"];
          [progressVC setSubtitleText:
           [NSString stringWithFormat:@"Error: %@",e]];
+         [self performSelector:@selector(closeNetworkProgress:) 
+                    withObject:[NSNumber numberWithBool:NO] 
+                    afterDelay:2.0];
      } completeBlock:^(NSDictionary *dict) {
          [progressVC setTitleText:@"Success!"];
          [progressVC setSubtitleText:@"You are now confirmed for this Activity"];
-         [progressVC performSelector:@selector(closeSelf) withObject:nil afterDelay:2.0];
+         [self performSelector:@selector(closeNetworkProgress:) 
+                    withObject:[NSNumber numberWithBool:YES] 
+                    afterDelay:2.0];
      }
      ];
+
+}
+- (IBAction)doneButtonClicked:(id)sender {
+    _networkProgressVC = [[ModalNetworkActionVC alloc] initWithNibName:@"ModalNetworkActionVC" bundle:nil];
+    [_networkProgressVC setTitleText:@"Checking In"];
+    [_networkProgressVC setSubtitleText:@"Please wait..."];
     
+    [self presentModalViewController:_networkProgressVC animated:YES];
+    [self doCheckin];
 }
 
 

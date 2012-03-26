@@ -8,15 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EventsListVC : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface ActivitiesOverviewListVC : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     UITableView *_tableView;    
 
 }
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 
-@property (nonatomic, readonly) NSArray *dataRows;
+@property (nonatomic, readonly) NSArray *recentActivities;
+@property (nonatomic, readonly) NSArray *myActivities;
 
 - (void)sendRecentActivitiesRequest;
+
+- (NSDictionary *)activityForIndexPath:(NSIndexPath*)indexPath;
 
 @end

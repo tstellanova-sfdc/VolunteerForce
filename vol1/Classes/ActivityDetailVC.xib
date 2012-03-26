@@ -78,7 +78,7 @@
 							<object class="IBUILabel" id="437654975">
 								<reference key="NSNextResponder" ref="90008701"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{5, 51}, {310, 21}}</string>
+								<string key="NSFrame">{{5, 44}, {310, 21}}</string>
 								<reference key="NSSuperview" ref="90008701"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="823737242"/>
@@ -151,30 +151,6 @@
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
 						<array class="NSMutableArray" key="NSSubviews">
-							<object class="IBUITextView" id="318536050">
-								<reference key="NSNextResponder" ref="823737242"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{117, 12}, {196, 100}}</string>
-								<reference key="NSSuperview" ref="823737242"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="1054981758"/>
-								<object class="NSColor" key="IBUIBackgroundColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MSAxIDAuOAA</bytes>
-								</object>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<bool key="IBUIMultipleTouchEnabled">YES</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<bool key="IBUIEditable">NO</bool>
-								<string key="IBUIText">Admiral's Office 27-341 Kaapoko Hmstd Rd. Papaikou HI 96781 USA</string>
-								<reference key="IBUITextColor" ref="512576607"/>
-								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
-									<int key="IBUIAutocapitalizationType">2</int>
-									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="628540851"/>
-								<reference key="IBUIFont" ref="900847846"/>
-							</object>
 							<object class="IBUIImageView" id="738973783">
 								<reference key="NSNextResponder" ref="823737242"/>
 								<int key="NSvFlags">292</int>
@@ -195,10 +171,34 @@
 								<string key="NSFrame">{{9, 12}, {100, 100}}</string>
 								<reference key="NSSuperview" ref="823737242"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="318536050"/>
+								<reference key="NSNextKeyView" ref="852975010"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							</object>
+							<object class="IBUITextView" id="852975010">
+								<reference key="NSNextResponder" ref="823737242"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{117, 12}, {196, 100}}</string>
+								<reference key="NSSuperview" ref="823737242"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="1054981758"/>
+								<object class="NSColor" key="IBUIBackgroundColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MSAxIDAuOAA</bytes>
+								</object>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<bool key="IBUIMultipleTouchEnabled">YES</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<bool key="IBUIEditable">NO</bool>
+								<string key="IBUIText">Admiral's Quarters 27-341 Kaapoko Homestead Rd Papaikou HI 96781 USA</string>
+								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
+									<int key="IBUIAutocapitalizationType">2</int>
+									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								</object>
+								<int key="IBUIDataDetectorTypes">4</int>
+								<reference key="IBUIFontDescription" ref="628540851"/>
+								<reference key="IBUIFont" ref="900847846"/>
 							</object>
 						</array>
 						<string key="NSFrame">{{0, 73}, {320, 121}}</string>
@@ -284,14 +284,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">addressView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="318536050"/>
-					</object>
-					<int key="connectionID">21</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">descriptionView</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="1054981758"/>
@@ -305,6 +297,14 @@
 						<reference key="destination" ref="779072764"/>
 					</object>
 					<int key="connectionID">31</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">_addressView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="852975010"/>
+					</object>
+					<int key="connectionID">42</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -361,8 +361,8 @@
 						<reference key="object" ref="823737242"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="738973783"/>
-							<reference ref="318536050"/>
 							<reference ref="779072764"/>
+							<reference ref="852975010"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -377,11 +377,6 @@
 						<reference key="parent" ref="823737242"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">16</int>
-						<reference key="object" ref="318536050"/>
-						<reference key="parent" ref="823737242"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
 						<reference key="object" ref="1054981758"/>
 						<reference key="parent" ref="191373211"/>
@@ -389,6 +384,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">30</int>
 						<reference key="object" ref="779072764"/>
+						<reference key="parent" ref="823737242"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">40</int>
+						<reference key="object" ref="852975010"/>
 						<reference key="parent" ref="823737242"/>
 					</object>
 				</array>
@@ -400,11 +400,11 @@
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="16.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="24.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="30.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="40.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -413,41 +413,48 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">31</int>
+			<int key="maxID">42</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">ActivityDetailVC</string>
 					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">checkinButtonClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">checkinButtonClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="addressButtonClicked:">id</string>
+						<string key="checkinButtonClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="addressButtonClicked:">
+							<string key="name">addressButtonClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="checkinButtonClicked:">
 							<string key="name">checkinButtonClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="_addressButtonView">UIButton</string>
+						<string key="_addressView">UITextView</string>
 						<string key="accountNameView">UILabel</string>
-						<string key="addressView">UITextView</string>
 						<string key="descriptionView">UITextView</string>
 						<string key="locationMap">MKMapView</string>
 						<string key="startTimeView">UILabel</string>
-						<string key="summaryView">UITextView</string>
 						<string key="titleView">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="_addressButtonView">
+							<string key="name">_addressButtonView</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="_addressView">
+							<string key="name">_addressView</string>
+							<string key="candidateClassName">UITextView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="accountNameView">
 							<string key="name">accountNameView</string>
 							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="addressView">
-							<string key="name">addressView</string>
-							<string key="candidateClassName">UITextView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="descriptionView">
 							<string key="name">descriptionView</string>
@@ -460,10 +467,6 @@
 						<object class="IBToOneOutletInfo" key="startTimeView">
 							<string key="name">startTimeView</string>
 							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="summaryView">
-							<string key="name">summaryView</string>
-							<string key="candidateClassName">UITextView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="titleView">
 							<string key="name">titleView</string>

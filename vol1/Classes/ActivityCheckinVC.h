@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class ModalNetworkActionVC;
 
-@interface ActivityCheckinVC : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate> {
-    IBOutlet UIPickerView *_durationPicker;
+@interface ActivityCheckinVC : UIViewController  {
+    IBOutlet UIDatePicker *_durationPicker;
     NSArray *_minutesArray;
     NSDictionary *_activityModel;
     NSNumber *_participantDuration;
+    ModalNetworkActionVC *_networkProgressVC;
 }
 
 @property (nonatomic, strong) NSDictionary *activityModel;

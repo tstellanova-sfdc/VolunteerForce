@@ -18,6 +18,8 @@
     MKMapView *_locationMap;
     CLGeocoder *_locationGeocoder;
     SFMapAnnotator *_mapAnnotator;
+    IBOutlet UITextView *_addressView;
+    IBOutlet UIButton *_addressButtonView;
 }
 
 
@@ -27,15 +29,16 @@
 @property (nonatomic, strong) IBOutlet UILabel *titleView;
 @property (nonatomic, strong) IBOutlet UITextView *descriptionView;
 
-@property (nonatomic, strong) IBOutlet UITextView *addressView;
-
 @property (nonatomic, strong) IBOutlet UILabel *accountNameView;
+
+@property (nonatomic, copy) NSString *activityAddress;
 
 @property (nonatomic, strong, readonly) IBOutlet MKMapView *locationMap;
 
 @property (nonatomic, strong) NSDictionary *activityModel;
 
 
+- (IBAction)addressButtonClicked:(id)sender;
 - (IBAction)checkinButtonClicked:(id)sender;
 
 - (id)initWithActivityId:(NSString*)activityId;

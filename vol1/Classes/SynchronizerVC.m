@@ -10,7 +10,7 @@
 
 #import "AppDataModel.h"
 #import "AppDelegate.h"
-#import "EventsListVC.h"
+#import "ActivitiesOverviewListVC.h"
 #import "SFRestAPI.h"
 #import "SFRestRequest.h"
 
@@ -81,6 +81,21 @@
     [[SFRestAPI sharedInstance] send:_recentActivitiesReq delegate:self];
 }
 
+- (void)sendMyParticpantsRequest {
+    
+    SFOAuthCredentials *myCreds = [[[SFRestAPI sharedInstance] coordinator] credentials];
+    NSString *myUserId = myCreds.userId;
+    
+    NSString *soql = [NSString stringWithFormat:
+                      @"SELECT Volunteer_Activity__r.Id, Volunteer_Activity__r.Name, Volunteer_Activity__r.Account__r.Name "
+                      "FROM Volunteer_Activity_Participant__c "
+                      "WHERE User__c = '%@' ",
+                      myUserId];
+    
+    _myParticipationReq = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    [[SFRestAPI sharedInstance] send:_myParticipationReq delegate:self];
+}
+
 #pragma mark - Response handling
 
 - (void)handleRecentActivitiesResponse:(id)jsonResponse {
@@ -88,7 +103,7 @@
     NSLog(@"handleRecentActivitiesResponse #records: %d", records.count);
     
     AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
-    [dataModel addRecentVolunteerActivities:records];
+    [dataModel updateRecentVolunteerActivities:records];
 
     [self nextSyncStep];
 }
@@ -99,6 +114,17 @@
     [self nextSyncStep];
 }
 
+- (void)handleParticipationResponse:(id)jsonResponse {
+    NSArray *records = [jsonResponse objectForKey:@"records"];
+    NSLog(@"handleParticipationResponse #records: %d", records.count);
+
+    
+    AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
+    [dataModel addMyParticpantRecords:records];
+
+    [self nextSyncStep];
+}
+
 #pragma mark - SFRestAPIDelegate
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
@@ -106,6 +132,8 @@
         [self handleRecentActivitiesResponse:jsonResponse];
     } else if ([request isEqual:_describeActivityReq]) {
         [self handleDescribeActivityResponse:jsonResponse];
+    } else if ([_myParticipationReq isEqual:request]) {
+        [self handleParticipationResponse:jsonResponse];
     }
 }
 
@@ -138,11 +166,16 @@
         [self.progressView setProgress:0.25];
         
         [self sendRecentActivitiesRequest];
+    } else if (nil == dataModel.myVolunteerActivities) {
+        [self.statusView setText:@"Loading participations..."];
+        [self.progressView setProgress:0.40];
+        
+        [self sendMyParticpantsRequest];
     } else {
         // done! continue
         [self.statusView setText:@"Done syncing!"];
         [self.progressView setProgress:0.95];
-        EventsListVC *eventListVC = [[EventsListVC alloc] initWithNibName:@"EventsListVC" bundle:nil];
+        ActivitiesOverviewListVC *eventListVC = [[ActivitiesOverviewListVC alloc] initWithNibName:@"EventsListVC" bundle:nil];
         UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:eventListVC];
         [eventListVC release];
         

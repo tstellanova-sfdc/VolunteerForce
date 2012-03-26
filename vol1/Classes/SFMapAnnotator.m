@@ -38,12 +38,14 @@
     if ([annotation isKindOfClass:[SFMapAnnotation class]]) {
         result = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:SFMapAnnotationIdentifier];
         if (!result) {
-            result = [[MKPinAnnotationView alloc] initWithAnnotation:annotation
-                                                     reuseIdentifier:SFMapAnnotationIdentifier];
+            result = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation
+                                                      reuseIdentifier:SFMapAnnotationIdentifier] autorelease];
             result.pinColor = MKPinAnnotationColorGreen;
             result.animatesDrop = NO;
             result.canShowCallout = NO;
-        }        
+        } else {
+            result.annotation = annotation;
+        }
     }
     
     return result;

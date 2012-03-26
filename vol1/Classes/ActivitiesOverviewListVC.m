@@ -6,14 +6,21 @@
 //  Copyright (c) 2012 Salesforce.com. All rights reserved.
 //
 
-#import "EventsListVC.h"
+#import "ActivitiesOverviewListVC.h"
 
 #import "ActivityDetailVC.h"
 #import "AppDelegate.h"
 #import "AppDataModel.h"
 #import "SFRestAPI+Blocks.h"
 
-@implementation EventsListVC
+
+enum {
+    ETableSection_Recents = 0,
+    ETableSection_MyActivities,
+    ETableSection_Count
+};
+
+@implementation ActivitiesOverviewListVC
 
 @synthesize tableView = _tableView;
 
@@ -42,7 +49,7 @@
 
 - (void)sendRecentActivitiesRequest {
 
-    __block EventsListVC *this = self;
+    __block ActivitiesOverviewListVC *this = self;
     [[SFRestAPI sharedInstance] 
      performMetadataWithObjectType:kVolunteerActivityType
      failBlock:^(NSError *e) {
@@ -51,7 +58,7 @@
      completeBlock:^(NSDictionary *dict) {
         NSArray *records = [dict objectForKey:@"recentItems"];
         AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
-        [dataModel addRecentVolunteerActivities:records];
+        [dataModel updateRecentVolunteerActivities:records];
         [this.tableView reloadData];
      }
     ];
@@ -84,24 +91,70 @@
 }
 
 
-- (NSArray *)dataRows {
+- (NSArray *)recentActivities {
     AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
     return dataModel.recentVolunteerActivities;
 }
 
+- (NSArray *)myActivities {
+    AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
+    return dataModel.myVolunteerActivities;
+}
+
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return ETableSection_Count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+        case ETableSection_Recents:
+            return @"Recent Activities";
+            
+        case ETableSection_MyActivities:
+            return @"My Participations";
+            
+        default:
+            return 0;
+    } 
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (0 == section) {
-        return [self.dataRows count];
-    } else 
-        return 0;
+    
+    switch (section) {
+        case ETableSection_Recents:
+            return [self.recentActivities count];
+            
+        case ETableSection_MyActivities:
+            return [self.myActivities count];
+            
+        default:
+            return 0;
+    }
+
         
 }
+
+- (NSDictionary *)activityForIndexPath:(NSIndexPath*)indexPath {
+    
+    NSInteger row = [indexPath row];
+    
+    switch (indexPath.section) {
+        case ETableSection_Recents:
+            return [self.recentActivities objectAtIndex:row];
+            
+        case ETableSection_MyActivities:
+            return [self.myActivities objectAtIndex:row];
+            
+        default:
+            return nil;  
+    }
+}
+
 
 
 // Customize the appearance of table view cells.
@@ -119,7 +172,7 @@
 	cell.imageView.image = image;
     
 	// Configure the cell to show the data.
-	NSDictionary *obj = [self.dataRows objectAtIndex:indexPath.row];
+	NSDictionary *obj = [self activityForIndexPath:indexPath];
 	cell.textLabel.text =  [obj objectForKey:@"Name"];
     
 	//this adds the arrow to the right hand side.
@@ -131,11 +184,8 @@
 #pragma UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSInteger row = indexPath.row;
-    NSLog(@"didDeselectRowAtIndexPath: %@",indexPath);
-    
-    NSDictionary *rowData = [self.dataRows objectAtIndex:row];
+{    
+    NSDictionary *rowData = [self activityForIndexPath:indexPath];
     NSString *activityId = [rowData objectForKey:@"Id"];
     ActivityDetailVC *detailVC = [[ActivityDetailVC alloc] initWithActivityId:activityId];
     [self.navigationController pushViewController:detailVC animated:YES];

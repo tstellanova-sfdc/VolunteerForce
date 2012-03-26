@@ -7,6 +7,7 @@
 //
 
 #import <MapKit/MapKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 #import "ActivityDetailVC.h"
 
@@ -37,7 +38,6 @@ enum {
 @synthesize titleView;
 @synthesize descriptionView;
 @synthesize activityId = _activityId;
-@synthesize addressView;
 @synthesize accountNameView;
 @synthesize locationMap = _locationMap;
 
@@ -109,24 +109,24 @@ enum {
     NSMutableString *sb = [NSMutableString stringWithString:@""];
     NSString *street = [dict valueForKey:@"Street__c"];
     NSString *city = [dict valueForKey:@"City__c"];
-    NSString *country = [dict valueForKey:@"Country__c"];
+//    NSString *country = [dict valueForKey:@"Country__c"];
     NSString *state = [dict valueForKey:@"State_Province__c"];
-    NSString *postal = [dict valueForKey:@"Zip_Postal_Code__c"];
+//    NSString *postal = [dict valueForKey:@"Zip_Postal_Code__c"];
 
     if ((nil != street) && ![[NSNull null] isEqual:street])
         [sb appendFormat:@"%@",street];
     
     if ((nil != city) && ![[NSNull null] isEqual:city])
-        [sb appendFormat:@"\n%@",city];
+        [sb appendFormat:@" %@",city];
     
     if ((nil != state)  && ![[NSNull null] isEqual:state])
         [sb appendFormat:@" %@",state];
     
-    if ((nil != postal)  && ![[NSNull null] isEqual:postal])
-        [sb appendFormat:@" %@",postal];
+//    if ((nil != postal)  && ![[NSNull null] isEqual:postal])
+//        [sb appendFormat:@" %@",postal];
     
-    if ((nil != country)  && ![[NSNull null] isEqual:country])
-        [sb appendFormat:@"\n%@",country];
+//    if ((nil != country)  && ![[NSNull null] isEqual:country])
+//        [sb appendFormat:@"\n%@",country];
     
     return sb;
 }
@@ -148,7 +148,7 @@ enum {
     
     NSNumber *durationVal = [self.activityModel valueForKey:@"Duration_hours__c"];
     if (durationVal != nil) {
-        displayDateTimeDuration = [NSString stringWithFormat:@"%@ -- %0.02f hr",
+        displayDateTimeDuration = [NSString stringWithFormat:@"%@ (%0.02f hr)",
                                    displayDateTime,[durationVal floatValue]];
     }
 
@@ -189,10 +189,9 @@ enum {
          }
          ];
     }
-    [self.addressView setText:address];
+    [self setActivityAddress:address];
     
 
-    
     NSDictionary *acct = [self.activityModel objectForKey:@"Account__r"];
     if (![[NSNull null] isEqual:acct]) {
         NSString *accountTitle = [acct objectForKey:@"Name"];
@@ -240,6 +239,8 @@ enum {
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    _addressView.layer.cornerRadius = 10.0f;
+    _addressView.layer.masksToBounds = YES;
     
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionAction:)] autorelease];
     
@@ -334,6 +335,26 @@ enum {
             break;
     }
 }
+
+
             
+
+#pragma mark - Public
+
+- (void)setActivityAddress:(NSString *)activityAddress
+{
+    [_addressView setText:activityAddress];
+}
+
+- (NSString*)activityAddress {
+    return [_addressView text];
+}
+
+
+
+- (IBAction)addressButtonClicked:(id)sender
+{
+    
+}
 
 @end

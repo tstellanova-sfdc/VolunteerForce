@@ -54,8 +54,8 @@
 		7DBCE2F8151A443A00456AA2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2F7151A443A00456AA2 /* Settings.bundle */; };
 		7DBCE303151A4AAE00456AA2 /* SynchronizerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBCE301151A4AAE00456AA2 /* SynchronizerVC.m */; };
 		7DBCE304151A4AAE00456AA2 /* SynchronizerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE302151A4AAE00456AA2 /* SynchronizerVC.xib */; };
-		7DBCE308151A4B5300456AA2 /* EventsListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBCE306151A4B5300456AA2 /* EventsListVC.m */; };
-		7DBCE309151A4B5300456AA2 /* EventsListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE307151A4B5300456AA2 /* EventsListVC.xib */; };
+		7DBCE308151A4B5300456AA2 /* ActivitiesOverviewListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBCE306151A4B5300456AA2 /* ActivitiesOverviewListVC.m */; };
+		7DBCE309151A4B5300456AA2 /* ActivitiesOverviewListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE307151A4B5300456AA2 /* ActivitiesOverviewListVC.xib */; };
 		7DC04EFC151CFC140051E852 /* ActivityCloneInputVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC04EFA151CFC140051E852 /* ActivityCloneInputVC.m */; };
 		7DC04EFD151CFC140051E852 /* ActivityCloneInputVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DC04EFB151CFC140051E852 /* ActivityCloneInputVC.xib */; };
 /* End PBXBuildFile section */
@@ -206,9 +206,9 @@
 		7DBCE300151A4AAE00456AA2 /* SynchronizerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynchronizerVC.h; path = Classes/SynchronizerVC.h; sourceTree = "<group>"; };
 		7DBCE301151A4AAE00456AA2 /* SynchronizerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SynchronizerVC.m; path = Classes/SynchronizerVC.m; sourceTree = "<group>"; };
 		7DBCE302151A4AAE00456AA2 /* SynchronizerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SynchronizerVC.xib; path = Classes/SynchronizerVC.xib; sourceTree = "<group>"; };
-		7DBCE305151A4B5300456AA2 /* EventsListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventsListVC.h; path = Classes/EventsListVC.h; sourceTree = "<group>"; };
-		7DBCE306151A4B5300456AA2 /* EventsListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventsListVC.m; path = Classes/EventsListVC.m; sourceTree = "<group>"; };
-		7DBCE307151A4B5300456AA2 /* EventsListVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EventsListVC.xib; path = Classes/EventsListVC.xib; sourceTree = "<group>"; };
+		7DBCE305151A4B5300456AA2 /* ActivitiesOverviewListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; name = ActivitiesOverviewListVC.h; path = Classes/ActivitiesOverviewListVC.h; sourceTree = "<group>"; };
+		7DBCE306151A4B5300456AA2 /* ActivitiesOverviewListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivitiesOverviewListVC.m; path = Classes/ActivitiesOverviewListVC.m; sourceTree = "<group>"; };
+		7DBCE307151A4B5300456AA2 /* ActivitiesOverviewListVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivitiesOverviewListVC.xib; path = Classes/ActivitiesOverviewListVC.xib; sourceTree = "<group>"; };
 		7DC04EF9151CFC140051E852 /* ActivityCloneInputVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityCloneInputVC.h; path = Classes/ActivityCloneInputVC.h; sourceTree = "<group>"; };
 		7DC04EFA151CFC140051E852 /* ActivityCloneInputVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityCloneInputVC.m; path = Classes/ActivityCloneInputVC.m; sourceTree = "<group>"; };
 		7DC04EFB151CFC140051E852 /* ActivityCloneInputVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivityCloneInputVC.xib; path = Classes/ActivityCloneInputVC.xib; sourceTree = "<group>"; };
@@ -514,9 +514,9 @@
 				7DBCE300151A4AAE00456AA2 /* SynchronizerVC.h */,
 				7DBCE301151A4AAE00456AA2 /* SynchronizerVC.m */,
 				7DBCE302151A4AAE00456AA2 /* SynchronizerVC.xib */,
-				7DBCE305151A4B5300456AA2 /* EventsListVC.h */,
-				7DBCE306151A4B5300456AA2 /* EventsListVC.m */,
-				7DBCE307151A4B5300456AA2 /* EventsListVC.xib */,
+				7DBCE305151A4B5300456AA2 /* ActivitiesOverviewListVC.h */,
+				7DBCE306151A4B5300456AA2 /* ActivitiesOverviewListVC.m */,
+				7DBCE307151A4B5300456AA2 /* ActivitiesOverviewListVC.xib */,
 				7D5F99CD151A5E7400DC9B97 /* AppDataModel.h */,
 				7D5F99CE151A5E7400DC9B97 /* AppDataModel.m */,
 				7D5F99D0151A6C3400DC9B97 /* ActivityDetailVC.h */,
@@ -617,7 +617,7 @@
 				7DBCE2EF151A443900456AA2 /* SFAuthorizingViewController.xib in Resources */,
 				7DBCE2F8151A443A00456AA2 /* Settings.bundle in Resources */,
 				7DBCE304151A4AAE00456AA2 /* SynchronizerVC.xib in Resources */,
-				7DBCE309151A4B5300456AA2 /* EventsListVC.xib in Resources */,
+				7DBCE309151A4B5300456AA2 /* ActivitiesOverviewListVC.xib in Resources */,
 				7D5F99D4151A6C3500DC9B97 /* ActivityDetailVC.xib in Resources */,
 				7D5F9B66151AA96200DC9B97 /* tiny-map@2x.png in Resources */,
 				7D5F9B67151AA96200DC9B97 /* tiny-map.png in Resources */,
@@ -639,7 +639,7 @@
 				7DBCE2ED151A443900456AA2 /* SFAuthorizingViewController.m in Sources */,
 				7DBCE2F2151A443900456AA2 /* SFNativeRestAppDelegate.m in Sources */,
 				7DBCE303151A4AAE00456AA2 /* SynchronizerVC.m in Sources */,
-				7DBCE308151A4B5300456AA2 /* EventsListVC.m in Sources */,
+				7DBCE308151A4B5300456AA2 /* ActivitiesOverviewListVC.m in Sources */,
 				7D5F99CF151A5E7400DC9B97 /* AppDataModel.m in Sources */,
 				7D5F99D3151A6C3500DC9B97 /* ActivityDetailVC.m in Sources */,
 				7D5F9B6B151AAA8600DC9B97 /* ActivityCheckinVC.m in Sources */,

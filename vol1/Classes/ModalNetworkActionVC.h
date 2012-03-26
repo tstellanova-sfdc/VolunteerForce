@@ -18,6 +18,5 @@
 @property (nonatomic, copy) NSString *subtitleText;
 @property (nonatomic, copy) NSString *titleText;
 
-- (void)closeSelf;
 
 @end
