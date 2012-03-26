@@ -29,6 +29,7 @@
 
 @interface AppDelegate : SFNativeRestAppDelegate  {
     AppDataModel *_dataModel;
+    UIAlertView *_networkStatusAlert;
 }
 
 @property (nonatomic, strong, readonly) AppDataModel *dataModel;

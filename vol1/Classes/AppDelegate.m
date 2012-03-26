@@ -34,9 +34,7 @@
 
 // Fill these in when creating a new Remote Access client on Force.com 
 static NSString *const RemoteAccessConsumerKey = @"3MVG99OxTyEMCQ3h7DCqShuXN_Vgn9GBqTLZFHc59vyNw8reUQJwkRoE16ePm10R_xmOWsd2VKS7U83.g7I84";
-//@"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
 static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oauth/done"; 
-// @"testsfdc:///mobilesdk/detect/oauth/done";
 
 
 @implementation AppDelegate
@@ -48,6 +46,57 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
     id sharedDelegate = [[UIApplication sharedApplication] delegate];
     return sharedDelegate;
 }
+
+
+
+
+- (void)login {
+    
+    [_networkStatusAlert dismissWithClickedButtonIndex:-1 animated:NO];
+    [_networkStatusAlert release]; _networkStatusAlert = nil;
+    
+    [super login];
+        
+}
+
+
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
+    NSLog(@"oauthCoordinator:didFailWithError: %@", error);
+    [coordinator.view removeFromSuperview];
+    
+    if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
+        
+        NSString *errorDesc = [error localizedDescription];
+
+        //detect: ip restricted or invalid login hours
+        NSRange found = [errorDesc rangeOfString:@"ip restricted or invalid login hours"];
+        if (found.location != NSNotFound) {
+            _networkStatusAlert = [[UIAlertView alloc] initWithTitle:@"VPN Inactive" 
+                                                             message:@"In order to use this application you must be connected to the Salesforce.com internal network using VPN." 
+                                                            delegate:nil 
+                                                   cancelButtonTitle:nil 
+                                                   otherButtonTitles:nil 
+                                   ];
+            [_networkStatusAlert show];
+        } else {
+            //restart the login process asynchronously
+            NSLog(@"Logging out because oauth failed with error code: %d",error.code);
+            [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+        }
+    }
+    else {
+        // show alert and retry
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
+                                                        message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
+                                                       delegate:self
+                                              cancelButtonTitle:@"Retry"
+                                              otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    }
+}
+
 
 
 #pragma mark - Remote Access / OAuth configuration
