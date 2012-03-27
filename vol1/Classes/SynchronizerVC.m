@@ -80,7 +80,7 @@
 
 - (void)synchronizerDone:(DataModelSynchronizer*)synchronizer anyError:(NSError*)error
 {
-    ActivitiesOverviewListVC *eventListVC = [[ActivitiesOverviewListVC alloc] initWithNibName:@"EventsListVC" bundle:nil];
+    ActivitiesOverviewListVC *eventListVC = [[ActivitiesOverviewListVC alloc] initWithNibName:@"ActivitiesOverviewListVC" bundle:nil];
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:eventListVC];
     [eventListVC release];
     
