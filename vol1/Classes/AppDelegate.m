@@ -86,14 +86,13 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
         }
     }
     else {
-        // show alert and retry
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
+        // show alert 
+        _networkStatusAlert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
                                                         message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
                                                        delegate:self
                                               cancelButtonTitle:@"Retry"
                                               otherButtonTitles: nil];
-        [alert show];
-        [alert release];
+        [_networkStatusAlert show];
     }
 }
 
@@ -125,7 +124,7 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
 }
 
 - (UIViewController*)newRootViewController {
-    SynchronizerVC *rootVC = [[SynchronizerVC alloc] initWithNibName:@"SynchronizerVC" bundle:nil];    
+    SynchronizerVC *rootVC = [[SynchronizerVC alloc] init];    
     return rootVC;
 }
 

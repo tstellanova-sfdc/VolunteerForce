@@ -26,6 +26,7 @@ enum {
     kActionSheetButtonIndexClone  = 1,
     kActionSheetButtonIndexEmail   = 2,
     kActionSheetButtonIndexReChatter = 3,
+    kActionSheetButtonIndexDirections = 4,
 
     kActionSheetButtonCount
 
@@ -109,9 +110,10 @@ enum {
     NSMutableString *sb = [NSMutableString stringWithString:@""];
     NSString *street = [dict valueForKey:@"Street__c"];
     NSString *city = [dict valueForKey:@"City__c"];
-//    NSString *country = [dict valueForKey:@"Country__c"];
     NSString *state = [dict valueForKey:@"State_Province__c"];
 //    NSString *postal = [dict valueForKey:@"Zip_Postal_Code__c"];
+//    //    NSString *country = [dict valueForKey:@"Country__c"];
+
 
     if ((nil != street) && ![[NSNull null] isEqual:street])
         [sb appendFormat:@"%@",street];
@@ -134,13 +136,11 @@ enum {
 - (void)updateFromModel {
     [self.titleView setText:[self.activityModel objectForKey:@"Name"]];
     
-    
     NSString *activityDateTimeStr = [self.activityModel objectForKey:kVolunteerActivity_DateTimeField];
     NSDate *realDate = [[[AppDelegate sharedInstance] dataModel] dateFromDateTimeString:activityDateTimeStr];
 
-    
     NSDateFormatter *displayFmt = [[NSDateFormatter alloc] init];
-    [displayFmt setDateFormat:@"EEEE MMM d, h:mma zzz"];
+    [displayFmt setDateFormat:@"EEE MMM d, YYYY h:mma zzz"];
     NSString *displayDateTime = [displayFmt  stringFromDate:realDate];
     [displayFmt release];
     
@@ -289,6 +289,18 @@ enum {
     [cloneVC release];
 }
 
+- (void)doOpenMapDirections {
+    NSString *rawAddress = _addressView.text;
+    NSString *escapedAddress = [rawAddress stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *urlStr = [NSString stringWithFormat:
+                         @"http://maps.google.com/maps?saddr=Current%20Location&daddr=%@",
+                         escapedAddress];
+    NSURL *url = [NSURL URLWithString:urlStr];
+    
+    [[UIApplication sharedApplication] openURL:url];
+
+}
+
 - (IBAction)checkinButtonClicked:(id)sender
 {
     [self doCheckin];
@@ -306,8 +318,9 @@ enum {
                                    otherButtonTitles:
                                     @"Check-In", 
                                     @"Clone", 
-                                    @"email",
-                                    @"Post to Chatter", 
+                                    @"Email",
+                                    @"Post to Chatter",
+                                    @"Get Directions",
                                    nil
                                    ] autorelease];
     
@@ -318,7 +331,7 @@ enum {
 {
     switch (buttonIndex) {
 
-        case   kActionSheetButtonIndexCheckIn:
+        case kActionSheetButtonIndexCheckIn:
             [self doCheckin];
             break;
             
@@ -332,6 +345,10 @@ enum {
             
         case kActionSheetButtonIndexReChatter:
             [self doReChatter];
+            break;
+            
+        case kActionSheetButtonIndexDirections:
+            [self doOpenMapDirections];
             break;
     }
 }

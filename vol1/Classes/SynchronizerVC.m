@@ -25,6 +25,11 @@
 @synthesize statusView = _statusView;
 
 
+- (id)init {
+    self = [self initWithNibName:@"SynchronizerVC" bundle:nil];
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -33,7 +38,6 @@
         _syncro = [[DataModelSynchronizer alloc] init];
         [_syncro setDelegate:self];
         [_syncro start];
-        
     }
     return self;
 }
