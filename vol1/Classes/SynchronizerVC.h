@@ -9,14 +9,13 @@
 #import <UIKit/UIKit.h>
 
 
-#import "SFRestAPI.h"
 
+#import "DataModelSynchronizer.h"
 
+@interface SynchronizerVC : UIViewController <DataModelSynchronizerDelegate> {
 
-@interface SynchronizerVC : UIViewController <SFRestDelegate> {
-    SFRestRequest *_recentActivitiesReq;
-    SFRestRequest *_describeActivityReq;
-    SFRestRequest *_myParticipationReq;
+    DataModelSynchronizer *_syncro;
+    
     UIProgressView *_progressView;
     UILabel *_statusView;
 }

@@ -11,15 +11,13 @@
 #import "AppDataModel.h"
 #import "AppDelegate.h"
 #import "ActivitiesOverviewListVC.h"
+
+#import "DataModelSynchronizer.h"
 #import "SFRestAPI.h"
 #import "SFRestRequest.h"
 
 
-@interface SynchronizerVC (Private)
 
-- (void)nextSyncStep;
-
-@end
 
 @implementation SynchronizerVC
 
@@ -32,9 +30,19 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        _syncro = [[DataModelSynchronizer alloc] init];
+        [_syncro setDelegate:self];
+        [_syncro start];
+        
     }
     return self;
 }
+
+- (void)dealloc {
+    [_syncro release]; _syncro = nil;
+    
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -51,8 +59,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [self nextSyncStep];
-
+    
 }
 
 - (void)viewDidUnload
@@ -69,123 +76,27 @@
 }
 
 
-#pragma mark - Request building
+#pragma mark - DataModelSynchronizerDelegate
 
-- (void)sendDescribeActivityRequest {
-    _describeActivityReq = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:kVolunteerActivityType];
-    [[SFRestAPI sharedInstance] send:_describeActivityReq delegate:self];
-}
-
-- (void)sendRecentActivitiesRequest {
-    _recentActivitiesReq = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:kVolunteerActivityType];
-    [[SFRestAPI sharedInstance] send:_recentActivitiesReq delegate:self];
-}
-
-- (void)sendMyParticpantsRequest {
+- (void)synchronizerDone:(DataModelSynchronizer*)synchronizer anyError:(NSError*)error
+{
+    ActivitiesOverviewListVC *eventListVC = [[ActivitiesOverviewListVC alloc] initWithNibName:@"EventsListVC" bundle:nil];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:eventListVC];
+    [eventListVC release];
     
-    SFOAuthCredentials *myCreds = [[[SFRestAPI sharedInstance] coordinator] credentials];
-    NSString *myUserId = myCreds.userId;
-    
-    NSString *soql = [NSString stringWithFormat:
-                      @"SELECT Volunteer_Activity__r.Id, Volunteer_Activity__r.Name, Volunteer_Activity__r.Account__r.Name "
-                      "FROM Volunteer_Activity_Participant__c "
-                      "WHERE User__c = '%@' ",
-                      myUserId];
-    
-    _myParticipationReq = [[SFRestAPI sharedInstance] requestForQuery:soql];
-    [[SFRestAPI sharedInstance] send:_myParticipationReq delegate:self];
-}
-
-#pragma mark - Response handling
-
-- (void)handleRecentActivitiesResponse:(id)jsonResponse {
-    NSArray *records = [jsonResponse objectForKey:@"recentItems"];
-    NSLog(@"handleRecentActivitiesResponse #records: %d", records.count);
-    
-    AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
-    [dataModel updateRecentVolunteerActivities:records];
-
-    [self nextSyncStep];
-}
-
-- (void)handleDescribeActivityResponse:(id)jsonResponse {
-    AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
-    dataModel.Volunteer_Activity__c = jsonResponse;
-    [self nextSyncStep];
-}
-
-- (void)handleParticipationResponse:(id)jsonResponse {
-    NSArray *records = [jsonResponse objectForKey:@"records"];
-    NSLog(@"handleParticipationResponse #records: %d", records.count);
-
-    
-    AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
-    [dataModel addMyParticpantRecords:records];
-
-    [self nextSyncStep];
-}
-
-#pragma mark - SFRestAPIDelegate
-
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
-    if ([request isEqual:_recentActivitiesReq]) {
-        [self handleRecentActivitiesResponse:jsonResponse];
-    } else if ([request isEqual:_describeActivityReq]) {
-        [self handleDescribeActivityResponse:jsonResponse];
-    } else if ([_myParticipationReq isEqual:request]) {
-        [self handleParticipationResponse:jsonResponse];
-    }
+    //swap in the new root view controller
+    AppDelegate *app = [AppDelegate sharedInstance];
+    app.viewController = navVC;
+    [navVC release];
+    app.window.rootViewController = navVC;
 }
 
 
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    NSLog(@"request:didFailLoadWithError: %@", error);
-    //add your failed error handling here
+- (void)synchronizer:(DataModelSynchronizer*)synchronizer statusUpdate:(NSString*)status progressPercent:(float)progress
+{
+    [self.statusView setText:status];
+    [self.progressView setProgress:progress];
 }
 
-- (void)requestDidCancelLoad:(SFRestRequest *)request {
-    NSLog(@"requestDidCancelLoad: %@", request);
-    //add your failed error handling here
-}
-
-- (void)requestDidTimeout:(SFRestRequest *)request {
-    NSLog(@"requestDidTimeout: %@", request);
-    //add your failed error handling here
-}
-
-- (void)nextSyncStep {
-    AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
-    if (nil == dataModel.Volunteer_Activity__c) {
-        //need to request a describe for Volunteer_Activity__c
-        [self.statusView setText:@"Describing Volunteer_Activity__c..."];
-        [self.progressView setProgress:0.10];
-        
-        [self sendDescribeActivityRequest];
-    } else if (nil == dataModel.recentVolunteerActivities) {
-        [self.statusView setText:@"Loading recents..."];
-        [self.progressView setProgress:0.25];
-        
-        [self sendRecentActivitiesRequest];
-    } else if (nil == dataModel.myVolunteerActivities) {
-        [self.statusView setText:@"Loading participations..."];
-        [self.progressView setProgress:0.40];
-        
-        [self sendMyParticpantsRequest];
-    } else {
-        // done! continue
-        [self.statusView setText:@"Done syncing!"];
-        [self.progressView setProgress:0.95];
-        ActivitiesOverviewListVC *eventListVC = [[ActivitiesOverviewListVC alloc] initWithNibName:@"EventsListVC" bundle:nil];
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:eventListVC];
-        [eventListVC release];
-        
-        //swap in the new root view controller
-        AppDelegate *app = [AppDelegate sharedInstance];
-        app.viewController = navVC;
-        [navVC release];
-        app.window.rootViewController = navVC;
-
-    }
-}
 
 @end
