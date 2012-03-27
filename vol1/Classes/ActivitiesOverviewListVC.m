@@ -121,7 +121,7 @@ enum {
             return @"Recent Activities";
             
         case ETableSection_MyActivities:
-            return @"My Participations";
+            return @"My Participation";
             
         default:
             return 0;
