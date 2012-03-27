@@ -23,10 +23,10 @@
 
 enum {
     kActionSheetButtonIndexCheckIn = 0,
-    kActionSheetButtonIndexClone  = 1,
-    kActionSheetButtonIndexEmail   = 2,
-    kActionSheetButtonIndexReChatter = 3,
-    kActionSheetButtonIndexDirections = 4,
+    kActionSheetButtonIndexClone ,
+    kActionSheetButtonIndexReChatter,
+    kActionSheetButtonIndexDirections,
+    kActionSheetButtonIndexEmail,
 
     kActionSheetButtonCount
 
@@ -293,9 +293,10 @@ enum {
     NSString *rawAddress = _addressView.text;
     NSString *escapedAddress = [rawAddress stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *urlStr = [NSString stringWithFormat:
-                         @"http://maps.google.com/maps?saddr=Current%20Location&daddr=%@",
+                         @"http://maps.google.com/maps?saddr=Current%%20Location&daddr=%@",
                          escapedAddress];
     NSURL *url = [NSURL URLWithString:urlStr];
+    
     
     [[UIApplication sharedApplication] openURL:url];
 
@@ -310,6 +311,9 @@ enum {
 // alert sheet that lets the user choose what they'd like to do.
 - (IBAction)actionAction:(id)sender
 {
+    BOOL canShowMaps = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"http://maps.google.com/maps"]];
+    BOOL canSendEmail = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"mailto:todd@rawthought.com"]];
+
     UIActionSheet *actionSheet = [[[UIActionSheet alloc] 
                                    initWithTitle:nil 
                                    delegate:self 
@@ -318,9 +322,9 @@ enum {
                                    otherButtonTitles:
                                     @"Check-In", 
                                     @"Clone", 
-                                    @"Email",
-                                    @"Post to Chatter",
-                                    @"Get Directions",
+                                   @"Post to Chatter",
+                                   canShowMaps ? @"Get Directions" : nil, //note: this will terminate the list of actions early
+                                   canSendEmail ? @"Email" : nil, //note: this will terminate the list of actions early
                                    nil
                                    ] autorelease];
     
@@ -339,16 +343,16 @@ enum {
             [self doCloneActivity];
             break;
             
-        case kActionSheetButtonIndexEmail:
-            [self doEmailActivity];
-            break;
-            
         case kActionSheetButtonIndexReChatter:
             [self doReChatter];
             break;
             
         case kActionSheetButtonIndexDirections:
             [self doOpenMapDirections];
+            break;
+            
+        case kActionSheetButtonIndexEmail:
+            [self doEmailActivity];
             break;
     }
 }

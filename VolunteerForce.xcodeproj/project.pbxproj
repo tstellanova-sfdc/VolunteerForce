@@ -46,7 +46,6 @@
 		7DBCE2DC151A443900456AA2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2DB151A443900456AA2 /* Default.png */; };
 		7DBCE2DE151A443900456AA2 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2DD151A443900456AA2 /* Default@2x.png */; };
 		7DBCE2E0151A443900456AA2 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2DF151A443900456AA2 /* Default~iPad.png */; };
-		7DBCE2E2151A443900456AA2 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2E1151A443900456AA2 /* readme.txt */; };
 		7DBCE2E6151A443900456AA2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBCE2E5151A443900456AA2 /* AppDelegate.m */; };
 		7DBCE2ED151A443900456AA2 /* SFAuthorizingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBCE2EC151A443900456AA2 /* SFAuthorizingViewController.m */; };
 		7DBCE2EF151A443900456AA2 /* SFAuthorizingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2EE151A443900456AA2 /* SFAuthorizingViewController.xib */; };
@@ -59,6 +58,10 @@
 		7DBCE309151A4B5300456AA2 /* ActivitiesOverviewListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE307151A4B5300456AA2 /* ActivitiesOverviewListVC.xib */; };
 		7DC04EFC151CFC140051E852 /* ActivityCloneInputVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC04EFA151CFC140051E852 /* ActivityCloneInputVC.m */; };
 		7DC04EFD151CFC140051E852 /* ActivityCloneInputVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DC04EFB151CFC140051E852 /* ActivityCloneInputVC.xib */; };
+		7DF3BA821522435400A5B13A /* Authorizing.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF3BA801522435400A5B13A /* Authorizing.png */; };
+		7DF3BA831522435400A5B13A /* Authorizing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF3BA811522435400A5B13A /* Authorizing@2x.png */; };
+		7DF3BA87152243B100A5B13A /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF3BA85152243B100A5B13A /* heart.png */; };
+		7DF3BA88152243B100A5B13A /* heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF3BA86152243B100A5B13A /* heart@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -196,7 +199,6 @@
 		7DBCE2DB151A443900456AA2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
 		7DBCE2DD151A443900456AA2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
 		7DBCE2DF151A443900456AA2 /* Default~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~iPad.png"; path = "Resources/splash/Default~iPad.png"; sourceTree = "<group>"; };
-		7DBCE2E1151A443900456AA2 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		7DBCE2E4151A443900456AA2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		7DBCE2E5151A443900456AA2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		7DBCE2EB151A443900456AA2 /* SFAuthorizingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFAuthorizingViewController.h; path = NativeRestApp/SFAuthorizingViewController.h; sourceTree = "<group>"; };
@@ -215,6 +217,10 @@
 		7DC04EF9151CFC140051E852 /* ActivityCloneInputVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityCloneInputVC.h; path = Classes/ActivityCloneInputVC.h; sourceTree = "<group>"; };
 		7DC04EFA151CFC140051E852 /* ActivityCloneInputVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityCloneInputVC.m; path = Classes/ActivityCloneInputVC.m; sourceTree = "<group>"; };
 		7DC04EFB151CFC140051E852 /* ActivityCloneInputVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivityCloneInputVC.xib; path = Classes/ActivityCloneInputVC.xib; sourceTree = "<group>"; };
+		7DF3BA801522435400A5B13A /* Authorizing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Authorizing.png; path = Resources/splash/Authorizing.png; sourceTree = "<group>"; };
+		7DF3BA811522435400A5B13A /* Authorizing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Authorizing@2x.png"; path = "Resources/splash/Authorizing@2x.png"; sourceTree = "<group>"; };
+		7DF3BA85152243B100A5B13A /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = heart.png; path = Resources/icons/heart.png; sourceTree = "<group>"; };
+		7DF3BA86152243B100A5B13A /* heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "heart@2x.png"; path = "Resources/icons/heart@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,7 +308,6 @@
 		7DBCE260151A443800456AA2 /* vol1 */ = {
 			isa = PBXGroup;
 			children = (
-				7DBCE2E1151A443900456AA2 /* readme.txt */,
 				7DBCE2F7151A443A00456AA2 /* Settings.bundle */,
 				7DBCE26A151A443800456AA2 /* dependencies */,
 				7DBCE2CE151A443900456AA2 /* Resources */,
@@ -486,6 +491,8 @@
 		7DBCE2CF151A443900456AA2 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				7DF3BA85152243B100A5B13A /* heart.png */,
+				7DF3BA86152243B100A5B13A /* heart@2x.png */,
 				7D5F9B64151AA96200DC9B97 /* tiny-map@2x.png */,
 				7D5F9B65151AA96200DC9B97 /* tiny-map.png */,
 				7DBCE2D0151A443900456AA2 /* icon-72.png */,
@@ -498,6 +505,8 @@
 		7DBCE2D6151A443900456AA2 /* splash */ = {
 			isa = PBXGroup;
 			children = (
+				7DF3BA801522435400A5B13A /* Authorizing.png */,
+				7DF3BA811522435400A5B13A /* Authorizing@2x.png */,
 				7DBCE2D7151A443900456AA2 /* Default-Landscape~ipad.png */,
 				7DBCE2D9151A443900456AA2 /* Default-Portrait~ipad.png */,
 				7DBCE2DB151A443900456AA2 /* Default.png */,
@@ -618,7 +627,6 @@
 				7DBCE2DC151A443900456AA2 /* Default.png in Resources */,
 				7DBCE2DE151A443900456AA2 /* Default@2x.png in Resources */,
 				7DBCE2E0151A443900456AA2 /* Default~iPad.png in Resources */,
-				7DBCE2E2151A443900456AA2 /* readme.txt in Resources */,
 				7DBCE2EF151A443900456AA2 /* SFAuthorizingViewController.xib in Resources */,
 				7DBCE2F8151A443A00456AA2 /* Settings.bundle in Resources */,
 				7DBCE304151A4AAE00456AA2 /* SynchronizerVC.xib in Resources */,
@@ -629,6 +637,10 @@
 				7D5F9B6C151AAA8600DC9B97 /* ActivityCheckinVC.xib in Resources */,
 				7D2D1B61151B9BF100F88452 /* ModalNetworkActionVC.xib in Resources */,
 				7DC04EFD151CFC140051E852 /* ActivityCloneInputVC.xib in Resources */,
+				7DF3BA821522435400A5B13A /* Authorizing.png in Resources */,
+				7DF3BA831522435400A5B13A /* Authorizing@2x.png in Resources */,
+				7DF3BA87152243B100A5B13A /* heart.png in Resources */,
+				7DF3BA88152243B100A5B13A /* heart@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

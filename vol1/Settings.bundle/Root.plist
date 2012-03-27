@@ -50,7 +50,7 @@
 				<string>CUSTOM</string>
 			</array>
 		</dict>
-			<dict>
+		<dict>
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 			<key>Title</key>
@@ -60,7 +60,6 @@
 			<key>KeyboardType</key>
 			<string>URL</string>
 		</dict>
-	
 		<dict>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
@@ -83,6 +82,24 @@
 			<key>Values</key>
 			<array>
 				<string>VERSION</string>
+			</array>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<string>Todd Stellanova</string>
+			<key>Key</key>
+			<string>AUTHOR_INFO_LABEL</string>
+			<key>Title</key>
+			<string>AUTHOR_TITLE</string>
+			<key>Titles</key>
+			<array>
+				<string>Todd Stellanova</string>
+			</array>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Values</key>
+			<array>
+				<string>Todd Stellanova</string>
 			</array>
 		</dict>
 	</array>

@@ -39,6 +39,8 @@
 /* Label for: retrieve this many items */
 "GROUP_TITLE_APPLICATION_INFO"="Application Information";
 "VERSION_TITLE"="Version";
+"AUTHOR_TITLE"="Author";
+
 // ENDSECTION //
 
 
