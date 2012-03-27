@@ -103,21 +103,23 @@
     
     NSString *activitySuffix = [NSString stringWithFormat:@"\"%@\" for \"%@\"",activityName,acctName];
     
-    NSString *linkUrl = [NSString stringWithFormat:@"%@/%@",myCreds.instanceUrl,activityId];
-    
+    NSString *orgActivityUrl = [NSString stringWithFormat:@"%@/%@",myCreds.instanceUrl,activityId];
+    NSString *signupUrl = [NSString stringWithFormat:@"salesforce.volunteer:///activityDetail/%@",activityId];
+
     NSString *html = [NSString stringWithFormat:
-                      @"<html><p>"
-                      "I'm volunteering at %@ --"
-                      "<a href=\"%@\">Join me!</a>"
-                      "</p></html",
-                      activitySuffix,linkUrl];
+                      @"<html>"
+                      "<p>I'm volunteering at:<br/> <a href=\"%@\">%@</a></p>"
+                      "<p>Use VolunteerForce for iOS to <a href=\"%@\">Join Me!</a></p>"
+                      "</html",
+                      orgActivityUrl, activitySuffix,
+                      signupUrl];
     
 
     
 	// Attach an image to the email
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"icon" ofType:@"png"];
     NSData *myData = [NSData dataWithContentsOfFile:path];
-	[picker addAttachmentData:myData mimeType:@"image/png" fileName:@"volunteerIcon"];
+	[picker addAttachmentData:myData mimeType:@"image/png" fileName:@"volunteerIcon.png"];
 	
 	// Fill out the email body text
 	[picker setMessageBody:html isHTML:YES];

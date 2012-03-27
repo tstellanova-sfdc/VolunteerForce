@@ -84,15 +84,7 @@
 
 - (void)synchronizerDone:(DataModelSynchronizer*)synchronizer anyError:(NSError*)error
 {
-    ActivitiesOverviewListVC *eventListVC = [[ActivitiesOverviewListVC alloc] initWithNibName:@"ActivitiesOverviewListVC" bundle:nil];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:eventListVC];
-    [eventListVC release];
-    
-    //swap in the new root view controller
-    AppDelegate *app = [AppDelegate sharedInstance];
-    app.viewController = navVC;
-    [navVC release];
-    app.window.rootViewController = navVC;
+    [[AppDelegate sharedInstance] showHomeViewController];
 }
 
 

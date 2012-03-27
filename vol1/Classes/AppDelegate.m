@@ -23,7 +23,10 @@
  */
 
 #import "AppDelegate.h"
+
+#import "ActivitiesOverviewListVC.h"
 #import "AppDataModel.h"
+#import "ActivityDetailVC.h"
 #import "RootViewController.h"
 #import "SynchronizerVC.h"
 /*
@@ -98,6 +101,36 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
 
 
 
+
+- (BOOL)handleOpenURLRequest:(NSURL*)url
+{
+    //we currently only handle urls of the form:
+    //salesforce.volunteer:///activityDetail/activityId
+
+    NSArray *pathComps = [url pathComponents];
+    NSString *cmd = [pathComps objectAtIndex:1];
+    if ([cmd isEqualToString:@"activityDetail"]) {
+        NSString *activityId = [pathComps objectAtIndex:2];
+        UINavigationController *nav = (UINavigationController*)self.viewController;
+        [nav popToRootViewControllerAnimated:NO];
+        ActivityDetailVC *detailVC = [[ActivityDetailVC alloc] initWithActivityId:activityId];
+        [nav pushViewController:detailVC animated:YES];
+        [detailVC release];
+        return YES;
+    }
+    
+    return NO;
+}
+
+
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [self handleOpenURLRequest:url];
+}
+
+
+
 #pragma mark - Remote Access / OAuth configuration
 
 
@@ -120,12 +153,36 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     _dataModel = [[AppDataModel alloc] init]; 
+    
+    NSURL *launchUrl = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
+    if (nil != launchUrl) {
+        _deferredLaunchUrl = [launchUrl copy];
+    } 
+    
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (UIViewController*)newRootViewController {
     SynchronizerVC *rootVC = [[SynchronizerVC alloc] init];    
     return rootVC;
+}
+
+
+- (void)showHomeViewController
+{
+    ActivitiesOverviewListVC *eventListVC = [[ActivitiesOverviewListVC alloc] init];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:eventListVC];
+    [eventListVC release];
+    
+    //swap in the new root view controller
+    self.viewController = navVC;
+    [navVC release];
+    self.window.rootViewController = navVC;
+    
+    if (nil != _deferredLaunchUrl) {
+        [self handleOpenURLRequest:_deferredLaunchUrl];
+        [_deferredLaunchUrl release]; _deferredLaunchUrl = nil;
+    }
 }
 
 

@@ -30,11 +30,15 @@
 @interface AppDelegate : SFNativeRestAppDelegate  {
     AppDataModel *_dataModel;
     UIAlertView *_networkStatusAlert;
+    NSURL *_deferredLaunchUrl;
+    
 }
 
 @property (nonatomic, strong, readonly) AppDataModel *dataModel;
 
 + (AppDelegate*)sharedInstance;
+
+- (void)showHomeViewController;
 
 @end
 
