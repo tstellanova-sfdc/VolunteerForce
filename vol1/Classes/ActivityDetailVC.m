@@ -48,7 +48,7 @@ enum {
     if (self) {
         self.title = @"Activity";
         self.activityId = activityId;
-        _locationGeocoder = [[CLGeocoder alloc] init] ;
+        _locationGeocoder = [[CLGeocoder alloc] init];
         _mapAnnotator = [[SFMapAnnotator alloc] init];
 
         AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
@@ -100,8 +100,10 @@ enum {
 }
 
 - (void)dealloc {
+    [self.locationMap setDelegate:nil];
     [_locationGeocoder release]; _locationGeocoder = nil;
     [_mapAnnotator release]; _mapAnnotator = nil;
+    
     [super dealloc];
 }
 
