@@ -51,8 +51,6 @@
 		7DBCE2F2151A443900456AA2 /* SFNativeRestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBCE2F1151A443900456AA2 /* SFNativeRestAppDelegate.m */; };
 		7DBCE2F4151A443900456AA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE2F3151A443900456AA2 /* libxml2.dylib */; };
 		7DBCE2F8151A443A00456AA2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2F7151A443A00456AA2 /* Settings.bundle */; };
-		7DBCE303151A4AAE00456AA2 /* SynchronizerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBCE301151A4AAE00456AA2 /* SynchronizerVC.m */; };
-		7DBCE304151A4AAE00456AA2 /* SynchronizerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE302151A4AAE00456AA2 /* SynchronizerVC.xib */; };
 		7DBCE308151A4B5300456AA2 /* ActivitiesOverviewListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBCE306151A4B5300456AA2 /* ActivitiesOverviewListVC.m */; };
 		7DBCE309151A4B5300456AA2 /* ActivitiesOverviewListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE307151A4B5300456AA2 /* ActivitiesOverviewListVC.xib */; };
 		7DC04EFC151CFC140051E852 /* ActivityCloneInputVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC04EFA151CFC140051E852 /* ActivityCloneInputVC.m */; };
@@ -206,9 +204,6 @@
 		7DBCE2F1151A443900456AA2 /* SFNativeRestAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFNativeRestAppDelegate.m; path = NativeRestApp/SFNativeRestAppDelegate.m; sourceTree = "<group>"; };
 		7DBCE2F3151A443900456AA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		7DBCE2F7151A443A00456AA2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		7DBCE300151A4AAE00456AA2 /* SynchronizerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynchronizerVC.h; path = Classes/SynchronizerVC.h; sourceTree = "<group>"; };
-		7DBCE301151A4AAE00456AA2 /* SynchronizerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SynchronizerVC.m; path = Classes/SynchronizerVC.m; sourceTree = "<group>"; };
-		7DBCE302151A4AAE00456AA2 /* SynchronizerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SynchronizerVC.xib; path = Classes/SynchronizerVC.xib; sourceTree = "<group>"; };
 		7DBCE305151A4B5300456AA2 /* ActivitiesOverviewListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivitiesOverviewListVC.h; path = Classes/ActivitiesOverviewListVC.h; sourceTree = "<group>"; };
 		7DBCE306151A4B5300456AA2 /* ActivitiesOverviewListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivitiesOverviewListVC.m; path = Classes/ActivitiesOverviewListVC.m; sourceTree = "<group>"; };
 		7DBCE307151A4B5300456AA2 /* ActivitiesOverviewListVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivitiesOverviewListVC.xib; path = Classes/ActivitiesOverviewListVC.xib; sourceTree = "<group>"; };
@@ -520,9 +515,6 @@
 				7D2D1B7D151BD3A400F88452 /* MailComposerViewController.h */,
 				7DBCE2E4151A443900456AA2 /* AppDelegate.h */,
 				7DBCE2E5151A443900456AA2 /* AppDelegate.m */,
-				7DBCE300151A4AAE00456AA2 /* SynchronizerVC.h */,
-				7DBCE301151A4AAE00456AA2 /* SynchronizerVC.m */,
-				7DBCE302151A4AAE00456AA2 /* SynchronizerVC.xib */,
 				7DBCE305151A4B5300456AA2 /* ActivitiesOverviewListVC.h */,
 				7DBCE306151A4B5300456AA2 /* ActivitiesOverviewListVC.m */,
 				7DBCE307151A4B5300456AA2 /* ActivitiesOverviewListVC.xib */,
@@ -625,7 +617,6 @@
 				7DBCE2DE151A443900456AA2 /* Default@2x.png in Resources */,
 				7DBCE2EF151A443900456AA2 /* SFAuthorizingViewController.xib in Resources */,
 				7DBCE2F8151A443A00456AA2 /* Settings.bundle in Resources */,
-				7DBCE304151A4AAE00456AA2 /* SynchronizerVC.xib in Resources */,
 				7DBCE309151A4B5300456AA2 /* ActivitiesOverviewListVC.xib in Resources */,
 				7D5F99D4151A6C3500DC9B97 /* ActivityDetailVC.xib in Resources */,
 				7D5F9B66151AA96200DC9B97 /* tiny-map@2x.png in Resources */,
@@ -651,7 +642,6 @@
 				7DBCE2E6151A443900456AA2 /* AppDelegate.m in Sources */,
 				7DBCE2ED151A443900456AA2 /* SFAuthorizingViewController.m in Sources */,
 				7DBCE2F2151A443900456AA2 /* SFNativeRestAppDelegate.m in Sources */,
-				7DBCE303151A4AAE00456AA2 /* SynchronizerVC.m in Sources */,
 				7DBCE308151A4B5300456AA2 /* ActivitiesOverviewListVC.m in Sources */,
 				7D5F99CF151A5E7400DC9B97 /* AppDataModel.m in Sources */,
 				7D5F99D3151A6C3500DC9B97 /* ActivityDetailVC.m in Sources */,

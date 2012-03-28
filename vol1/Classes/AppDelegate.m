@@ -28,7 +28,7 @@
 #import "AppDataModel.h"
 #import "ActivityDetailVC.h"
 #import "RootViewController.h"
-#import "SynchronizerVC.h"
+
 /*
  NOTE if you ever need to update these, you can obtain them from your Salesforce org,
  (When you are logged in as an org administrator, go to Setup -> Develop -> Remote Access -> New )
