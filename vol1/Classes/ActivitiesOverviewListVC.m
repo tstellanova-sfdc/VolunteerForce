@@ -23,6 +23,7 @@ enum {
 @implementation ActivitiesOverviewListVC
 
 @synthesize tableView = _tableView;
+@synthesize searchFilterText = _searchFilterText;
 
 - (id)init {
     self = [self initWithNibName:@"ActivitiesOverviewListVC" bundle:nil];
@@ -37,6 +38,8 @@ enum {
         AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
         NSString *label =  [dataModel.Volunteer_Activity__c objectForKey:@"label"];
         self.title = label;
+        _filteredRecentActivities = [[NSMutableArray alloc] init];
+        _filteredMyActivities = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -44,6 +47,8 @@ enum {
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [_filteredRecentActivities release]; _filteredRecentActivities = nil;
+    [_filteredMyActivities release]; _filteredMyActivities = nil;
     [super dealloc];
 }
 
@@ -56,23 +61,24 @@ enum {
 }
 
 
-
 - (void)handleModelUpdateNotification:(NSNotification*)notice
 {
     [self.tableView reloadData];
 }
 
+
 #pragma mark - DataModelSynchronizerDelegate
+
 - (void)synchronizerDone:(DataModelSynchronizer*)synchronizer anyError:(NSError*)error
 {
     [self.tableView reloadData];
     
+    //register for any asynchronous model udpates that come after we've loaded a fresh set
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(handleModelUpdateNotification:) 
                                                  name:kAppDataModel_ModelUpdatedNotice 
                                                object:nil
      ];
-
 }
 
 
@@ -128,44 +134,64 @@ enum {
 {
     switch (section) {
         case ETableSection_Recents:
-            return @"Recent Activities";
+            return @"Recent Activities";//TODO localize
             
         case ETableSection_MyActivities:
-            return @"My Participation";
+            return @"My Participation";//TODO localize
             
         default:
             return 0;
     } 
 }
 
+- (NSInteger)numberOfRowsInSearchFilteredSection:(NSInteger)section {
+    NSInteger rowCount = 0;
+        
+    switch (section) {
+        case ETableSection_Recents:
+            rowCount = [_filteredRecentActivities count];
+            break;
+            
+        case ETableSection_MyActivities:
+            rowCount = [_filteredMyActivities count];
+            break;
+    }
+        
+    return rowCount;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     NSInteger rowCount = 0;
-    
-    switch (section) {
-        case ETableSection_Recents:
-            rowCount = [self.recentActivities count];
-            if ( 0 == rowCount) {
-                rowCount = 1;
-            }
-            return rowCount;
-            
-        case ETableSection_MyActivities:
-            rowCount = [self.myActivities count];
-            if ( 0 == rowCount) {
-                rowCount = 1;
-            }
-            return rowCount;
-            
-        default:
-            return 0;
-    }
 
-        
+//    If the requesting table view is the search display controller's table view, return the count of
+//    the filtered list, otherwise return the count of the main list.
+	if (tableView == self.searchDisplayController.searchResultsTableView) {
+        rowCount = [self numberOfRowsInSearchFilteredSection:section];
+    } else {
+        switch (section) {
+            case ETableSection_Recents:
+                rowCount = [self.recentActivities count];
+                if ( 0 == rowCount) {
+                    rowCount = 1;
+                }
+                break;
+                
+            case ETableSection_MyActivities:
+                rowCount = [self.myActivities count];
+                if ( 0 == rowCount) {
+                    rowCount = 1;
+                }
+                break;
+        }
+    }
+    
+    return rowCount;
 }
 
 - (NSDictionary *)activityForIndexPath:(NSIndexPath*)indexPath {
     
+    NSDictionary *result = nil;
     NSInteger row = [indexPath row];
     NSArray *allRows = nil;
     
@@ -173,22 +199,23 @@ enum {
         case ETableSection_Recents:
             allRows = self.recentActivities;
             if (row < [allRows count]) {
-                return [allRows objectAtIndex:row];
-            } else {
-                return nil;
+                result = [allRows objectAtIndex:row];
             }
+            break;
             
         case ETableSection_MyActivities:
             allRows = self.myActivities;
             if (row < [allRows count]) {
-                return [allRows objectAtIndex:row];
-            } else {
-                return nil;
-            }
-        default:
-            return nil;  
+                result = [allRows objectAtIndex:row];
+            } 
+            break;
     }
+    
+    return result;
 }
+
+
+
 
 
 // Customize the appearance of table view cells.
@@ -202,8 +229,28 @@ enum {
                                        reuseIdentifier:CellIdentifier] autorelease];
     }
     
+    //    If the requesting table view is the search display controller's table view, return the count of
+    //    the filtered list, otherwise return the count of the main list.
+	if (aTableView == self.searchDisplayController.searchResultsTableView) {
+        [self inflateCell:cell withFilteredActivityAtIndexPath:indexPath];
+
+    } else {
+        [self inflateCell:cell withActivityAtIndexPath:indexPath];
+    }
+
     
+	return cell;
+}
+
+
+
+- (void)inflateCell:(UITableViewCell*)cell withActivityAtIndexPath:(NSIndexPath*)indexPath {
     NSDictionary *activityModel = [self activityForIndexPath:indexPath];
+    [self inflateCell:cell withActivity:activityModel];
+}
+
+- (void)inflateCell:(UITableViewCell*)cell withActivity:(NSDictionary*)activityModel
+{
     if (nil != activityModel) {
         //if you want to add an image to your cell, here's how
         UIImage *image = [UIImage imageNamed:@"heart.png"];
@@ -215,21 +262,24 @@ enum {
         //this adds the arrow to the right hand side.
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     } else {
-        cell.textLabel.text = @"Loading...";
-    }
-
-    
-    //TODO check whether tableView is searchController.searchResultsTableView.    
-
-    
-	return cell;
+        cell.textLabel.text = @"Loading...";//TODO localize
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.imageView.image = nil;
+    }  
 }
 
-#pragma UITableViewDelegate
+#pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-    NSDictionary *activityModel = [self activityForIndexPath:indexPath];
+    NSDictionary *activityModel = nil;
+
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        activityModel = [self filteredActivityForIndexPath:indexPath];
+    } else {
+        activityModel = [self activityForIndexPath:indexPath];
+    }
+    
     if (nil != activityModel) {
         NSString *activityId = [activityModel objectForKey:@"Id"];
         ActivityDetailVC *detailVC = [[ActivityDetailVC alloc] initWithActivityId:activityId];
@@ -238,6 +288,91 @@ enum {
     }
 }
 
+
+
+#pragma mark - UISearchDisplayDelegate 
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    if (![self.searchFilterText isEqualToString:searchString]) {
+        self.searchFilterText = searchString;
+        return YES;
+    }
+    return NO;
+}
+
+
+- (void)setSearchFilterText:(NSString*)text {
+    if (![_searchFilterText isEqualToString:text]) {
+        [_searchFilterText release];
+        _searchFilterText = [text copy];
+        
+        [_filteredRecentActivities removeAllObjects];
+        [_filteredMyActivities removeAllObjects];
+
+        if (nil != _searchFilterText) {
+            NSArray *allRows = nil;
+
+            allRows = self.recentActivities;
+            for (NSDictionary *activity in allRows) {
+                NSString *name = [activity objectForKey:kVolunteerActivity_NameField];
+                NSRange found = [name rangeOfString:_searchFilterText
+                                            options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)
+                                 ];
+                if (found.location != NSNotFound) {
+                    [_filteredRecentActivities addObject:activity];
+                }
+            }
+            
+            allRows = self.myActivities;
+            for (NSDictionary *activity in allRows) {
+                NSString *name = [activity objectForKey:kVolunteerActivity_NameField];
+                NSRange found = [name rangeOfString:_searchFilterText
+                                            options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)
+                                 ];
+                if (found.location != NSNotFound) {
+                    [_filteredMyActivities addObject:activity];
+                }
+            }
+        }
+        
+    }
+}
+
+
+
+
+- (void)inflateCell:(UITableViewCell*)cell withFilteredActivityAtIndexPath:(NSIndexPath*)indexPath {
+    NSDictionary *activityModel = [self filteredActivityForIndexPath:indexPath];
+    [self inflateCell:cell withActivity:activityModel];
+ 
+}
+
+
+- (NSDictionary *)filteredActivityForIndexPath:(NSIndexPath*)indexPath {
+    
+    NSDictionary *result = nil;
+    NSInteger row = [indexPath row];
+    NSArray *allRows = nil;
+    
+    switch (indexPath.section) {
+        case ETableSection_Recents:
+            allRows = _filteredRecentActivities;
+            if (row < [allRows count]) {
+                result = [allRows objectAtIndex:row];
+            }
+            break;
+            
+        case ETableSection_MyActivities:
+            allRows = _filteredMyActivities;
+            if (row < [allRows count]) {
+                result = [allRows objectAtIndex:row];
+            } 
+            break;
+    }
+    
+    return result;
+}
 
 
 @end
