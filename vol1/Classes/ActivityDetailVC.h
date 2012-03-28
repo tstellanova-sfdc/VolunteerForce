@@ -10,6 +10,7 @@
 
 @class MKMapView;
 @class CLGeocoder;
+@class ModalNetworkActionVC;
 @class SFMapAnnotator;
 
 @interface ActivityDetailVC : UIViewController <UIActionSheetDelegate>{
@@ -20,6 +21,9 @@
     SFMapAnnotator *_mapAnnotator;
     IBOutlet UITextView *_addressView;
     IBOutlet UIButton *_addressButtonView;
+    
+    ModalNetworkActionVC *_networkProgressVC;
+
 }
 
 

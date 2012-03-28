@@ -101,7 +101,7 @@
 - (void)doSendCloneRecord {
     
     [_networkProgressVC release];
-    _networkProgressVC =  [[ModalNetworkActionVC alloc] initWithNibName:@"ModalNetworkActionVC" bundle:nil];
+    _networkProgressVC =  [[ModalNetworkActionVC alloc] init];
     __block ActivityCloneInputVC *me = self;
     __block ModalNetworkActionVC *progVC = _networkProgressVC;
     

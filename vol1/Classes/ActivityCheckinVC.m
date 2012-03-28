@@ -189,7 +189,7 @@
 
 }
 - (IBAction)doneButtonClicked:(id)sender {
-    _networkProgressVC = [[ModalNetworkActionVC alloc] initWithNibName:@"ModalNetworkActionVC" bundle:nil];
+    _networkProgressVC = [[ModalNetworkActionVC alloc] init];
     [_networkProgressVC setTitleText:@"Checking In"];
     [_networkProgressVC setSubtitleText:@"Please wait..."];
     

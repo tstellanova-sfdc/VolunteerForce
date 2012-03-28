@@ -14,6 +14,12 @@
 @synthesize subtitleText;
 @synthesize titleText;
 
+
+- (id)init {
+    self = [self initWithNibName:@"ModalNetworkActionVC" bundle:nil];
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
