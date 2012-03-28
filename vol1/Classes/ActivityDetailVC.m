@@ -344,6 +344,9 @@ enum {
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    if (buttonIndex ==  [actionSheet cancelButtonIndex])
+        return;
+    
     switch (buttonIndex) {
 
         case kActionSheetButtonIndexCheckIn:

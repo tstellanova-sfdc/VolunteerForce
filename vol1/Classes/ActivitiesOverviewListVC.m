@@ -39,6 +39,9 @@ enum {
         // Custom initialization
         AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
         NSString *label =  [dataModel.Volunteer_Activity__c objectForKey:@"label"];
+        if ((nil == label) || [[NSNull null] isEqual:label]) {
+            label = @"Volunteering";
+        }
         self.title = label;
         _filteredRecentActivities = [[NSMutableArray alloc] init];
         _filteredForthcomingActivities  = [[NSMutableArray alloc] init];
@@ -149,7 +152,7 @@ enum {
             return @"My Participation";//TODO localize
             
         case ETableSection_AllForthcoming:
-            return @"All Forthcoming";//TODO localize
+            return @"Forthcoming Activities";//TODO localize
 
         default:
             return 0;
