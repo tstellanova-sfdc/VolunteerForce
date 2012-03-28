@@ -37,9 +37,14 @@ enum {
         AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
         NSString *label =  [dataModel.Volunteer_Activity__c objectForKey:@"label"];
         self.title = label;
-        
     }
     return self;
+}
+
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,10 +56,23 @@ enum {
 }
 
 
+
+- (void)handleModelUpdateNotification:(NSNotification*)notice
+{
+    [self.tableView reloadData];
+}
+
 #pragma mark - DataModelSynchronizerDelegate
 - (void)synchronizerDone:(DataModelSynchronizer*)synchronizer anyError:(NSError*)error
 {
     [self.tableView reloadData];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(handleModelUpdateNotification:) 
+                                                 name:kAppDataModel_ModelUpdatedNotice 
+                                               object:nil
+     ];
+
 }
 
 
@@ -78,6 +96,7 @@ enum {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -211,7 +230,7 @@ enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
     NSDictionary *activityModel = [self activityForIndexPath:indexPath];
-        if (nil != activityModel) {
+    if (nil != activityModel) {
         NSString *activityId = [activityModel objectForKey:@"Id"];
         ActivityDetailVC *detailVC = [[ActivityDetailVC alloc] initWithActivityId:activityId];
         [self.navigationController pushViewController:detailVC animated:YES];

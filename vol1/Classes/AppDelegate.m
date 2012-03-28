@@ -159,17 +159,17 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
 }
 
 - (UIViewController*)newRootViewController {
-    ActivitiesOverviewListVC *rootVC = [[ActivitiesOverviewListVC alloc] init];
-    //SynchronizerVC *rootVC = [[SynchronizerVC alloc] init];    
+    ActivitiesOverviewListVC *eventListVC = [[ActivitiesOverviewListVC alloc] init];
+    UINavigationController *rootVC = [[UINavigationController alloc] initWithRootViewController:eventListVC];
+    [eventListVC release];
+    
     return rootVC;
 }
 
 
 - (void)showHomeViewController
 {
-    ActivitiesOverviewListVC *eventListVC = [[ActivitiesOverviewListVC alloc] init];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:eventListVC];
-    [eventListVC release];
+    UIViewController *navVC = [self newRootViewController];
     
     //swap in the new root view controller
     self.viewController = navVC;

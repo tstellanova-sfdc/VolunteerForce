@@ -19,6 +19,12 @@ NSString * const kVolunteerActivity_NameField = @"Name";
 NSString * const kAppDataModel_ModelUpdatedNotice = @"AppDataModel_ModelUpdated";
 
 
+@interface AppDataModel (Private)
+
+- (void)postDeferredUpdateNotification:(NSString*)subcategory;
+
+@end
+
 @implementation AppDataModel
 
 @synthesize Volunteer_Activity__c = _Volunteer_Activity__c;
@@ -53,7 +59,10 @@ NSString * const kAppDataModel_ModelUpdatedNotice = @"AppDataModel_ModelUpdated"
     NSString *activityId = [activity objectForKey:@"Id"];
     [_fullActivitiesById setObject:activity forKey:activityId];
     [_shallowActivitiesById setObject:activity forKey:activityId];
-    [_recentVolunteerActivities addObject:activity];
+    [_recentVolunteerActivities insertObject:activity atIndex:0];
+    
+    [self postDeferredUpdateNotification:nil];
+
 }
 
 
@@ -66,6 +75,7 @@ NSString * const kAppDataModel_ModelUpdatedNotice = @"AppDataModel_ModelUpdated"
     
     [_recentVolunteerActivities release];
     _recentVolunteerActivities = [[NSMutableArray alloc] initWithArray:recentActivities];
+    [self postDeferredUpdateNotification:nil];
 }
 
 - (void)addMyParticpantRecords:(NSArray*)particpants 
@@ -83,6 +93,8 @@ NSString * const kAppDataModel_ModelUpdatedNotice = @"AppDataModel_ModelUpdated"
 
     _myVolunteerActivities = [[NSMutableArray alloc] initWithArray:myActivities];
     [myActivities release];
+    
+    [self postDeferredUpdateNotification:nil];
 }
 
 
@@ -98,6 +110,20 @@ NSString * const kAppDataModel_ModelUpdatedNotice = @"AppDataModel_ModelUpdated"
 {
     NSString *result = [_dateTimeStringFormatter stringFromDate:date];
     return result;
+}
+
+
+
+- (void)postDeferredUpdateNotification:(NSString *)category
+{    
+    NSNotification *notice = [NSNotification notificationWithName:kAppDataModel_ModelUpdatedNotice 
+                                                           object:self 
+                                                         userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                   category,@"Category",nil]
+                              ];
+    
+    [[NSNotificationQueue defaultQueue]  enqueueNotification:notice postingStyle:NSNotificationCoalescingOnName];
+
 }
 
 @end
