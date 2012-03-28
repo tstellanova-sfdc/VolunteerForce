@@ -136,7 +136,7 @@ enum {
 }
 
 - (void)updateFromModel {
-    [self.titleView setText:[self.activityModel objectForKey:@"Name"]];
+    [self.titleView setText:[self.activityModel objectForKey:kVolunteerActivity_NameField]];
     
     NSString *activityDateTimeStr = [self.activityModel objectForKey:kVolunteerActivity_DateTimeField];
     NSDate *realDate = [[[AppDelegate sharedInstance] dataModel] dateFromDateTimeString:activityDateTimeStr];
@@ -286,9 +286,18 @@ enum {
 }
 
 - (void)doCloneActivity {
+    UINavigationController *nav = self.navigationController;
+
     ActivityCloneInputVC *cloneVC = [[ActivityCloneInputVC alloc] initWithActivity:self.activityModel];
-    [self.navigationController pushViewController:cloneVC animated:YES];
+    ActivityDetailVC *me = [self retain];
+
+    NSMutableArray *controllers = [nav.viewControllers mutableCopy];
+    [controllers removeLastObject];
+    nav.viewControllers = controllers;
+    [nav pushViewController:cloneVC animated: YES];
+                                   
     [cloneVC release];
+    [me release];
 }
 
 - (void)doOpenMapDirections {

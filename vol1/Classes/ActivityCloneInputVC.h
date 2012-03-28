@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class ModalNetworkActionVC;
+
 @interface ActivityCloneInputVC : UIViewController {
     NSDate *_startDateTime;
     NSDictionary *_original_Account__r;
     NSMutableDictionary *_activityModel;
     IBOutlet UIDatePicker *_dateTimePicker;
-    IBOutlet UIDatePicker *_durationPicker;
+    IBOutlet UILabel    *_activityName;
+    ModalNetworkActionVC *_networkProgressVC;
     
 }
 

@@ -133,7 +133,7 @@
 				<reference key="NSWindow"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MC40MjIyMDY0NjE0IDAuNTM3OTM1MTM3NyAwLjM4MjE4OTY2MTMAA</bytes>
+					<bytes key="NSRGB">MCAwLjQgMC42AA</bytes>
 				</object>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>

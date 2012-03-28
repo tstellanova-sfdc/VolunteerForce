@@ -47,6 +47,7 @@
 
 #import "MailComposerViewController.h"
 
+#import "AppDataModel.h"
 #import "SFRestAPI.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
@@ -97,7 +98,7 @@
     SFOAuthCredentials *myCreds = [[[SFRestAPI sharedInstance] coordinator] credentials];
     NSString *activityId = [activity objectForKey:@"Id"];
     
-    NSString *activityName = [activity objectForKey:@"Name"];
+    NSString *activityName = [activity objectForKey:kVolunteerActivity_NameField];
     NSDictionary *activityAcct = [activity objectForKey:@"Account__r"];
     NSString *acctName = [activityAcct objectForKey:@"Name"];
     
@@ -132,26 +133,6 @@
 // Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
 {	
-//	message.hidden = NO;
-//	// Notifies users about errors associated with the interface
-//	switch (result)
-//	{
-//		case MFMailComposeResultCancelled:
-//			message.text = @"Result: canceled";
-//			break;
-//		case MFMailComposeResultSaved:
-//			message.text = @"Result: saved";
-//			break;
-//		case MFMailComposeResultSent:
-//			message.text = @"Result: sent";
-//			break;
-//		case MFMailComposeResultFailed:
-//			message.text = @"Result: failed";
-//			break;
-//		default:
-//			message.text = @"Result: not sent";
-//			break;
-//	}
 	[self dismissModalViewControllerAnimated:YES];
     [self.navigationController popViewControllerAnimated:NO];
 }

@@ -36,7 +36,7 @@
     
     
     //Segments for the Activity itself
-    NSString *activityName = [activity objectForKey:@"Name"];
+    NSString *activityName = [activity objectForKey:kVolunteerActivity_NameField];
     NSDictionary *activityNameSeg = [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"Text",@"type",
                                  activityName,@"text",

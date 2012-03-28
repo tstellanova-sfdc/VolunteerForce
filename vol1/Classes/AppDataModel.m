@@ -14,6 +14,10 @@ NSString * const kVolunteerActivityType = @"Volunteer_Activity__c";
 NSString * const kVolunteerActivity_DateTimeField = @"Date_and_Time__c";
 NSString * const kVolunteerActivity_DurationField = @"Duration_hours__c";
 
+NSString * const kVolunteerActivity_NameField = @"Name";
+
+NSString * const kAppDataModel_ModelUpdatedNotice = @"AppDataModel_ModelUpdated";
+
 
 @implementation AppDataModel
 
@@ -79,7 +83,6 @@ NSString * const kVolunteerActivity_DurationField = @"Duration_hours__c";
 
     _myVolunteerActivities = [[NSMutableArray alloc] initWithArray:myActivities];
     [myActivities release];
-    
 }
 
 

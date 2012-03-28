@@ -100,7 +100,7 @@
 
     ///feeds/news/me/feed-items?text=Did+you+see+this?&url=http://www.chatter.com
     ///services/data/v23.0/chatter/feeds/news/00530000001rEfbAAE/feed-items
-    NSString *activityName = [activity objectForKey:@"Name"];
+    NSString *activityName = [activity objectForKey:kVolunteerActivity_NameField];
     NSDictionary *activityAcct = [activity objectForKey:@"Account__r"];
     NSString *acctName = [activityAcct objectForKey:@"Name"];
     

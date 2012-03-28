@@ -11,8 +11,13 @@
 
 extern NSString * const kVolunteerActivityType;
 
+extern NSString * const kVolunteerActivity_NameField;
 extern NSString * const kVolunteerActivity_DateTimeField;
 extern NSString * const kVolunteerActivity_DurationField;
+
+
+extern NSString * const kAppDataModel_ModelUpdatedNotice;
+
 
 @interface AppDataModel : NSObject {
     NSDictionary *_Volunteer_Activity__c;

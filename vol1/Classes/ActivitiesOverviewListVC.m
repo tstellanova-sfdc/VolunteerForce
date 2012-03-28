@@ -50,26 +50,12 @@ enum {
     // Release any cached data, images, etc that aren't in use.
 }
 
-#pragma mark - Data model updates
 
-- (void)sendRecentActivitiesRequest {
-
-    __block ActivitiesOverviewListVC *this = self;
-    [[SFRestAPI sharedInstance] 
-     performMetadataWithObjectType:kVolunteerActivityType
-     failBlock:^(NSError *e) {
-         NSLog(@"Couldn't load recents, error: %@",e);
-     }
-     completeBlock:^(NSDictionary *dict) {
-        NSArray *records = [dict objectForKey:@"recentItems"];
-        AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
-        [dataModel updateRecentVolunteerActivities:records];
-        [this.tableView reloadData];
-     }
-    ];
-
+#pragma mark - DataModelSynchronizerDelegate
+- (void)synchronizerDone:(DataModelSynchronizer*)synchronizer anyError:(NSError*)error
+{
+    [self.tableView reloadData];
 }
-
 
 
 
@@ -79,7 +65,12 @@ enum {
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self sendRecentActivitiesRequest];
+    
+    // refresh all with synchronizer
+    _syncro = [[DataModelSynchronizer alloc] init];
+    [_syncro setDelegate:self];
+    [_syncro start];
+    
 }
 
 - (void)viewDidUnload
@@ -130,12 +121,22 @@ enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
+    NSInteger rowCount = 0;
+    
     switch (section) {
         case ETableSection_Recents:
-            return [self.recentActivities count];
+            rowCount = [self.recentActivities count];
+            if ( 0 == rowCount) {
+                rowCount = 1;
+            }
+            return rowCount;
             
         case ETableSection_MyActivities:
-            return [self.myActivities count];
+            rowCount = [self.myActivities count];
+            if ( 0 == rowCount) {
+                rowCount = 1;
+            }
+            return rowCount;
             
         default:
             return 0;
@@ -147,41 +148,60 @@ enum {
 - (NSDictionary *)activityForIndexPath:(NSIndexPath*)indexPath {
     
     NSInteger row = [indexPath row];
+    NSArray *allRows = nil;
     
     switch (indexPath.section) {
         case ETableSection_Recents:
-            return [self.recentActivities objectAtIndex:row];
+            allRows = self.recentActivities;
+            if (row < [allRows count]) {
+                return [allRows objectAtIndex:row];
+            } else {
+                return nil;
+            }
             
         case ETableSection_MyActivities:
-            return [self.myActivities objectAtIndex:row];
-            
+            allRows = self.myActivities;
+            if (row < [allRows count]) {
+                return [allRows objectAtIndex:row];
+            } else {
+                return nil;
+            }
         default:
             return nil;  
     }
 }
 
 
-
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"CellIdentifier";
-    
+    UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
     // Dequeue or create a cell of the appropriate type.
-    UITableViewCell *cell = [tableView_ dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
-        
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle  
+                                       reuseIdentifier:CellIdentifier] autorelease];
     }
-	//if you want to add an image to your cell, here's how
-	UIImage *image = [UIImage imageNamed:@"heart.png"];
-	cell.imageView.image = image;
     
-	// Configure the cell to show the data.
-	NSDictionary *obj = [self activityForIndexPath:indexPath];
-	cell.textLabel.text =  [obj objectForKey:@"Name"];
     
-	//this adds the arrow to the right hand side.
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    NSDictionary *activityModel = [self activityForIndexPath:indexPath];
+    if (nil != activityModel) {
+        //if you want to add an image to your cell, here's how
+        UIImage *image = [UIImage imageNamed:@"heart.png"];
+        cell.imageView.image = image;
+        
+        // Configure the cell to show the data.
+        cell.textLabel.text =  [activityModel objectForKey:kVolunteerActivity_NameField];
+        
+        //this adds the arrow to the right hand side.
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    } else {
+        cell.textLabel.text = @"Loading...";
+    }
+
+    
+    //TODO check whether tableView is searchController.searchResultsTableView.    
+
     
 	return cell;
 }
@@ -190,11 +210,15 @@ enum {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-    NSDictionary *rowData = [self activityForIndexPath:indexPath];
-    NSString *activityId = [rowData objectForKey:@"Id"];
-    ActivityDetailVC *detailVC = [[ActivityDetailVC alloc] initWithActivityId:activityId];
-    [self.navigationController pushViewController:detailVC animated:YES];
-    [detailVC release];
+    NSDictionary *activityModel = [self activityForIndexPath:indexPath];
+        if (nil != activityModel) {
+        NSString *activityId = [activityModel objectForKey:@"Id"];
+        ActivityDetailVC *detailVC = [[ActivityDetailVC alloc] initWithActivityId:activityId];
+        [self.navigationController pushViewController:detailVC animated:YES];
+        [detailVC release];
+    }
 }
+
+
 
 @end

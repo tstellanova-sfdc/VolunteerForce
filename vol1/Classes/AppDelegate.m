@@ -111,11 +111,7 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
     NSString *cmd = [pathComps objectAtIndex:1];
     if ([cmd isEqualToString:@"activityDetail"]) {
         NSString *activityId = [pathComps objectAtIndex:2];
-        UINavigationController *nav = (UINavigationController*)self.viewController;
-        [nav popToRootViewControllerAnimated:NO];
-        ActivityDetailVC *detailVC = [[ActivityDetailVC alloc] initWithActivityId:activityId];
-        [nav pushViewController:detailVC animated:YES];
-        [detailVC release];
+        [self showActivityDetail:activityId];
         return YES;
     }
     
@@ -163,7 +159,8 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
 }
 
 - (UIViewController*)newRootViewController {
-    SynchronizerVC *rootVC = [[SynchronizerVC alloc] init];    
+    ActivitiesOverviewListVC *rootVC = [[ActivitiesOverviewListVC alloc] init];
+    //SynchronizerVC *rootVC = [[SynchronizerVC alloc] init];    
     return rootVC;
 }
 
@@ -183,6 +180,15 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
         [self handleOpenURLRequest:_deferredLaunchUrl];
         [_deferredLaunchUrl release]; _deferredLaunchUrl = nil;
     }
+}
+
+- (void)showActivityDetail:(NSString*)activityId
+{
+    UINavigationController *nav = (UINavigationController*)self.viewController;
+    [nav popToRootViewControllerAnimated:NO];
+    ActivityDetailVC *detailVC = [[ActivityDetailVC alloc] initWithActivityId:activityId];
+    [nav pushViewController:detailVC animated:YES];
+    [detailVC release];
 }
 
 

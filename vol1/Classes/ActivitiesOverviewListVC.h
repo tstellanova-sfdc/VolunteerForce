@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ActivitiesOverviewListVC : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+
+#import "DataModelSynchronizer.h"
+@interface ActivitiesOverviewListVC : UIViewController <
+    DataModelSynchronizerDelegate,
+    UITableViewDelegate, 
+    UITableViewDataSource
+    > 
+{
     UITableView *_tableView;    
+    DataModelSynchronizer *_syncro;
 
 }
 
@@ -18,7 +26,6 @@
 @property (nonatomic, readonly) NSArray *recentActivities;
 @property (nonatomic, readonly) NSArray *myActivities;
 
-- (void)sendRecentActivitiesRequest;
 
 - (NSDictionary *)activityForIndexPath:(NSIndexPath*)indexPath;
 

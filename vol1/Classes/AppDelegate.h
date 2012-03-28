@@ -39,6 +39,7 @@
 + (AppDelegate*)sharedInstance;
 
 - (void)showHomeViewController;
+- (void)showActivityDetail:(NSString*)activityId;
 
 @end
 

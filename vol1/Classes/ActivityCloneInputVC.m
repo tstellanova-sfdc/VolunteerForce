@@ -11,6 +11,7 @@
 #import "AppDataModel.h"
 #import "AppDelegate.h"
 
+#import "ModalNetworkActionVC.h"
 #import "SFRestAPI+Blocks.h"
 
 @implementation ActivityCloneInputVC
@@ -82,27 +83,72 @@
 
 #pragma mark - Public
 
+
+
+
+- (void)closeNetworkProgress:(NSString*)newRecId {
+    [self dismissModalViewControllerAnimated:YES];
+    [_networkProgressVC release]; _networkProgressVC = nil;
+    
+    if (nil != newRecId) {
+        NSLog(@"switching to record: %@",newRecId);
+        [[AppDelegate sharedInstance] showActivityDetail:newRecId];
+    }
+
+
+}
+
 - (void)doSendCloneRecord {
+    
+    [_networkProgressVC release];
+    _networkProgressVC =  [[ModalNetworkActionVC alloc] initWithNibName:@"ModalNetworkActionVC" bundle:nil];
+    __block ActivityCloneInputVC *me = self;
+    __block ModalNetworkActionVC *progVC = _networkProgressVC;
+    
+    [progVC setTitleText:@"Cloning Activity"];
+    [progVC setSubtitleText:@"Please wait..."];
+    
+    [me presentModalViewController:progVC animated:YES];
+    
+    //set the new cloned activity date
+    NSDate *userDate =  [_dateTimePicker date];
+    NSString *userDataTimeStr = [[[AppDelegate sharedInstance] dataModel] dateTimeStringFromDate:userDate];
+    [self.activityModel setObject:userDataTimeStr forKey:kVolunteerActivity_DateTimeField];
+    
     
     [[SFRestAPI sharedInstance] 
      performCreateWithObjectType:kVolunteerActivityType
      fields:self.activityModel 
     failBlock:^(NSError *e) {
-        NSLog(@"couldn't create, error: %@",e);
+        NSString *errMsg = [NSString stringWithFormat:@"Clone error: %@",e];
+        NSLog(@"Couldn't clone: %@",errMsg);
+        [progVC setTitleText:@"Couldn't clone activity"];
+        [progVC setSubtitleText:errMsg];
+        
+        [me performSelector:@selector(closeNetworkProgress:) 
+                 withObject:nil 
+                 afterDelay:2.0];
+        
     } 
      completeBlock:^(NSDictionary *dict) {
         NSLog(@"created: %@ ",dict);
-         NSString *newRecId = [dict objectForKey:@"id"];
-         [self.activityModel setObject:newRecId forKey:@"Id"];
-         [self.activityModel setObject:_original_Account__r forKey:@"Account__r"];
-         [self.activityModel removeObjectForKey:@"Account__c"];
          
-         [[[AppDelegate sharedInstance] dataModel] addFullVolunteerActivity:self.activityModel];
-
-           
-         [self.navigationController popViewControllerAnimated:YES];
-    }
-     ];
+         [progVC setTitleText:@"Success!"];
+         [progVC setSubtitleText:@"Activity cloned OK"];
+         
+         NSString *newRecId = [dict objectForKey:@"id"];
+         [me.activityModel setObject:newRecId forKey:@"Id"];
+         [me.activityModel setObject:_original_Account__r forKey:@"Account__r"];
+         [me.activityModel removeObjectForKey:@"Account__c"];
+         
+         [[[AppDelegate sharedInstance] dataModel] addFullVolunteerActivity:me.activityModel];
+         
+         [me performSelector:@selector(closeNetworkProgress:) 
+                    withObject:newRecId 
+                    afterDelay:2.0];
+         
+     }
+    ];
     
       
     
@@ -113,14 +159,14 @@
 }
 
 - (void)updateFromModel {
+    
+    NSString *activityName = [self.activityModel objectForKey:kVolunteerActivity_NameField];
+    [_activityName setText:activityName];
+    
     NSString *activityDateTimeStr = [self.activityModel objectForKey:kVolunteerActivity_DateTimeField];
     NSDate *realDate = [[[AppDelegate sharedInstance] dataModel] dateFromDateTimeString:activityDateTimeStr];    
     [_dateTimePicker setDate:realDate];
 
-    
-    NSNumber *duration = [self.activityModel valueForKey:kVolunteerActivity_DurationField];
-    NSTimeInterval durationVal = [duration doubleValue] * 3600;
-    [_durationPicker setCountDownDuration:durationVal];
 }
 
 
