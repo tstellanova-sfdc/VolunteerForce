@@ -29,6 +29,7 @@ NSString * const kAppDataModel_ModelUpdatedNotice = @"AppDataModel_ModelUpdated"
 
 @synthesize Volunteer_Activity__c = _Volunteer_Activity__c;
 @synthesize recentVolunteerActivities = _recentVolunteerActivities;
+@synthesize forthcomingVolunteerActivities = _forthcomingVolunteerActivities;
 @synthesize myVolunteerActivities = _myVolunteerActivities;
 @synthesize fullActivitiesById = _fullActivitiesById;
 @synthesize shallowActivitiesById = _shallowActivitiesById;
@@ -65,18 +66,30 @@ NSString * const kAppDataModel_ModelUpdatedNotice = @"AppDataModel_ModelUpdated"
 
 }
 
-
-- (void)updateRecentVolunteerActivities:(NSArray*)recentActivities 
+- (void)updateRecentVolunteerActivities:(NSArray*)activities 
 {
-    for (NSDictionary *activity in recentActivities) {
+    for (NSDictionary *activity in activities) {
         NSString *activityId = [activity objectForKey:@"Id"];
         [self.shallowActivitiesById setObject:activity forKey:activityId];
     }
     
     [_recentVolunteerActivities release];
-    _recentVolunteerActivities = [[NSMutableArray alloc] initWithArray:recentActivities];
+    _recentVolunteerActivities = [[NSMutableArray alloc] initWithArray:activities];
     [self postDeferredUpdateNotification:nil];
 }
+
+- (void)updateForthcomingVolunteerActivities:(NSArray*)activities 
+{
+    for (NSDictionary *activity in activities) {
+        NSString *activityId = [activity objectForKey:@"Id"];
+        [self.shallowActivitiesById setObject:activity forKey:activityId];
+    }
+    
+    [_forthcomingVolunteerActivities release];
+    _forthcomingVolunteerActivities = [[NSMutableArray alloc] initWithArray:activities];
+    [self postDeferredUpdateNotification:nil];
+}
+
 
 - (void)addMyParticpantRecords:(NSArray*)particpants 
 {

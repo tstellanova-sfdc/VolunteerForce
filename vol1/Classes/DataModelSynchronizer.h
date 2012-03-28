@@ -26,6 +26,7 @@
     SFRestRequest *_recentActivitiesReq;
     SFRestRequest *_describeActivityReq;
     SFRestRequest *_myParticipationReq;
+    SFRestRequest *_forthcomingActivitiesReq;
     
     NSString *_statusMessage;
     float _progressPercent;

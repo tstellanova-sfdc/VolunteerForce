@@ -23,6 +23,8 @@
     
     NSMutableArray *_filteredRecentActivities;
     NSMutableArray *_filteredMyActivities;
+    NSMutableArray *_filteredForthcomingActivities;
+    
     NSString *_searchFilterText;
 
 }
@@ -30,6 +32,7 @@
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 
 @property (nonatomic, readonly) NSArray *recentActivities;
+@property (nonatomic, readonly) NSArray *forthcomingActivities;
 @property (nonatomic, readonly) NSArray *myActivities;
 @property (nonatomic, copy) NSString *searchFilterText;
 

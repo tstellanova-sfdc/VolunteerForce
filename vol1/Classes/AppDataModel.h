@@ -22,6 +22,7 @@ extern NSString * const kAppDataModel_ModelUpdatedNotice;
 @interface AppDataModel : NSObject {
     NSDictionary *_Volunteer_Activity__c;
     NSMutableArray *_recentVolunteerActivities;
+    NSMutableArray *_forthcomingVolunteerActivities;
     NSMutableArray *_myVolunteerActivities;
 
     NSMutableDictionary *_fullActivitiesById;
@@ -34,10 +35,13 @@ extern NSString * const kAppDataModel_ModelUpdatedNotice;
 @property (nonatomic, strong) NSDictionary *Volunteer_Activity__c;
 @property (nonatomic, strong, readonly) NSArray   *recentVolunteerActivities;
 @property (nonatomic, strong, readonly) NSArray   *myVolunteerActivities;
+@property (nonatomic, strong, readonly) NSArray   *forthcomingVolunteerActivities;
+
 @property (nonatomic, strong, readonly) NSMutableDictionary *fullActivitiesById;
 @property (nonatomic, strong, readonly) NSMutableDictionary *shallowActivitiesById;
 
 - (void)updateRecentVolunteerActivities:(NSArray*)recentActivities;
+- (void)updateForthcomingVolunteerActivities:(NSArray*)recentActivities;
 - (void)addMyParticpantRecords:(NSArray*)particpants;
 - (void)addFullVolunteerActivity:(NSDictionary*)activity;
 

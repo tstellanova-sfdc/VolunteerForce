@@ -44,13 +44,32 @@
     NSString *myUserId = myCreds.userId;
     
     NSString *soql = [NSString stringWithFormat:
-                      @"SELECT Volunteer_Activity__r.Id, Volunteer_Activity__r.Name, Volunteer_Activity__r.Account__r.Name "
+                      @"SELECT Volunteer_Activity__r.Id, Volunteer_Activity__r.Name, Volunteer_Activity__r.Date_and_Time__c, Volunteer_Activity__r.Account__r.Name "
                       "FROM Volunteer_Activity_Participant__c "
                       "WHERE User__c = '%@' ",
                       myUserId];
     
     _myParticipationReq = [[SFRestAPI sharedInstance] requestForQuery:soql];
     [[SFRestAPI sharedInstance] send:_myParticipationReq delegate:self];
+}
+
+- (void)sendForthcomingEventsRequest {
+    NSDate *startDate = [NSDate date];
+    NSString *startDateStr = [[[AppDelegate sharedInstance] dataModel] dateTimeStringFromDate:startDate];
+    NSTimeInterval thirtyDays = 30 * 24 * 3600.0f;
+    NSDate *endDate = [startDate dateByAddingTimeInterval:thirtyDays];
+    NSString *endDateStr = [[[AppDelegate sharedInstance] dataModel] dateTimeStringFromDate:endDate];
+    
+    NSString *soql = [NSString stringWithFormat:
+                      @"SELECT Id,Name,Date_and_Time__c,Account__r.Name "
+                      "FROM Volunteer_Activity__c  "
+                      "WHERE (Date_and_Time__c > %@ AND Date_and_Time__c < %@) "
+                      "ORDER BY Date_and_Time__c ASC ",
+                      startDateStr,endDateStr];
+    
+    _forthcomingActivitiesReq = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    [[SFRestAPI sharedInstance] send:_forthcomingActivitiesReq delegate:self];
+    
 }
 
 #pragma mark - Response handling
@@ -82,15 +101,31 @@
     [self nextSyncStep];
 }
 
+- (void)handleForthcomingResponse:(id)jsonResponse {
+    NSArray *records = [jsonResponse objectForKey:@"records"];
+    NSLog(@"handleForthcomingResponse #records: %d", records.count);
+    
+    AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
+    [dataModel updateForthcomingVolunteerActivities:records];
+        
+    [self nextSyncStep];
+}
+
 #pragma mark - SFRestAPIDelegate
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
     if ([request isEqual:_recentActivitiesReq]) {
         [self handleRecentActivitiesResponse:jsonResponse];
+        _recentActivitiesReq = nil;
     } else if ([request isEqual:_describeActivityReq]) {
         [self handleDescribeActivityResponse:jsonResponse];
+        _describeActivityReq = nil;
     } else if ([_myParticipationReq isEqual:request]) {
         [self handleParticipationResponse:jsonResponse];
+        _myParticipationReq = nil;
+    } else if ([_forthcomingActivitiesReq isEqual:request]) {
+        [self handleForthcomingResponse:jsonResponse];
+        _forthcomingActivitiesReq = nil;
     }
 }
 
@@ -133,15 +168,20 @@
         
         [self sendDescribeActivityRequest];
     } else if (nil == dataModel.recentVolunteerActivities) {
-        [self setStatusMessage:@"Loading recents..."];
+        [self setStatusMessage:@"Load recents..."];
         [self setProgressPercent:0.25f];
         
         [self sendRecentActivitiesRequest];
     } else if (nil == dataModel.myVolunteerActivities) {
-        [self setStatusMessage:@"Loading participations..."];
+        [self setStatusMessage:@"Load participations..."];
         [self setProgressPercent:0.40f];
         
         [self sendMyParticpantsRequest];
+    } else if (nil == dataModel.forthcomingVolunteerActivities) {
+        [self setStatusMessage:@"Load forthcoming activities..."];
+        [self setProgressPercent:0.60f];
+        
+        [self sendForthcomingEventsRequest];
     } else {
         // done! continue
         [self setStatusMessage:@"Done syncing!"];

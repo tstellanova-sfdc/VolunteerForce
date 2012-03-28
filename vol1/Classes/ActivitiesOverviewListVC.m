@@ -17,6 +17,8 @@
 enum {
     ETableSection_Recents = 0,
     ETableSection_MyActivities,
+    ETableSection_AllForthcoming,
+
     ETableSection_Count
 };
 
@@ -39,6 +41,7 @@ enum {
         NSString *label =  [dataModel.Volunteer_Activity__c objectForKey:@"label"];
         self.title = label;
         _filteredRecentActivities = [[NSMutableArray alloc] init];
+        _filteredForthcomingActivities  = [[NSMutableArray alloc] init];
         _filteredMyActivities = [[NSMutableArray alloc] init];
     }
     return self;
@@ -48,6 +51,7 @@ enum {
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_filteredRecentActivities release]; _filteredRecentActivities = nil;
+    [_filteredForthcomingActivities release]; _filteredForthcomingActivities = nil;
     [_filteredMyActivities release]; _filteredMyActivities = nil;
     [super dealloc];
 }
@@ -117,6 +121,11 @@ enum {
     return dataModel.recentVolunteerActivities;
 }
 
+- (NSArray *)forthcomingActivities {
+    AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
+    return dataModel.forthcomingVolunteerActivities;
+}
+
 - (NSArray *)myActivities {
     AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
     return dataModel.myVolunteerActivities;
@@ -139,6 +148,9 @@ enum {
         case ETableSection_MyActivities:
             return @"My Participation";//TODO localize
             
+        case ETableSection_AllForthcoming:
+            return @"All Forthcoming";//TODO localize
+
         default:
             return 0;
     } 
@@ -154,6 +166,10 @@ enum {
             
         case ETableSection_MyActivities:
             rowCount = [_filteredMyActivities count];
+            break;
+            
+        case ETableSection_AllForthcoming:
+            rowCount = [_filteredForthcomingActivities count];
             break;
     }
         
@@ -183,6 +199,13 @@ enum {
                     rowCount = 1;
                 }
                 break;
+                
+            case ETableSection_AllForthcoming:
+                rowCount = [self.forthcomingActivities count];
+                if ( 0 == rowCount) {
+                    rowCount = 1;
+                }
+                break;
         }
     }
     
@@ -205,6 +228,13 @@ enum {
             
         case ETableSection_MyActivities:
             allRows = self.myActivities;
+            if (row < [allRows count]) {
+                result = [allRows objectAtIndex:row];
+            } 
+            break;
+            
+        case ETableSection_AllForthcoming:
+            allRows = self.forthcomingActivities;
             if (row < [allRows count]) {
                 result = [allRows objectAtIndex:row];
             } 
@@ -309,7 +339,8 @@ enum {
         
         [_filteredRecentActivities removeAllObjects];
         [_filteredMyActivities removeAllObjects];
-
+        [_filteredForthcomingActivities removeAllObjects];
+        
         if (nil != _searchFilterText) {
             NSArray *allRows = nil;
 
@@ -334,6 +365,18 @@ enum {
                     [_filteredMyActivities addObject:activity];
                 }
             }
+            
+            allRows = self.forthcomingActivities;
+            for (NSDictionary *activity in allRows) {
+                NSString *name = [activity objectForKey:kVolunteerActivity_NameField];
+                NSRange found = [name rangeOfString:_searchFilterText
+                                            options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)
+                                 ];
+                if (found.location != NSNotFound) {
+                    [_filteredForthcomingActivities addObject:activity];
+                }
+            }
+            
         }
         
     }
@@ -369,6 +412,14 @@ enum {
                 result = [allRows objectAtIndex:row];
             } 
             break;
+            
+        case ETableSection_AllForthcoming:
+            allRows = _filteredForthcomingActivities;
+            if (row < [allRows count]) {
+                result = [allRows objectAtIndex:row];
+            } 
+            break;
+            
     }
     
     return result;
