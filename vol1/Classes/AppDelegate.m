@@ -146,6 +146,13 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
 //NOTE be sure to call all super methods you override.
 
 
+- (void)clearDataModel {
+    [super clearDataModel]; 
+    [_dataModel release]; //throw it away
+    _dataModel = [[AppDataModel alloc] init]; 
+    
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     _dataModel = [[AppDataModel alloc] init]; 
