@@ -78,14 +78,28 @@ enum {
 
 - (void)synchronizerDone:(DataModelSynchronizer*)synchronizer anyError:(NSError*)error
 {
-    [self.tableView reloadData];
-    
-    //register for any asynchronous model udpates that come after we've loaded a fresh set
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(handleModelUpdateNotification:) 
-                                                 name:kAppDataModel_ModelUpdatedNotice 
-                                               object:nil
-     ];
+    if (nil == error) {
+        [self.tableView reloadData];
+        
+        //register for any asynchronous model udpates that come after we've loaded a fresh set
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(handleModelUpdateNotification:) 
+                                                     name:kAppDataModel_ModelUpdatedNotice 
+                                                   object:nil
+         ];
+    } else {
+        if ([error.domain isEqualToString:kSFRestErrorDomain]) {
+            NSDictionary *userInfo = error.userInfo;
+            NSString *errorCode = [userInfo objectForKey:@"errorCode"];
+            if ([@"NOT_FOUND" isEqualToString:errorCode]) {
+                //We can't find Volunteer_Activity__c, which means we're connected to the wrong org!
+                [[AppDelegate sharedInstance] shownNonfatalErrorAlert:@"Wrong org"
+                                                          message:@"Re-login to your 62 org account"];
+                
+                [[AppDelegate sharedInstance] logout];
+            }
+        }
+    }
 }
 
 
@@ -98,6 +112,7 @@ enum {
     // Do any additional setup after loading the view from its nib.
     
     // refresh all with synchronizer
+    [_syncro release];
     _syncro = [[DataModelSynchronizer alloc] init];
     [_syncro setDelegate:self];
     [_syncro start];

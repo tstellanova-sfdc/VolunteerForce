@@ -24,7 +24,6 @@
 
 @interface DataModelSynchronizer : NSObject<SFRestDelegate> {
     SFRestRequest *_recentActivitiesReq;
-    SFRestRequest *_describeActivityReq;
     SFRestRequest *_myParticipationReq;
     SFRestRequest *_forthcomingActivitiesReq;
     

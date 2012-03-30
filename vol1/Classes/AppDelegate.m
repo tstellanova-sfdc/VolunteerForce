@@ -40,6 +40,13 @@ static NSString *const RemoteAccessConsumerKey = @"3MVG99OxTyEMCQ3h7DCqShuXN_Vgn
 static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oauth/done"; 
 
 
+
+@interface  AppDelegate (Private)
+
+- (void)showFatalNetworkStatusAlert:(NSString*)title message:(NSString*)msg;
+
+@end
+
 @implementation AppDelegate
 
 
@@ -54,12 +61,9 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
 
 
 - (void)login {
-    
     [_networkStatusAlert dismissWithClickedButtonIndex:-1 animated:NO];
     [_networkStatusAlert release]; _networkStatusAlert = nil;
-    
     [super login];
-        
 }
 
 
@@ -75,13 +79,9 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
         //detect: ip restricted or invalid login hours
         NSRange found = [errorDesc rangeOfString:@"ip restricted or invalid login hours"];
         if (found.location != NSNotFound) {
-            _networkStatusAlert = [[UIAlertView alloc] initWithTitle:@"VPN Inactive" 
-                                                             message:@"In order to use this application you must be connected to the Salesforce.com internal network using VPN." 
-                                                            delegate:nil 
-                                                   cancelButtonTitle:nil 
-                                                   otherButtonTitles:nil 
-                                   ];
-            [_networkStatusAlert show];
+            [self showFatalNetworkStatusAlert:@"VPN Inactive" 
+                                      message:@"In order to use this application you must be connected to the Salesforce.com internal network using VPN." 
+             ];
         } else {
             //restart the login process asynchronously
             NSLog(@"Logging out because oauth failed with error code: %d",error.code);
@@ -89,13 +89,9 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
         }
     }
     else {
-        // show alert 
-        _networkStatusAlert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
-                                                        message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
-                                                       delegate:self
-                                              cancelButtonTitle:@"Retry"
-                                              otherButtonTitles: nil];
-        [_networkStatusAlert show];
+        [self showFatalNetworkStatusAlert:@"Salesforce Error"  
+                                  message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error] 
+         ];
     }
 }
 
@@ -153,6 +149,18 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
     
 }
 
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [super applicationDidBecomeActive:application];
+    [_fatalErrorAlert dismissWithClickedButtonIndex:-1 animated:NO];
+    [_fatalErrorAlert release]; _fatalErrorAlert = nil;    
+    
+    [_nonFatalErrorAlert dismissWithClickedButtonIndex:-1 animated:NO];
+    [_nonFatalErrorAlert release]; _nonFatalErrorAlert = nil;
+    
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     _dataModel = [[AppDataModel alloc] init]; 
@@ -198,5 +206,39 @@ static NSString *const OAuthRedirectURI = @"volunteersfdc:///mobilesdk/detect/oa
     [detailVC release];
 }
 
+
+- (void)shownNonfatalErrorAlert:(NSString*)title message:(NSString*)msg
+{
+    // show alert 
+    [_nonFatalErrorAlert release];
+    _nonFatalErrorAlert = [[UIAlertView alloc] initWithTitle:title 
+                                                  message:msg
+                                                 delegate:nil
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles: nil];
+    [_nonFatalErrorAlert show]; 
+}
+
+- (void)showFatalErrorAlert:(NSString*)title message:(NSString*)msg {
+    // show alert 
+    [_fatalErrorAlert release];
+    _fatalErrorAlert = [[UIAlertView alloc] initWithTitle:title 
+                                                     message:msg
+                                                    delegate:nil
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles: nil];
+    [_fatalErrorAlert show]; 
+}
+
+- (void)showFatalNetworkStatusAlert:(NSString*)title message:(NSString*)msg {
+    // show alert 
+    [_networkStatusAlert release];
+    _networkStatusAlert = [[UIAlertView alloc] initWithTitle:title 
+                                                     message:msg
+                                                    delegate:nil
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles: nil];
+    [_networkStatusAlert show]; 
+}
 
 @end

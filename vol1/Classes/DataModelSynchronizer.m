@@ -29,8 +29,21 @@
 #pragma mark - Request building
 
 - (void)sendDescribeActivityRequest {
-    _describeActivityReq = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:kVolunteerActivityType];
-    [[SFRestAPI sharedInstance] send:_describeActivityReq delegate:self];
+    SFRestRequest *describeActivityReq = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:kVolunteerActivityType];
+    
+    __block DataModelSynchronizer *me = self;
+    [[SFRestAPI sharedInstance] sendRESTRequest:describeActivityReq 
+        failBlock:^(NSError *e) {
+            NSLog(@"couldn't describe Volunteer_Activity__c: %@",e);
+            //complete with error
+            [me.delegate synchronizerDone:self anyError:e];
+        } 
+        completeBlock:^(NSDictionary *dict) {
+            AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
+            dataModel.Volunteer_Activity__c = dict;
+            [me nextSyncStep];
+        }
+    ];
 }
 
 - (void)sendRecentActivitiesRequest {
@@ -84,11 +97,7 @@
     [self nextSyncStep];
 }
 
-- (void)handleDescribeActivityResponse:(id)jsonResponse {
-    AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
-    dataModel.Volunteer_Activity__c = jsonResponse;
-    [self nextSyncStep];
-}
+
 
 - (void)handleParticipationResponse:(id)jsonResponse {
     NSArray *records = [jsonResponse objectForKey:@"records"];
@@ -117,9 +126,6 @@
     if ([request isEqual:_recentActivitiesReq]) {
         [self handleRecentActivitiesResponse:jsonResponse];
         _recentActivitiesReq = nil;
-    } else if ([request isEqual:_describeActivityReq]) {
-        [self handleDescribeActivityResponse:jsonResponse];
-        _describeActivityReq = nil;
     } else if ([_myParticipationReq isEqual:request]) {
         [self handleParticipationResponse:jsonResponse];
         _myParticipationReq = nil;

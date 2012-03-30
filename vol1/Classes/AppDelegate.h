@@ -30,6 +30,8 @@
 @interface AppDelegate : SFNativeRestAppDelegate  {
     AppDataModel *_dataModel;
     UIAlertView *_networkStatusAlert;
+    UIAlertView *_fatalErrorAlert;
+    UIAlertView *_nonFatalErrorAlert;
     NSURL *_deferredLaunchUrl;
     
 }
@@ -40,6 +42,11 @@
 
 - (void)showHomeViewController;
 - (void)showActivityDetail:(NSString*)activityId;
+
+- (void)shownNonfatalErrorAlert:(NSString*)title message:(NSString*)msg;
+
+- (void)showFatalErrorAlert:(NSString*)title message:(NSString*)msg;
+
 
 @end
 

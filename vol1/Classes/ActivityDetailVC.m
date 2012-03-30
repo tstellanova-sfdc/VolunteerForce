@@ -295,30 +295,23 @@ enum {
     SFRestRequest *chatterReq = [Chatterator buildChatterPostForActivityShare:self.activityModel];
 
     __block ModalNetworkActionVC *progressVC = _networkProgressVC;
-    id resto = [SFRestAPI sharedInstance];
-    if ([resto respondsToSelector:@selector(sendRESTRequest:failBlock:completeBlock:)]) {
-        //TODO export this block method from SFRestAPI+Blocks
-        [resto sendRESTRequest:chatterReq
-                     failBlock:^(NSError *e) {
-                         NSLog(@"couldn't post to chatter, error: %@",e);
-                         [progressVC setTitleText:@"Couldn't post"];
-                         [progressVC setSubtitleText:
-                          [NSString stringWithFormat:@"Error: %@",e]];
-                         [self performSelector:@selector(closeNetworkProgress:) 
-                                    withObject:[NSNumber numberWithBool:NO] 
-                                    afterDelay:2.0];
-                     } completeBlock:^(NSDictionary *dict) {
-                         [progressVC setTitleText:@"Success!"];
-                         [progressVC setSubtitleText:@"Reposted to Chatter"];
-                         [self performSelector:@selector(closeNetworkProgress:) 
-                                    withObject:[NSNumber numberWithBool:NO] 
-                                    afterDelay:2.0];
-                     }
-         ];
-
-    }
-
-    
+    [[SFRestAPI sharedInstance] sendRESTRequest:chatterReq
+                 failBlock:^(NSError *e) {
+                     NSLog(@"couldn't post to chatter, error: %@",e);
+                     [progressVC setTitleText:@"Couldn't post"];
+                     [progressVC setSubtitleText:
+                      [NSString stringWithFormat:@"Error: %@",e]];
+                     [self performSelector:@selector(closeNetworkProgress:) 
+                                withObject:[NSNumber numberWithBool:NO] 
+                                afterDelay:2.0];
+                 } completeBlock:^(NSDictionary *dict) {
+                     [progressVC setTitleText:@"Success!"];
+                     [progressVC setSubtitleText:@"Reposted to Chatter"];
+                     [self performSelector:@selector(closeNetworkProgress:) 
+                                withObject:[NSNumber numberWithBool:NO] 
+                                afterDelay:2.0];
+                 }
+     ];    
 }
 
 - (void)doEmailActivity {
