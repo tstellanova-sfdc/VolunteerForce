@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Salesforce.com. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "ModalNetworkActionVC.h"
 
 @implementation ModalNetworkActionVC
@@ -43,6 +45,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    // status overlay
+    _innerViewWrapper.layer.cornerRadius = 10.0f;
+    _innerViewWrapper.layer.masksToBounds = YES;
+    
     [_statusTitle setText:self.titleText];
     [_statusSubtitle setText:self.subtitleText];
 }

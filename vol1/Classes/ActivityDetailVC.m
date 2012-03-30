@@ -86,6 +86,7 @@ enum {
              fieldList:fieldList 
              failBlock:^(NSError *e) {
                  NSLog(@"couldn't retrieve %@ error: %@",activityId,e);
+                 //TODO error handling
              } 
              completeBlock:^(NSDictionary *dict) {
                  NSLog(@"retrieved: %@ ",activityId);
@@ -289,7 +290,7 @@ enum {
     _networkProgressVC = [[ModalNetworkActionVC alloc] init];
     [_networkProgressVC setTitleText:@"Posting to Chatter"]; //TODO localize
     [_networkProgressVC setSubtitleText:@"Please wait..."];
-    [self presentModalViewController:_networkProgressVC animated:YES];
+    [self presentModalViewController:_networkProgressVC animated:NO];
 
     //post a chatter update -- ignore success/fail
     SFRestRequest *chatterReq = [Chatterator buildChatterPostForActivityShare:self.activityModel];
@@ -298,14 +299,14 @@ enum {
     [[SFRestAPI sharedInstance] sendRESTRequest:chatterReq
                  failBlock:^(NSError *e) {
                      NSLog(@"couldn't post to chatter, error: %@",e);
-                     [progressVC setTitleText:@"Couldn't post"];
+                     [progressVC setTitleText:@"Couldn't post"];//TODO localize
                      [progressVC setSubtitleText:
                       [NSString stringWithFormat:@"Error: %@",e]];
                      [self performSelector:@selector(closeNetworkProgress:) 
                                 withObject:[NSNumber numberWithBool:NO] 
                                 afterDelay:2.0];
                  } completeBlock:^(NSDictionary *dict) {
-                     [progressVC setTitleText:@"Success!"];
+                     [progressVC setTitleText:@"Success!"];//TODO localize
                      [progressVC setSubtitleText:@"Reposted to Chatter"];
                      [self performSelector:@selector(closeNetworkProgress:) 
                                 withObject:[NSNumber numberWithBool:NO] 
@@ -367,7 +368,7 @@ enum {
                                    cancelButtonTitle:@"Cancel" 
                                    destructiveButtonTitle:nil
                                    otherButtonTitles:
-                                    @"Check-In", 
+                                    @"Check-In", //TODO localize
                                     @"Clone", 
                                    @"Post to Chatter",
                                    canShowMaps ? @"Get Directions" : nil, //note: this will terminate the list of actions early

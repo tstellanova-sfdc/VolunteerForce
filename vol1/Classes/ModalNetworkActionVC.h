@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface ModalNetworkActionVC : UIViewController {
-     IBOutlet UILabel *_statusTitle;
-     IBOutlet UILabel *_statusSubtitle;
-     UIActivityIndicatorView *_spinner;
+    IBOutlet UILabel *_statusTitle;
+    IBOutlet UILabel *_statusSubtitle;
+    IBOutlet UIView *_innerViewWrapper;
+    UIActivityIndicatorView *_spinner;
 }
 
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *spinner;

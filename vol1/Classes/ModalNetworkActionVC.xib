@@ -38,29 +38,26 @@
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIView" id="1055539686">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">290</int>
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUILabel" id="673359754">
 								<reference key="NSNextResponder" ref="1055539686"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{0, 12}, {287, 21}}</string>
+								<int key="NSvFlags">290</int>
+								<string key="NSFrame">{{0, 12}, {297, 21}}</string>
 								<reference key="NSSuperview" ref="1055539686"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="696883915"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">Requesting Data</string>
-								<object class="NSColor" key="IBUITextColor" id="1013865242">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC42IDAuNiAwLjYgMC42AA</bytes>
-								</object>
-								<nil key="IBUIHighlightedColor"/>
-								<object class="NSColor" key="IBUIShadowColor" id="893554679">
+								<object class="NSColor" key="IBUITextColor" id="893554679">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MCAwIDAAA</bytes>
 								</object>
+								<nil key="IBUIHighlightedColor"/>
 								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
@@ -77,39 +74,41 @@
 							</object>
 							<object class="IBUILabel" id="696883915">
 								<reference key="NSNextResponder" ref="1055539686"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{5, 57}, {275, 27}}</string>
+								<int key="NSvFlags">290</int>
+								<string key="NSFrame">{{0, 57}, {297, 27}}</string>
 								<reference key="NSSuperview" ref="1055539686"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="585422201"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">Please wait while we access your account.</string>
-								<reference key="IBUITextColor" ref="1013865242"/>
+								<reference key="IBUITextColor" ref="893554679"/>
 								<nil key="IBUIHighlightedColor"/>
-								<reference key="IBUIShadowColor" ref="893554679"/>
 								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
+								<int key="IBUINumberOfLines">2</int>
 								<int key="IBUITextAlignment">1</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">1</int>
-									<double key="pointSize">11</double>
+									<double key="pointSize">12</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">Helvetica</string>
-									<double key="NSSize">11</double>
+									<double key="NSSize">12</double>
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>
 							<object class="IBUIActivityIndicatorView" id="585422201">
 								<reference key="NSNextResponder" ref="1055539686"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{125, 100}, {37, 37}}</string>
+								<int key="NSvFlags">293</int>
+								<string key="NSFrame">{{135, 127}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="1055539686"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<bool key="IBUIHidesWhenStopped">NO</bool>
@@ -117,9 +116,10 @@
 								<int key="IBUIStyle">0</int>
 							</object>
 						</array>
-						<string key="NSFrame">{{20, 20}, {287, 236}}</string>
+						<string key="NSFrame">{{12, 32}, {297, 236}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="673359754"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAwLjgwMDAwMDAxMTkgMC40MDAwMDAwMDYAA</bytes>
@@ -131,9 +131,10 @@
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="1055539686"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MCAwLjQgMC42AA</bytes>
+					<int key="NSColorSpace">3</int>
+					<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
 				</object>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -151,11 +152,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">spinner</string>
+						<string key="label">_innerViewWrapper</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="585422201"/>
+						<reference key="destination" ref="1055539686"/>
 					</object>
-					<int key="connectionID">10</int>
+					<int key="connectionID">14</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">_statusSubtitle</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="696883915"/>
+					</object>
+					<int key="connectionID">13</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -167,11 +176,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">_statusSubtitle</string>
+						<string key="label">spinner</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="696883915"/>
+						<reference key="destination" ref="585422201"/>
 					</object>
-					<int key="connectionID">13</int>
+					<int key="connectionID">10</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -205,9 +214,9 @@
 						<int key="objectID">11</int>
 						<reference key="object" ref="1055539686"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="585422201"/>
 							<reference ref="673359754"/>
 							<reference ref="696883915"/>
+							<reference ref="585422201"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -243,7 +252,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">13</int>
+			<int key="maxID">15</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -251,11 +260,16 @@
 					<string key="className">ModalNetworkActionVC</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="_innerViewWrapper">UIView</string>
 						<string key="_statusSubtitle">UILabel</string>
 						<string key="_statusTitle">UILabel</string>
 						<string key="spinner">UIActivityIndicatorView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="_innerViewWrapper">
+							<string key="name">_innerViewWrapper</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="_statusSubtitle">
 							<string key="name">_statusSubtitle</string>
 							<string key="candidateClassName">UILabel</string>
