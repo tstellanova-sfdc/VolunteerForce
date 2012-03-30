@@ -29,21 +29,22 @@
 #pragma mark - Request building
 
 - (void)sendDescribeActivityRequest {
-    SFRestRequest *describeActivityReq = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:kVolunteerActivityType];
     
     __block DataModelSynchronizer *me = self;
-    [[SFRestAPI sharedInstance] sendRESTRequest:describeActivityReq 
-        failBlock:^(NSError *e) {
-            NSLog(@"couldn't describe Volunteer_Activity__c: %@",e);
-            //complete with error
-            [me.delegate synchronizerDone:self anyError:e];
-        } 
-        completeBlock:^(NSDictionary *dict) {
-            AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
-            dataModel.Volunteer_Activity__c = dict;
-            [me nextSyncStep];
-        }
-    ];
+
+    [[SFRestAPI sharedInstance] performDescribeWithObjectType:kVolunteerActivityType 
+                                                    failBlock:^(NSError *e) {
+                                                        NSLog(@"couldn't describe Volunteer_Activity__c: %@",e);
+                                                        //complete with error
+                                                        [me.delegate synchronizerDone:self anyError:e];
+                                                    } 
+                                                completeBlock:^(NSDictionary *dict) {
+                                                    AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
+                                                    dataModel.Volunteer_Activity__c = dict;
+                                                    [me nextSyncStep];
+                                                }
+     ];
+
 }
 
 - (void)sendRecentActivitiesRequest {
