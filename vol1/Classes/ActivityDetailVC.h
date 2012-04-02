@@ -22,6 +22,7 @@
     IBOutlet UITextView *_addressView;
     IBOutlet UIButton *_addressButtonView;
     
+    ActivityDetailVC *_selfRef;
     ModalNetworkActionVC *_networkProgressVC;
 
 }

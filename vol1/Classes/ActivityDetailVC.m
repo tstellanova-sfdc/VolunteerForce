@@ -18,6 +18,7 @@
 #import "Chatterator.h"
 #import "MailComposerViewController.h"
 #import "ModalNetworkActionVC.h"
+#import "NSDictionary+NullHandling.h"
 #import "SFMapAnnotator.h"
 #import "SFRestAPI+Blocks.h"
 
@@ -59,7 +60,8 @@ enum {
             // kickoff fetch of new item
             
             //prevent unintended retain
-            __block ActivityDetailVC *me = self;
+            _selfRef = self;
+            __block ActivityDetailVC **selfHandle = &_selfRef;
             
             NSArray *fieldList = [NSArray arrayWithObjects:
                                   @"Name",
@@ -90,8 +92,9 @@ enum {
              } 
              completeBlock:^(NSDictionary *dict) {
                  NSLog(@"retrieved: %@ ",activityId);
+                 [[[[AppDelegate sharedInstance] dataModel] fullActivitiesById] setObject:dict forKey:activityId];
+                 ActivityDetailVC *me = *selfHandle;
                   me.activityModel = dict;
-                 [[[[AppDelegate sharedInstance] dataModel] fullActivitiesById] setObject:dict forKey:me.activityId];
                  [me updateFromModel];
              }
             ]; 
@@ -102,6 +105,7 @@ enum {
 }
 
 - (void)dealloc {
+    _selfRef = nil;
     [self.locationMap setDelegate:nil];
     [_locationGeocoder release]; _locationGeocoder = nil;
     [_mapAnnotator release]; _mapAnnotator = nil;
@@ -112,26 +116,26 @@ enum {
 - (NSString *)buildAddressStringFromActivityDict:(NSDictionary*)dict {
     
     NSMutableString *sb = [NSMutableString stringWithString:@""];
-    NSString *street = [dict valueForKey:@"Street__c"];
-    NSString *city = [dict valueForKey:@"City__c"];
-    NSString *state = [dict valueForKey:@"State_Province__c"];
-//    NSString *postal = [dict valueForKey:@"Zip_Postal_Code__c"];
-//    //    NSString *country = [dict valueForKey:@"Country__c"];
+    NSString *street = [dict nonNullObjectForKey:@"Street__c"];
+    NSString *city = [dict nonNullObjectForKey:@"City__c"];
+    NSString *state = [dict nonNullObjectForKey:@"State_Province__c"];
+//    NSString *postal = [dict nonNullObjectForKey:@"Zip_Postal_Code__c"];
+//    //    NSString *country = [dict nonNullObjectForKey:@"Country__c"];
 
 
-    if ((nil != street) && ![[NSNull null] isEqual:street])
+    if (nil != street)
         [sb appendFormat:@"%@",street];
     
-    if ((nil != city) && ![[NSNull null] isEqual:city])
+    if (nil != city)
         [sb appendFormat:@" %@",city];
     
-    if ((nil != state)  && ![[NSNull null] isEqual:state])
+    if (nil != state)
         [sb appendFormat:@" %@",state];
     
-//    if ((nil != postal)  && ![[NSNull null] isEqual:postal])
+//    if (nil != postal) 
 //        [sb appendFormat:@" %@",postal];
     
-//    if ((nil != country)  && ![[NSNull null] isEqual:country])
+//    if (nil != country)
 //        [sb appendFormat:@"\n%@",country];
     
     return sb;
@@ -196,21 +200,21 @@ enum {
     [self setActivityAddress:address];
     
 
-    NSDictionary *acct = [self.activityModel objectForKey:@"Account__r"];
-    if (![[NSNull null] isEqual:acct]) {
-        NSString *accountTitle = [acct objectForKey:@"Name"];
-        if (![[NSNull null] isEqual:accountTitle])
+    NSDictionary *acct = [self.activityModel nonNullObjectForKey:@"Account__r"];
+    if (nil != acct) {
+        NSString *accountTitle = [acct nonNullObjectForKey:@"Name"];
+        if (nil != accountTitle)
             [self.accountNameView setText:accountTitle];
     }
     
     NSMutableString *fullDesc = [[NSMutableString alloc] init ];
-    NSString *summary = [self.activityModel objectForKey:@"Event_Summary__c"];
-    if ((nil != summary) && ![[NSNull null] isEqual:summary]) {
+    NSString *summary = [self.activityModel nonNullObjectForKey:@"Event_Summary__c"];
+    if (nil != summary) {
         [fullDesc appendFormat:@"Summary:\n\n %@",summary];
     }
     
-    NSString *desc = [self.activityModel objectForKey:@"Description__c"];
-    if ((nil != desc) && ![[NSNull null] isEqual:desc]) {
+    NSString *desc = [self.activityModel nonNullObjectForKey:@"Description__c"];
+    if (nil != desc) {
         [fullDesc appendFormat:@"\n\nDescription:\n\n %@",desc];
     }
     [self.descriptionView setText:fullDesc];

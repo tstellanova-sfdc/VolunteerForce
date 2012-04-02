@@ -11,6 +11,7 @@
 #import "AppDataModel.h"
 #import "Chatterator.h"
 #import "ModalNetworkActionVC.h"
+#import "NSDictionary+NullHandling.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
 #import "SFRestAPI+Blocks.h"
@@ -39,8 +40,8 @@
         self.activityModel = activity;
         
         self.participantDuration = [NSNumber numberWithFloat:1.0];
-        NSNumber *duration = [self.activityModel valueForKey:kVolunteerActivity_DurationField];
-        if ((nil != duration) && ![[NSNull null] isEqual:duration]) {
+        NSNumber *duration = [self.activityModel nonNullObjectForKey:kVolunteerActivity_DurationField];
+        if (nil != duration)  {
             self.participantDuration = duration;
         }
     }

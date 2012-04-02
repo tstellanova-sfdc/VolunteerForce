@@ -11,6 +11,7 @@
 #import "ActivityDetailVC.h"
 #import "AppDelegate.h"
 #import "AppDataModel.h"
+#import "NSDictionary+NullHandling.h"
 #import "SFRestAPI+Blocks.h"
 
 
@@ -38,11 +39,12 @@ enum {
     if (self) {
         // Custom initialization
         AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
-        NSString *label =  [dataModel.Volunteer_Activity__c objectForKey:@"label"];
-        if ((nil == label) || [[NSNull null] isEqual:label]) {
+        NSString *label =  [dataModel.Volunteer_Activity__c nonNullObjectForKey:@"label"];
+        if (nil == label) {
             label = @"Volunteering";
         }
         self.title = label;
+
         _filteredRecentActivities = [[NSMutableArray alloc] init];
         _filteredForthcomingActivities  = [[NSMutableArray alloc] init];
         _filteredMyActivities = [[NSMutableArray alloc] init];
@@ -111,6 +113,8 @@ enum {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    [self.navigationController.navigationBar setTintColor:[UIColor orangeColor]];
+
     // refresh all with synchronizer
     [_syncro release];
     _syncro = [[DataModelSynchronizer alloc] init];
