@@ -27,7 +27,6 @@
 #import "ActivitiesOverviewListVC.h"
 #import "AppDataModel.h"
 #import "ActivityDetailVC.h"
-#import "RootViewController.h"
 
 /*
  NOTE if you ever need to update these, you can obtain them from your Salesforce org,
