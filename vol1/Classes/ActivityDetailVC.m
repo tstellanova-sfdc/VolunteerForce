@@ -335,6 +335,7 @@ enum {
     NSMutableArray *controllers = [nav.viewControllers mutableCopy];
     [controllers removeLastObject];
     nav.viewControllers = controllers;
+    [controllers release];
     [nav pushViewController:cloneVC animated: YES];
                                    
     [cloneVC release];
