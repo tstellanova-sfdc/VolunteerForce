@@ -24,6 +24,7 @@
 		7D8AB90E151D4AC400F31B2D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8AB90D151D4AC400F31B2D /* CoreLocation.framework */; };
 		7D8AB919151D520600F31B2D /* SFMapAnnotator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8AB918151D520500F31B2D /* SFMapAnnotator.m */; };
 		7D9A12751521289D0072D309 /* DataModelSynchronizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A12741521289C0072D309 /* DataModelSynchronizer.m */; };
+		7D9B3D01152A1879009B76E7 /* libSalesforceSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D9B3D00152A1879009B76E7 /* libSalesforceSDK.a */; };
 		7DBCE251151A443800456AA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE250151A443800456AA2 /* CoreData.framework */; };
 		7DBCE253151A443800456AA2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE252151A443800456AA2 /* SystemConfiguration.framework */; };
 		7DBCE255151A443800456AA2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE254151A443800456AA2 /* Security.framework */; };
@@ -37,7 +38,6 @@
 		7DBCE269151A443800456AA2 /* vol1-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE268151A443800456AA2 /* vol1-Prefix.pch */; };
 		7DBCE2BF151A443900456AA2 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE2BE151A443900456AA2 /* libRestKit.a */; };
 		7DBCE2C6151A443900456AA2 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE2C5151A443900456AA2 /* libSalesforceOAuth.a */; };
-		7DBCE2CD151A443900456AA2 /* libSalesforceSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBCE2CC151A443900456AA2 /* libSalesforceSDK.a */; };
 		7DBCE2D1151A443900456AA2 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2D0151A443900456AA2 /* icon-72.png */; };
 		7DBCE2D3151A443900456AA2 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2D2151A443900456AA2 /* icon.png */; };
 		7DBCE2D5151A443900456AA2 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBCE2D4151A443900456AA2 /* icon@2x.png */; };
@@ -76,9 +76,6 @@
 		7D5F99D0151A6C3400DC9B97 /* ActivityDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityDetailVC.h; path = Classes/ActivityDetailVC.h; sourceTree = "<group>"; };
 		7D5F99D1151A6C3400DC9B97 /* ActivityDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityDetailVC.m; path = Classes/ActivityDetailVC.m; sourceTree = "<group>"; };
 		7D5F99D2151A6C3500DC9B97 /* ActivityDetailVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivityDetailVC.xib; path = Classes/ActivityDetailVC.xib; sourceTree = "<group>"; };
-		7D5F9B61151A7E1900DC9B97 /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
-		7D5F9B62151A7E1900DC9B97 /* SFRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestAPI.h; sourceTree = "<group>"; };
-		7D5F9B63151A7E1900DC9B97 /* SFRestRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestRequest.h; sourceTree = "<group>"; };
 		7D5F9B64151AA96200DC9B97 /* tiny-map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tiny-map@2x.png"; path = "Resources/icons/tiny-map@2x.png"; sourceTree = "<group>"; };
 		7D5F9B65151AA96200DC9B97 /* tiny-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tiny-map.png"; path = "Resources/icons/tiny-map.png"; sourceTree = "<group>"; };
 		7D5F9B68151AAA8500DC9B97 /* ActivityCheckinVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityCheckinVC.h; path = Classes/ActivityCheckinVC.h; sourceTree = "<group>"; };
@@ -90,6 +87,11 @@
 		7D8AB918151D520500F31B2D /* SFMapAnnotator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFMapAnnotator.m; path = Classes/SFMapAnnotator.m; sourceTree = "<group>"; };
 		7D9A12731521289B0072D309 /* DataModelSynchronizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataModelSynchronizer.h; path = Classes/DataModelSynchronizer.h; sourceTree = "<group>"; };
 		7D9A12741521289C0072D309 /* DataModelSynchronizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataModelSynchronizer.m; path = Classes/DataModelSynchronizer.m; sourceTree = "<group>"; };
+		7D9B3CF5152A1879009B76E7 /* NSDictionary+NullHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullHandling.h"; sourceTree = "<group>"; };
+		7D9B3CF9152A1879009B76E7 /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
+		7D9B3CFA152A1879009B76E7 /* SFRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestAPI.h; sourceTree = "<group>"; };
+		7D9B3CFB152A1879009B76E7 /* SFRestRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestRequest.h; sourceTree = "<group>"; };
+		7D9B3D00152A1879009B76E7 /* libSalesforceSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDK.a; sourceTree = "<group>"; };
 		7DBCE24C151A443800456AA2 /* VolunteerForce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VolunteerForce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBCE250151A443800456AA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7DBCE252151A443800456AA2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -187,7 +189,6 @@
 		7DBCE2C3151A443900456AA2 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCoordinator.h; path = dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCoordinator.h; sourceTree = "<group>"; };
 		7DBCE2C4151A443900456AA2 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCredentials.h; path = dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCredentials.h; sourceTree = "<group>"; };
 		7DBCE2C5151A443900456AA2 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceOAuth.a; path = dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a; sourceTree = "<group>"; };
-		7DBCE2CC151A443900456AA2 /* libSalesforceSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDK.a; path = dependencies/SalesforceSDK/libSalesforceSDK.a; sourceTree = "<group>"; };
 		7DBCE2D0151A443900456AA2 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
 		7DBCE2D2151A443900456AA2 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
 		7DBCE2D4151A443900456AA2 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
@@ -235,29 +236,39 @@
 				7DBCE25F151A443800456AA2 /* MobileCoreServices.framework in Frameworks */,
 				7DBCE2BF151A443900456AA2 /* libRestKit.a in Frameworks */,
 				7DBCE2C6151A443900456AA2 /* libSalesforceOAuth.a in Frameworks */,
-				7DBCE2CD151A443900456AA2 /* libSalesforceSDK.a in Frameworks */,
 				7DBCE2F4151A443900456AA2 /* libxml2.dylib in Frameworks */,
+				7D9B3D01152A1879009B76E7 /* libSalesforceSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7D5F9B5F151A7E1900DC9B97 /* include */ = {
+		7D9B3CF0152A1879009B76E7 /* SalesforceSDK */ = {
 			isa = PBXGroup;
 			children = (
-				7D5F9B60151A7E1900DC9B97 /* SalesforceSDK */,
+				7D9B3CF1152A1879009B76E7 /* include */,
+				7D9B3D00152A1879009B76E7 /* libSalesforceSDK.a */,
 			);
-			name = include;
-			path = dependencies/SalesforceSDK/include;
+			name = SalesforceSDK;
+			path = dependencies/SalesforceSDK;
 			sourceTree = "<group>";
 		};
-		7D5F9B60151A7E1900DC9B97 /* SalesforceSDK */ = {
+		7D9B3CF1152A1879009B76E7 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				7D5F9B61151A7E1900DC9B97 /* SFRestAPI+Blocks.h */,
-				7D5F9B62151A7E1900DC9B97 /* SFRestAPI.h */,
-				7D5F9B63151A7E1900DC9B97 /* SFRestRequest.h */,
+				7D9B3CF2152A1879009B76E7 /* SalesforceSDK */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		7D9B3CF2152A1879009B76E7 /* SalesforceSDK */ = {
+			isa = PBXGroup;
+			children = (
+				7D9B3CF5152A1879009B76E7 /* NSDictionary+NullHandling.h */,
+				7D9B3CF9152A1879009B76E7 /* SFRestAPI+Blocks.h */,
+				7D9B3CFA152A1879009B76E7 /* SFRestAPI.h */,
+				7D9B3CFB152A1879009B76E7 /* SFRestRequest.h */,
 			);
 			path = SalesforceSDK;
 			sourceTree = "<group>";
@@ -325,10 +336,10 @@
 		7DBCE26A151A443800456AA2 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7D9B3CF0152A1879009B76E7 /* SalesforceSDK */,
 				7DBCE2F3151A443900456AA2 /* libxml2.dylib */,
 				7DBCE26B151A443800456AA2 /* RestKit */,
 				7DBCE2C0151A443900456AA2 /* SalesforceOAuth */,
-				7DBCE2C7151A443900456AA2 /* SalesforceSDK */,
 			);
 			name = dependencies;
 			sourceTree = "<group>";
@@ -461,15 +472,6 @@
 				7DBCE2C4151A443900456AA2 /* SFOAuthCredentials.h */,
 			);
 			name = SalesforceOAuth;
-			sourceTree = "<group>";
-		};
-		7DBCE2C7151A443900456AA2 /* SalesforceSDK */ = {
-			isa = PBXGroup;
-			children = (
-				7D5F9B5F151A7E1900DC9B97 /* include */,
-				7DBCE2CC151A443900456AA2 /* libSalesforceSDK.a */,
-			);
-			name = SalesforceSDK;
 			sourceTree = "<group>";
 		};
 		7DBCE2CE151A443900456AA2 /* Resources */ = {
