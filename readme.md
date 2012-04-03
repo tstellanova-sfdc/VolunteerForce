@@ -11,7 +11,4 @@ This simple app based on the [Salesforce MobileSDK for iOS](https://github.com/f
 - Clone Activities so that you can easily recreate repeating volunteer activities
 
 
-Here's a screenshot:
-
-![VolunteerForce screenshot](screenshot.png)
 
