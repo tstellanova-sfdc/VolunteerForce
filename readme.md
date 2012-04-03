@@ -13,4 +13,5 @@ This simple app based on the [Salesforce MobileSDK for iOS](https://github.com/f
 
 Here's a screenshot:
 
-<img src="https://github.com/tstellanova-sfdc/VolunteerForce/blob/master/screenshot.png" />
+![VolunteerForce screenshot](./screenshot.png)
+
