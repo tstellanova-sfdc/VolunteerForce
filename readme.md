@@ -1,5 +1,5 @@
 
-This is simple app based on the [Salesforce MobileSDK for iOS](https://github.com/forcedotcom/SalesforceMobileSDK-iOS) allows Salesforce Foundation users to:
+This simple app based on the [Salesforce MobileSDK for iOS](https://github.com/forcedotcom/SalesforceMobileSDK-iOS) allows Salesforce Foundation users to:
 
 - Browse your recently viewed Activities so that you might easily share, checkin, or clone them
 - Peruse forthcoming volunteer activities to find activities you'd enjoy
