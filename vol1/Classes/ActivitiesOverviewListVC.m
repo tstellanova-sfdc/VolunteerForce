@@ -93,11 +93,23 @@ enum {
         if ([error.domain isEqualToString:kSFRestErrorDomain]) {
             NSDictionary *userInfo = error.userInfo;
             NSString *errorCode = [userInfo objectForKey:@"errorCode"];
+            NSString *msg = [userInfo nonNullObjectForKey:@"message"];
+            
+            //TODO localize
             if ([@"NOT_FOUND" isEqualToString:errorCode]) {
                 //We can't find Volunteer_Activity__c, which means we're connected to the wrong org!
                 [[AppDelegate sharedInstance] shownNonfatalErrorAlert:@"Wrong org"
                                                           message:@"Re-login to your 62 org account"];
+                //although we show a non-fatal error alert, we log the user out of the current
+                //account in the background, so they need to relogin
+                [[AppDelegate sharedInstance] logout];
+            } else if ([@"API_CURRENTLY_DISABLED" isEqualToString:errorCode]) {
+                //We can't find Volunteer_Activity__c, which means we're connected to the wrong org!
+                [[AppDelegate sharedInstance] shownNonfatalErrorAlert:@"API Disabled"
+                                                              message:msg];
                 
+                //although we show a non-fatal error alert, we log the user out of the current
+                //account in the background, so they need to relogin
                 [[AppDelegate sharedInstance] logout];
             }
         }
