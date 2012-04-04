@@ -99,7 +99,7 @@
     NSString *activityId = [activity objectForKey:@"Id"];
     
     NSString *activityName = [activity objectForKey:kVolunteerActivity_NameField];
-    NSDictionary *activityAcct = [activity objectForKey:@"Account__r"];
+    NSDictionary *activityAcct = [activity objectForKey:@"Organization__r"];
     NSString *acctName = [activityAcct objectForKey:@"Name"];
     
     NSString *activitySuffix = [NSString stringWithFormat:@"\"%@\" for \"%@\"",activityName,acctName];

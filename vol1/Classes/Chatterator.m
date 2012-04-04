@@ -61,7 +61,7 @@
     
     
     //Segments for the Volunteer Account
-    NSDictionary *activityAcct = [activity objectForKey:@"Account__r"];
+    NSDictionary *activityAcct = [activity objectForKey:@"Organization__r"];
     
     NSString *acctName = [activityAcct objectForKey:@"Name"];
     NSDictionary *acctNameSeg = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -82,7 +82,7 @@
     
     //Segment for event date and time
     
-    NSString *activityDateTimeStr = [activity objectForKey:@"Date_and_Time__c"];
+    NSString *activityDateTimeStr = [activity objectForKey:@"Date_Time__c"];
     NSDate *realDate = [[[AppDelegate sharedInstance] dataModel] dateFromDateTimeString:activityDateTimeStr];
 
     

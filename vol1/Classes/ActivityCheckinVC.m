@@ -9,6 +9,7 @@
 #import "ActivityCheckinVC.h"
 
 #import "AppDataModel.h"
+#import "AppDelegate.h"
 #import "Chatterator.h"
 #import "ModalNetworkActionVC.h"
 #import "NSDictionary+NullHandling.h"
@@ -102,7 +103,7 @@
     ///feeds/news/me/feed-items?text=Did+you+see+this?&url=http://www.chatter.com
     ///services/data/v23.0/chatter/feeds/news/00530000001rEfbAAE/feed-items
     NSString *activityName = [activity objectForKey:kVolunteerActivity_NameField];
-    NSDictionary *activityAcct = [activity objectForKey:@"Account__r"];
+    NSDictionary *activityAcct = [activity objectForKey:@"Organization__r"];
     NSString *acctName = [activityAcct objectForKey:@"Name"];
     
     NSString *activitySuffix = [NSString stringWithFormat:@"\"%@\" for \"%@\"",activityName,acctName];
@@ -159,17 +160,18 @@
     
     //kickoff the transaction
     NSString *activityId = [self.activityModel objectForKey:@"Id"];
-    SFOAuthCredentials *myCreds = [[[SFRestAPI sharedInstance] coordinator] credentials];
-    NSString *myUserId = myCreds.userId;
+
+    NSDictionary *myDonor = [[[AppDelegate sharedInstance] dataModel] myDonorRecord];
+    NSString *myDonorId = [myDonor nonNullObjectForKey:@"Id"];
     NSDictionary *particpant = [NSDictionary dictionaryWithObjectsAndKeys:
                                 activityId, @"Volunteer_Activity__c",
-                                myUserId,@"User__c",
-                                totalHours, kVolunteerActivity_DurationField,
+                                myDonorId,@"Donor2__c",
+                                totalHours, kVolunteerParticipation_DurationField,
                                 nil];
     
     ModalNetworkActionVC *progressVC = _networkProgressVC;
     [[SFRestAPI sharedInstance]
-     performCreateWithObjectType:@"Volunteer_Activity_Participant__c" 
+     performCreateWithObjectType:@"Activity_Participant__c" 
      fields:particpant 
      failBlock:^(NSError *e) {
          NSLog(@"couldn't add participant error: %@",e);

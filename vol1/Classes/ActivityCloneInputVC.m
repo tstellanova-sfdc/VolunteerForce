@@ -34,10 +34,10 @@
         NSMutableDictionary *cloneActivity = [[NSMutableDictionary alloc] initWithDictionary:activity];
         //remove Id since we'll eventually insert this as a new record
         [cloneActivity removeObjectForKey:@"Id"];
-        _original_Account__r = [[cloneActivity objectForKey:@"Account__r"] retain];
-        [cloneActivity removeObjectForKey:@"Account__r"];
+        _original_Account__r = [[cloneActivity objectForKey:@"Organization__r"] retain];
+        [cloneActivity removeObjectForKey:@"Organization__r"];
         NSString *origAcctId = [_original_Account__r objectForKey:@"Id"];
-        [cloneActivity setObject:origAcctId forKey:@"Account__c"];
+        [cloneActivity setObject:origAcctId forKey:@"Organization__c"];
         self.activityModel = cloneActivity;
         [cloneActivity release];
         
@@ -138,8 +138,8 @@
          
          NSString *newRecId = [dict objectForKey:@"id"];
          [me.activityModel setObject:newRecId forKey:@"Id"];
-         [me.activityModel setObject:_original_Account__r forKey:@"Account__r"];
-         [me.activityModel removeObjectForKey:@"Account__c"];
+         [me.activityModel setObject:_original_Account__r forKey:@"Organization__r"];
+         [me.activityModel removeObjectForKey:@"Organization__c"];
          
          [[[AppDelegate sharedInstance] dataModel] addFullVolunteerActivity:me.activityModel];
          

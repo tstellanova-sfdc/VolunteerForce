@@ -11,8 +11,9 @@
 
 NSString * const kVolunteerActivityType = @"Volunteer_Activity__c";
 
-NSString * const kVolunteerActivity_DateTimeField = @"Date_and_Time__c";
-NSString * const kVolunteerActivity_DurationField = @"Duration_hours__c";
+NSString * const kVolunteerActivity_DateTimeField = @"Date_Time__c";
+NSString * const kVolunteerActivity_DurationField = @"Duration__c";
+NSString * const kVolunteerParticipation_DurationField = @"Hours_Worked__c";
 
 NSString * const kVolunteerActivity_NameField = @"Name";
 
@@ -33,6 +34,7 @@ NSString * const kAppDataModel_ModelUpdatedNotice = @"AppDataModel_ModelUpdated"
 @synthesize myVolunteerActivities = _myVolunteerActivities;
 @synthesize fullActivitiesById = _fullActivitiesById;
 @synthesize shallowActivitiesById = _shallowActivitiesById;
+@synthesize myDonorRecord = _myDonorRecord;
 
 - (id)init {
     self = [super init];
@@ -52,6 +54,7 @@ NSString * const kAppDataModel_ModelUpdatedNotice = @"AppDataModel_ModelUpdated"
     [_dateTimeStringFormatter release]; _dateTimeStringFormatter = nil;
     [_fullActivitiesById release]; _fullActivitiesById = nil;
     [_shallowActivitiesById release]; _shallowActivitiesById = nil;
+    self.myDonorRecord = nil;
 }
 
 

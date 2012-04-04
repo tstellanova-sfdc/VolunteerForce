@@ -65,22 +65,21 @@ enum {
             
             NSArray *fieldList = [NSArray arrayWithObjects:
                                   @"Name",
-                                  @"Account__r.Name", 
-                                  @"Account__r.Id", 
+                                  @"Organization__r.Name", 
+                                  @"Organization__r.Id", 
                                   kVolunteerActivity_DateTimeField,
                                   @"Description__c",
                                   kVolunteerActivity_DurationField, 
                                   @"During_Work_Hours__c", 
-                                  @"Event_Summary__c", 
-                                  @"Event_takes_place_in_office__c",
+                                  //@"Event_Summary__c", 
+                                  //@"Event_takes_place_in_office__c",
                                   @"Max_Number_of_Participants__c", 
-                                  @"Privacy__c", 
-                                  @"Volunteer_Events__c", 
+                                  //@"Privacy__c", 
+                                  //@"Volunteer_Events__c", 
                                   @"Street__c",
                                   @"City__c",
-                                  @"State_Province__c",
+                                  @"State__c",
                                   @"Country__c",
-                                  @"Zip_Postal_Code__c",
                                   nil];
             [[SFRestAPI sharedInstance]
              performRetrieveWithObjectType:kVolunteerActivityType
@@ -118,9 +117,8 @@ enum {
     NSMutableString *sb = [NSMutableString stringWithString:@""];
     NSString *street = [dict nonNullObjectForKey:@"Street__c"];
     NSString *city = [dict nonNullObjectForKey:@"City__c"];
-    NSString *state = [dict nonNullObjectForKey:@"State_Province__c"];
-//    NSString *postal = [dict nonNullObjectForKey:@"Zip_Postal_Code__c"];
-//    //    NSString *country = [dict nonNullObjectForKey:@"Country__c"];
+    NSString *state = [dict nonNullObjectForKey:@"State__c"];
+    NSString *country = [dict nonNullObjectForKey:@"Country__c"];
 
 
     if (nil != street)
@@ -135,8 +133,8 @@ enum {
 //    if (nil != postal) 
 //        [sb appendFormat:@" %@",postal];
     
-//    if (nil != country)
-//        [sb appendFormat:@"\n%@",country];
+    if (nil != country)
+        [sb appendFormat:@" %@",country];
     
     return sb;
 }
@@ -144,7 +142,7 @@ enum {
 - (void)updateFromModel {
     [self.titleView setText:[self.activityModel objectForKey:kVolunteerActivity_NameField]];
     
-    NSString *activityDateTimeStr = [self.activityModel objectForKey:kVolunteerActivity_DateTimeField];
+    NSString *activityDateTimeStr = [self.activityModel nonNullObjectForKey:kVolunteerActivity_DateTimeField];
     NSDate *realDate = [[[AppDelegate sharedInstance] dataModel] dateFromDateTimeString:activityDateTimeStr];
 
     NSDateFormatter *displayFmt = [[NSDateFormatter alloc] init];
@@ -154,7 +152,7 @@ enum {
     
     NSString *displayDateTimeDuration = displayDateTime;
     
-    NSNumber *durationVal = [self.activityModel valueForKey:@"Duration_hours__c"];
+    NSNumber *durationVal = [self.activityModel nonNullObjectForKey:kVolunteerActivity_DurationField];
     if (durationVal != nil) {
         displayDateTimeDuration = [NSString stringWithFormat:@"%@ (%0.02f hr)",
                                    displayDateTime,[durationVal floatValue]];
@@ -200,18 +198,21 @@ enum {
     [self setActivityAddress:address];
     
 
-    NSDictionary *acct = [self.activityModel nonNullObjectForKey:@"Account__r"];
+    NSDictionary *acct = [self.activityModel nonNullObjectForKey:@"Organization__r"];
     if (nil != acct) {
         NSString *accountTitle = [acct nonNullObjectForKey:@"Name"];
         if (nil != accountTitle)
             [self.accountNameView setText:accountTitle];
     }
     
+
     NSMutableString *fullDesc = [[NSMutableString alloc] init ];
-    NSString *summary = [self.activityModel nonNullObjectForKey:@"Event_Summary__c"];
-    if (nil != summary) {
-        [fullDesc appendFormat:@"Summary:\n\n %@",summary];
-    }
+    
+    //TODO no more event summary?
+//    NSString *summary = [self.activityModel nonNullObjectForKey:@"Event_Summary__c"];
+//    if (nil != summary) {
+//        [fullDesc appendFormat:@"Summary:\n\n %@",summary];
+//    }
     
     NSString *desc = [self.activityModel nonNullObjectForKey:@"Description__c"];
     if (nil != desc) {
@@ -345,6 +346,8 @@ enum {
 - (void)doOpenMapDirections {
     NSString *rawAddress = _addressView.text;
     NSString *escapedAddress = [rawAddress stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //TODO use "My Location" for iPad?
     NSString *urlStr = [NSString stringWithFormat:
                          @"http://maps.google.com/maps?saddr=Current%%20Location&daddr=%@",
                          escapedAddress];

@@ -33,11 +33,11 @@
     __block DataModelSynchronizer *me = self;
 
     [[SFRestAPI sharedInstance] performDescribeWithObjectType:kVolunteerActivityType 
-                                                    failBlock:^(NSError *e) {
-                                                        NSLog(@"couldn't describe Volunteer_Activity__c: %@",e);
-                                                        //complete with error
-                                                        [me.delegate synchronizerDone:self anyError:e];
-                                                    } 
+                                                failBlock:^(NSError *e) {
+                                                    NSLog(@"couldn't describe Volunteer_Activity__c: %@",e);
+                                                    //complete with error
+                                                    [me.delegate synchronizerDone:self anyError:e];
+                                                } 
                                                 completeBlock:^(NSDictionary *dict) {
                                                     AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
                                                     dataModel.Volunteer_Activity__c = dict;
@@ -46,6 +46,49 @@
      ];
 
 }
+
+- (void)sendGetMyDonorRequest {
+
+//getDonorForUser(Id userId) {
+//    List<Contact> d = [SELECT   id, Donation_Match_Requested_This_Year__c,
+//                       Volunteer_Hours_This_Year__c, Volunteer_Hours_All_Time__c,
+//                       user__c, user__r.Id, user__r.Org_62_User_ID__c, user__r.department                                       
+//                       FROM     Contact
+//                       WHERE    user__c = :userId];
+    
+    
+    SFOAuthCredentials *myCreds = [[[SFRestAPI sharedInstance] coordinator] credentials];
+    NSString *myUserId = myCreds.userId;
+    __block DataModelSynchronizer *me = self;
+
+    
+    NSString *soql = [NSString stringWithFormat:
+                      @"SELECT Id, Name, Donation_Match_Requested_This_Year__c,"
+                      "Volunteer_Hours_This_Year__c, Volunteer_Hours_All_Time__c,"
+                      "user__c, user__r.Id, user__r.Org_62_User_ID__c, user__r.department "
+                      "FROM Contact "
+                      "WHERE User__c  = '%@' ",
+                      myUserId];
+    
+    
+    [[SFRestAPI sharedInstance] performSOQLQuery:soql 
+                                       failBlock:^(NSError *e) {
+                                           NSLog(@"couldn't describe load my Donor record: %@",e);
+                                           //complete with error
+                                           [me.delegate synchronizerDone:self anyError:e];
+                                       }
+                                   completeBlock:^(NSDictionary *dict) {
+                                       AppDataModel *dataModel = [[AppDelegate sharedInstance] dataModel];
+                                       NSArray *allRecords = [dict objectForKey:@"records"];
+                                       NSDictionary *donorRecord = [allRecords objectAtIndex:0];
+                                       dataModel.myDonorRecord = donorRecord;
+                                       [me nextSyncStep];
+                                   }
+     ];
+
+    
+}
+    
 
 - (void)sendRecentActivitiesRequest {
     _recentActivitiesReq = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:kVolunteerActivityType];
@@ -57,10 +100,13 @@
     SFOAuthCredentials *myCreds = [[[SFRestAPI sharedInstance] coordinator] credentials];
     NSString *myUserId = myCreds.userId;
     
+    
+    //Activity_Partipant.Donor2.User
+    
     NSString *soql = [NSString stringWithFormat:
-                      @"SELECT Volunteer_Activity__r.Id, Volunteer_Activity__r.Name, Volunteer_Activity__r.Date_and_Time__c, Volunteer_Activity__r.Account__r.Name "
-                      "FROM Volunteer_Activity_Participant__c "
-                      "WHERE User__c = '%@' ",
+                      @"SELECT Volunteer_Activity__r.Id, Volunteer_Activity__r.Name, Volunteer_Activity__r.Date_Time__c, Volunteer_Activity__r.Organization__r.Name "
+                      "FROM Activity_Participant__c "
+                      "WHERE Donor2__r.User__c  = '%@' ",
                       myUserId];
     
     _myParticipationReq = [[SFRestAPI sharedInstance] requestForQuery:soql];
@@ -75,10 +121,10 @@
     NSString *endDateStr = [[[AppDelegate sharedInstance] dataModel] dateTimeStringFromDate:endDate];
     
     NSString *soql = [NSString stringWithFormat:
-                      @"SELECT Id,Name,Date_and_Time__c,Account__r.Name "
+                      @"SELECT Id,Name,Date_Time__c,Organization__r.Name "
                       "FROM Volunteer_Activity__c  "
-                      "WHERE (Date_and_Time__c > %@ AND Date_and_Time__c < %@) "
-                      "ORDER BY Date_and_Time__c ASC ",
+                      "WHERE (Date_Time__c > %@ AND Date_Time__c < %@) "
+                      "ORDER BY Date_Time__c ASC ",
                       startDateStr,endDateStr];
     
     _forthcomingActivitiesReq = [[SFRestAPI sharedInstance] requestForQuery:soql];
@@ -174,14 +220,19 @@
         [self setProgressPercent:0.10f];
         
         [self sendDescribeActivityRequest];
+    } else if (nil == dataModel.myDonorRecord) {
+        [self setStatusMessage:@"Load Donor record..."];
+        [self setProgressPercent:0.25f];
+        
+        [self sendGetMyDonorRequest];
     } else if (nil == dataModel.recentVolunteerActivities) {
         [self setStatusMessage:@"Load recents..."];
-        [self setProgressPercent:0.25f];
+        [self setProgressPercent:0.33f];
         
         [self sendRecentActivitiesRequest];
     } else if (nil == dataModel.myVolunteerActivities) {
         [self setStatusMessage:@"Load participations..."];
-        [self setProgressPercent:0.40f];
+        [self setProgressPercent:0.45f];
         
         [self sendMyParticpantsRequest];
     } else if (nil == dataModel.forthcomingVolunteerActivities) {

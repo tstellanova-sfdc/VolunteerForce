@@ -14,6 +14,7 @@ extern NSString * const kVolunteerActivityType;
 extern NSString * const kVolunteerActivity_NameField;
 extern NSString * const kVolunteerActivity_DateTimeField;
 extern NSString * const kVolunteerActivity_DurationField;
+extern NSString * const kVolunteerParticipation_DurationField;
 
 
 extern NSString * const kAppDataModel_ModelUpdatedNotice;
@@ -25,6 +26,8 @@ extern NSString * const kAppDataModel_ModelUpdatedNotice;
     NSMutableArray *_forthcomingVolunteerActivities;
     NSMutableArray *_myVolunteerActivities;
 
+    NSDictionary *_myDonorRecord;
+    
     NSMutableDictionary *_fullActivitiesById;
     NSMutableDictionary *_shallowActivitiesById;
     
@@ -33,6 +36,8 @@ extern NSString * const kAppDataModel_ModelUpdatedNotice;
 
 
 @property (nonatomic, strong) NSDictionary *Volunteer_Activity__c;
+@property (nonatomic, strong) NSDictionary *myDonorRecord;
+
 @property (nonatomic, strong, readonly) NSArray   *recentVolunteerActivities;
 @property (nonatomic, strong, readonly) NSArray   *myVolunteerActivities;
 @property (nonatomic, strong, readonly) NSArray   *forthcomingVolunteerActivities;
